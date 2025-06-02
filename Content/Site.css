@@ -1,4 +1,16 @@
 ﻿/* Set padding to keep content from hitting the edges */
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: bold;
+    min-height: 100vh;
+}
+
 .body-content {
     margin-top: 15px;
     padding-left: 15px;
@@ -17,4 +29,110 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.img-fluid {
+    width: 100%;
+    height: auto;
+}
+
+main {
+    flex: 1;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 50px;
+    text-align: left;
+    color: #062D3E;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.welcome-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    color: #062D3E;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.about-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    max-width: fit-content;
+    color: white;
+    background-color: #FBBC05;
+    border: none;
+    font-family: "Montserrat", Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    .about-btn a {
+        color: #062D3E;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .about-btn:hover {
+        background-color: white;
+        color: #FBBC05 !important;
+    }
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-align: start;
+    font-family: 'Montserrat', sans-serif;
+}
+
+    .logo span {
+        font-size: 30px;
+        font-weight: bold;
+        color: #062D3E;
+    }
+
+    .logo .highlight {
+        color: #FFC107;
+    }
+
+.img {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: baseline;
+}
+
+.navbar {
+    color: black;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    flex-grow: 1;
+    font-size: 20px;
+}
+
+.nav-links li {
+        margin: 0 15px;
+}
+
+.nav-links li a {
+            text-decoration: none;
+            color: #062D3E;
+}
+
+.nav-links li a:hover {
+                color: #FFC107;
+                transform: translateY(-5px);
+}
+
+.nav-links li.active a {
+            color: #f5bb0d;
+            font-weight: bold;
 }
