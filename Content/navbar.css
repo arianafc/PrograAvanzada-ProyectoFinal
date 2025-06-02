@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/css.gg/icons/all.css");
+
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+
+.nav-link,
+.nav-link:hover {
+  color: inherit;
+}
+
+.navbar .menu-toggle {
+  display: none;
+}
+
+.nav-links .hide-toggle {
+  display: none;
+}
+
+@media (max-width: 575.98px) {
+  .navbar {
+    position: relative;
+  }
+  .navbar .menu-toggle {
+    display: block;
+    cursor: pointer;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 0px;
+    left: 40%;
+    right: 0;
+    height: 100vh;
+    flex-direction: column;
+   
+    box-shadow: -35px 0px 20px -25px rgba(0, 0, 0, 0.548);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: space-between;
+    padding: 0rem;
+    z-index: 999;
+    transition: all 200ms ease;
+  }
+  .nav-links.show {
+    transform: translateX(0%);
+    visibility: visible;
+    opacity: 1;
+  }
+  .nav-links.hide {
+    transform: translateX(100%);
+    visibility: hidden;
+    opacity: 0;
+  }
+  .nav-links .hide-toggle {
+    --ggs: 1.5;
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 50px;
+  }
+  .nav-links .nav-link {
+    width: 100%;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    margin-left: 15px;
+    margin-bottom: 20px;
+  }
+  .nav-links .nav-link:hover {
+    color: black;
+    background: whitesmoke;
+  }
+}
