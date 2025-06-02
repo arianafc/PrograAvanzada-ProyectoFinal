@@ -26,5 +26,12 @@ namespace ProyectoFinal.Controllers
 
             return View();
         }
+
+        public ActionResult dashboard()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
     }
 }
