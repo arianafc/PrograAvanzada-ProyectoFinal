@@ -281,6 +281,7 @@ input, select, textarea {
     position: relative;
 }
 
+<<<<<<< Updated upstream
 .footer-call-to-action {
     margin-top: 30px;
 }
@@ -483,3 +484,27 @@ input, select, textarea {
       width: 49.99%;
   } */
 }
+=======
+.logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+    .logo-link:hover {
+        color: #1abc9c;
+    }
+
+.logo-img {
+    height: 30px;
+    margin-right: 0.5rem;
+}
+
+.logo-text {
+    display: inline-block;
+}
+>>>>>>> Stashed changes
