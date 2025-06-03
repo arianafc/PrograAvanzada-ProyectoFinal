@@ -3344,12 +3344,13 @@ input[type="button"].btn-block {
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem; }
-  .navbar > .container,
-  .navbar > .container-fluid {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between; }
+    .navbar > .container,
+    .navbar > .container-fluid {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
 
 .navbar-brand {
   display: inline-block;
@@ -7239,7 +7240,7 @@ html[dir="ltr"] body .p-l-0 {
   #main-wrapper[data-layout="vertical"] .topbar .top-navbar .navbar-header[data-logobg="skin4"], #main-wrapper[data-layout="horizontal"] .topbar .top-navbar .navbar-header[data-logobg="skin4"] {
     background: #6659f7; }
   #main-wrapper[data-layout="vertical"] .topbar .top-navbar .navbar-header[data-logobg="skin5"], #main-wrapper[data-layout="horizontal"] .topbar .top-navbar .navbar-header[data-logobg="skin5"] {
-    background: #233242; }
+    background: #fff; }
   #main-wrapper[data-layout="vertical"] .topbar .top-navbar .navbar-header[data-logobg="skin6"], #main-wrapper[data-layout="horizontal"] .topbar .top-navbar .navbar-header[data-logobg="skin6"] {
     background: #fff; }
     #main-wrapper[data-layout="vertical"] .topbar .top-navbar .navbar-header[data-logobg="skin6"] .navbar-brand .dark-logo, #main-wrapper[data-layout="horizontal"] .topbar .top-navbar .navbar-header[data-logobg="skin6"] .navbar-brand .dark-logo {
@@ -7261,7 +7262,7 @@ html[dir="ltr"] body .p-l-0 {
   #main-wrapper[data-layout="vertical"] .topbar .navbar-collapse[data-navbarbg="skin6"], #main-wrapper[data-layout="vertical"] .topbar[data-navbarbg="skin6"], #main-wrapper[data-layout="horizontal"] .topbar .navbar-collapse[data-navbarbg="skin6"], #main-wrapper[data-layout="horizontal"] .topbar[data-navbarbg="skin6"] {
     background: #fff; }
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin1"], #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin1"] ul, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin1"], #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin1"] ul {
-    background: #2962FF; }
+    background: #6659f7; }
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin2"], #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin2"] ul, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin2"], #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin2"] ul {
     background: #fe5419; }
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin3"], #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin3"] ul, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin3"], #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin3"] ul {
@@ -7269,7 +7270,7 @@ html[dir="ltr"] body .p-l-0 {
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin4"], #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin4"] ul, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin4"], #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin4"] ul {
     background: #6659f7; }
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin5"], #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin5"] ul, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin5"], #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin5"] ul {
-    background: #233242; }
+    background: #fff; }
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin6"], #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin6"] {
     background: #fff; }
     #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin6"] .sidebar-nav ul, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin6"] .sidebar-nav ul {
@@ -7941,7 +7942,7 @@ Notify
       .topbar .top-navbar .navbar-header .navbar-brand {
         display: flex;
         align-items: center;
-        margin: 0px;
+        margin: -10px;
         padding: 0 10px 0 10px;
         justify-content: space-between; }
         .topbar .top-navbar .navbar-header .navbar-brand .dark-logo {
@@ -8159,15 +8160,16 @@ Table-Jsgrid table
 Main sidebar
 ******************/
 .left-sidebar {
-  position: absolute;
-  width: 250px;
-  height: 100%;
-  top: 0px;
-  z-index: 10;
-  padding-top: 64px;
-  background: #fff;
-  box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
-  transition: 0.2s ease-in; }
+    position: absolute;
+    width: 250px;
+    height: 100%;
+    top: 0px;
+    z-index: 10;
+    padding-top: 64px;
+    background: #f6f8f9 !important;
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.08);
+    transition: 0.2s ease-in;
+}
 
 /*******************
 sidebar navigation
@@ -8186,13 +8188,15 @@ sidebar navigation
            First level
            ******************/ }
     .sidebar-nav ul .sidebar-item .sidebar-link {
-      color: #fff;
-      padding: 12px 15px;
-      display: flex;
-      white-space: nowrap;
-      align-items: center;
-      line-height: 25px;
-      opacity: 0.5; }
+        color: #062D3E;
+        background-color: #f6f8f9 !important;
+        padding: 12px 15px;
+        display: flex;
+        white-space: nowrap;
+        align-items: center;
+        line-height: 25px;
+        opacity: 0.5;
+    }
       .sidebar-nav ul .sidebar-item .sidebar-link i {
         font-style: normal;
         width: 35px;
@@ -8201,6 +8205,7 @@ sidebar navigation
         color: #fff;
         display: inline-block;
         text-align: center; }
+
       .sidebar-nav ul .sidebar-item .sidebar-link.active, .sidebar-nav ul .sidebar-item .sidebar-link:hover {
         opacity: 1; }
     .sidebar-nav ul .sidebar-item.selected > .sidebar-link {
@@ -8232,10 +8237,10 @@ sidebar navigation
 
 .sidebar-nav > #sidebarnav > .sidebar-item > .sidebar-link:hover, .sidebar-nav > #sidebarnav > .sidebar-item.selected > .sidebar-link {
   background: rgba(0, 0, 0, 0.1);
-  border-left: 2px solid #137eff; }
+  border-left: 20px solid #137eff; }
 
 .sidebar-nav > #sidebarnav > .sidebar-item > .sidebar-link {
-  border-left: 2px solid transparent; }
+  border-left: 20px solid transparent; }
 
 /*******************
  common m-p removed

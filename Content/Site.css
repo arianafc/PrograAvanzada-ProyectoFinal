@@ -507,4 +507,23 @@ input, select, textarea {
 .logo-text {
     display: inline-block;
 }
->>>>>>> Stashed changes
+> > > > > > > Stashed changes
+
+/* Títulos como "Menú Principal" y "General" */
+#sidebarnav > li:not(.sidebar-item) > a {
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #2c3e50;
+    letter-spacing: 0.5px;
+    background-color: #f0f3f5;
+    border-radius: 4px;
+    margin: 1rem 0 0.5rem;
+    pointer-events: none; /* No se puede hacer clic */
+}
+
+/* Ocultar el ícono decorativo que no es necesario */
+#sidebarnav > li:not(.sidebar-item) > a i {
+    display: none;
+}
