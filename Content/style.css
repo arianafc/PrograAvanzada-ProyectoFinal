@@ -7478,10 +7478,11 @@ html[dir="ltr"] body .p-l-0 {
   outline: none; }
 
 body {
-  margin: 0;
-  overflow-x: hidden;
-  color: #6a7a8c;
-  background: #fff; }
+    margin: 0;
+    overflow-x: hidden;
+    color: #062D3E;
+    background: #fff;
+}
 
 html {
   position: relative;
@@ -8188,14 +8189,12 @@ sidebar navigation
            First level
            ******************/ }
     .sidebar-nav ul .sidebar-item .sidebar-link {
-        color: #062D3E;
-        background-color: #f6f8f9 !important;
+        color: #062D3E;     
         padding: 12px 15px;
         display: flex;
         white-space: nowrap;
         align-items: center;
-        line-height: 25px;
-        opacity: 0.5;
+        line-height: 35px;
     }
       .sidebar-nav ul .sidebar-item .sidebar-link i {
         font-style: normal;

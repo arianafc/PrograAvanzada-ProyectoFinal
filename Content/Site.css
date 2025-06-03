@@ -507,23 +507,20 @@ input, select, textarea {
 .logo-text {
     display: inline-block;
 }
-> > > > > > > Stashed changes
 
-/* Títulos como "Menú Principal" y "General" */
-#sidebarnav > li:not(.sidebar-item) > a {
-    padding: 0.5rem 1rem;
-    font-weight: bold;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    color: #2c3e50;
-    letter-spacing: 0.5px;
-    background-color: #f0f3f5;
-    border-radius: 4px;
-    margin: 1rem 0 0.5rem;
-    pointer-events: none; /* No se puede hacer clic */
+/* Estilo para títulos de secciones */
+.menu-title a {
+    color: #062D3E;
+    padding: 12px 15px;
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+    line-height: 35px;
+    pointer-events: none; /* que no se pueda hacer clic */
 }
 
-/* Ocultar el ícono decorativo que no es necesario */
-#sidebarnav > li:not(.sidebar-item) > a i {
+/* Elimina cualquier ícono dentro del título si existe */
+.menu-title i {
     display: none;
 }
+
