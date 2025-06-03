@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-5">
+            <div id="login-form" class="bg-light p-4 rounded shadow mx-auto">
+                <h2 class="fw-bold text-center mb-4">Iniciar Sesión</h2>
+                <form>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-bold">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label fw-bold">Contraseña</label>
+                        <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+                    </div>
+                    <div class="mb-3 text-end">
+                        <a href="#" class="text-muted small">¿Olvidaste tu contraseña?</a>
+                        </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning fw-bold text-dark">INICIAR SESIÓN</button>
+                    </div>
+                </form>
+                <div class="mt-3 text-center">
+                    @Html.ActionLink("¿No tienes cuenta? Regístrate aquí", "Signup", "Home", new { area = "" }, new { @class = "nav-link" })
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
