@@ -10,6 +10,7 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
     <link href="~/Content/navbar.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.7.0.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -28,7 +29,8 @@
                 @Html.ActionLink("TOURS", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("EVENTOS", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("CONTACTO", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
-                <a class="nav-link user-icon-link" href="@Url.Action("Perfil", "Usuario")">
+                @Html.ActionLink("ADMIN DASHBOARD", "dashboard", "Home", new { area = "" }, new { @class = "nav-link" })
+                <a class="nav-link user-icon-link" href="@Url.Action("Login", "Home")">
                     <i class="fa fa-user"></i>
                 </a>
             </ul>
@@ -37,7 +39,7 @@
             </div>
         </div>
     </nav>
-  
+
 
     <div class="container body-content">
         @RenderBody()
@@ -147,6 +149,8 @@
     </div>
     <script src="~/Scripts/script.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.7.0.min.js"></script>
+ 
     @RenderSection("scripts", required: false)
 </body>
 </html>
