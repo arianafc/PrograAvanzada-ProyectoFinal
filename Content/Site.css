@@ -108,6 +108,12 @@ main {
     color: #062D3E;
 }
 
+.titleTestimonios {
+    font-weight: bold;
+    font-size: 30px;
+    color: #062D3E;
+}
+
 .welcome-text {
     font-weight: 300;
     color: #062D3E;
