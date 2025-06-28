@@ -1,19 +1,73 @@
 ﻿@{
     ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var nombre = ViewBag.Nombre ?? "";
+    var apellido = ViewBag.Apellido ?? "";
+    var correo = ViewBag.Correo ?? "";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <address>
-        One Microsoft Way<br />
-        Redmond, WA 98052-6399<br />
-        <abbr title="Phone">P:</abbr>
-        425.555.0100
-    </address>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
 
-    <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-    </address>
+<main class="container py-5">
+
+    <!-- FORMULARIO + INFORMACIÓN -->
+    <section class="row justify-content-center align-items-center mb-5">
+        <!-- Formulario -->
+        <div class="col-lg-5 d-flex">
+            <div class="mx-auto" style="width: 100%; max-width: 420px;">
+                <h3 class="fw-bold text-dark mb-4 text-center">
+                    <i class="bi bi-chat-dots-fill text-warning me-2"></i>¿Tienes alguna duda?
+                </h3>
+                <form id="contactoForm">
+                    <div class="mb-3">
+                        <label for="nombreConsulta" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreConsulta" name="nombre" placeholder="Tu nombre" value="@nombre" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellidoConsulta" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellidoConsulta" name="apellidos" placeholder="Tu apellido" value="@apellido" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailConsulta" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="emailConsulta" name="email" placeholder="Tu correo" value="@correo" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="mensajeConsulta" class="form-label">Mensaje</label>
+                        <textarea class="form-control" id="mensajeConsulta" name="mensaje" rows="4" placeholder="Escribe tu mensaje..." required></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning fw-bold text-dark">
+                            <i class="bi bi-send-fill me-1"></i>ENVIAR
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Información de contacto -->
+        <div class="col-lg-5 d-flex">
+            <div class="mx-auto" style="width: 100%; max-width: 420px;">
+                <h4 class="fw-bold mb-3">
+                    <i class="bi bi-telephone-fill text-warning me-2"></i>Información de Contacto
+                </h4>
+                <p><i class="bi bi-telephone"></i> <strong>+506 2222 3333</strong></p>
+                <p><i class="bi bi-envelope"></i> <strong>contacto@casanatura.cr</strong></p>
+                <p><i class="bi bi-geo-alt"></i> <strong>San José, Costa Rica</strong></p>
+                <p><i class="bi bi-clock"></i> <strong>Lunes a Viernes, 8:00 am - 5:00 pm</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAPA GRANDE -->
+    <section class="mb-5">
+        <h4 class="fw-bold mb-3 text-center"><i class="bi bi-map-fill text-warning me-2"></i>Ubicación</h4>
+        <div class="w-100" style="height: 380px;">
+            <iframe class="w-100 h-100 rounded shadow"
+                    src="https://maps.google.com/maps?q=San%20Jose%20Costa%20Rica&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    frameborder="0" allowfullscreen loading="lazy">
+            </iframe>
+        </div>
+    </section>
+
 </main>

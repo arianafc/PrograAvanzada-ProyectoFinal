@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Donaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="container py-5">
+    <div class="row align-items-center mb-5 flex-wrap-reverse">
+        <div class="col-lg-6 col-12 text-center text-lg-start">
+            <h1 class="fw-bold">Apoya a Casa Natura</h1>
+            <p>
+                <span class="fw-bold">Casa Natura</span> es un refugio dedicado a proporcionar un hogar seguro y cuidado a animales necesitados.
+                Tu apoyo permite que sigamos cumpliendo nuestra misión de cuidar y proteger a los animales, cubriendo necesidades esenciales como alimentación, atención veterinaria y mantenimiento de las instalaciones.
+            </p>
+        </div>
+        <div class="col-lg-6 col-12 text-center mb-3 mb-lg-0">
+            <img src="~/imagenes/donaciones1.jpeg" alt="Donaciones" class="img-fluid rounded shadow">
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <section class="text-center mb-5">
+        <h2 class="fw-bold">¿Cuál es el proceso de donación?</h2>
+        <p class="text-muted">¿Listo para donar por una buena causa?</p>
+
+        <div class="row mt-4">
+            <div class="col-md-4 col-12 mb-3">
+                <div class="p-4 bg-light rounded shadow-sm h-100">
+                    <i class="fas fa-paw fa-2x text-warning mb-2"></i>
+                    <h5 class="fw-bold">Fácil y Seguro</h5>
+                    <p>Realiza tu donación de forma rápida y segura desde nuestra plataforma.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <div class="p-4 bg-light rounded shadow-sm h-100">
+                    <i class="fas fa-handshake fa-2x text-warning mb-2"></i>
+                    <h5 class="fw-bold">Única o Recurrente</h5>
+                    <p>Contribuye con un aporte puntual o periódicamente.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-12 mb-3">
+                <div class="p-4 bg-light rounded shadow-sm h-100">
+                    <i class="fas fa-pen fa-2x text-warning mb-2"></i>
+                    <h5 class="fw-bold">Transparencia</h5>
+                    <p>Te mantenemos informado sobre el uso de tu apoyo y su impacto.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="row align-items-center p-4 rounded bg-light shadow-sm flex-wrap-reverse">
+        <div class="col-lg-6 col-12">
+            <h2 class="fw-bold mb-3 text-center text-lg-start">¿Por qué donar a Casa Natura?</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <i class="fas fa-paw text-warning me-2"></i>
+                    Apoyo a los animales: brindamos nutrición, refugio y atención médica.
+                </li>
+                <li class="list-group-item">
+                    <i class="fas fa-home text-warning me-2"></i>
+                    Mejora de instalaciones y expansión de programas.
+                </li>
+                <li class="list-group-item">
+                    <i class="fas fa-lightbulb text-warning me-2"></i>
+                    Confianza y compromiso en el uso de cada donación.
+                </li>
+            </ul>
+            <div class="d-grid mt-3">
+                <a href="@Url.Action("FormularioDonar", "Home")" class="btn btn-warning fw-bold text-dark w-100 w-lg-auto">Quiero Donar</a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-12 text-center mb-3 mb-lg-0">
+            <img src="~/imagenes/animales.png" alt="Animales" class="img-fluid rounded">
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script>
+        function verificarLogin() {
+            fetch('@Url.Action("VerificarLogin", "Home")')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.logueado) {
+                        window.location.href = '@Url.Action("FormularioDonaciones", "Home")';
+                    } else {
+                        alert("Debe estar logueado para realizar donaciones.");
+                        window.location.href = '@Url.Action("Login", "Home")';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+}

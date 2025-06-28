@@ -47,5 +47,20 @@ namespace ProyectoFinal.Controllers
 
             return View();
         }
+
+        public ActionResult Donaciones()
+        {
+            ViewBag.Message = "Your Donaciones page.";
+
+            return View();
+        }
+
+        public ActionResult FormularioDonar()
+        {
+            ViewBag.Message = "Your Formulario page.";
+
+            return View();
+        }
+
     }
 }

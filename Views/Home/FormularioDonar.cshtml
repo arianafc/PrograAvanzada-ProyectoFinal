@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "FormularioDonar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="container py-5">
+    <h1 class="fw-bold text-center mb-4">Apoya con tu Donación</h1>
+
+    <p class="text-center mb-5">
+        A través de este formulario puedes contribuir al bienestar de los animales.
+        Selecciona la cantidad y método de pago. ¡Gracias por ser parte del cambio!
+    </p>
+
+    <div class="row justify-content-center align-items-center g-4">
+        <div class="col-lg-10">
+            <div class="card border-0 overflow-hidden">
+                <div class="row g-0">
+                    <!-- Imagen integrada como parte lateral del formulario -->
+                    <div class="col-md-5 d-none d-md-block bg-white">
+                        <div class="h-100 d-flex align-items-center justify-content-center p-3">
+                            <img src="~/imagenes/animalesDonar.png" alt="Animales felices" class="img-fluid" style="max-height: 400px;">
+                        </div>
+                    </div>
+
+                    <!-- Formulario -->
+                    <div class="col-md-7">
+                        <div class="card-body bg-light h-100 d-flex flex-column justify-content-center">
+                            <h4 class="fw-bold text-center text-dark mb-4">Formulario de Donación</h4>
+                            <form id="formDonar">
+                                <div class="mb-3">
+                                    <label for="cantidad" class="form-label fw-bold">Cantidad a donar</label>
+                                    <input type="number" id="cantidad" name="cantidad" class="form-control" placeholder="Digite la cantidad" min="1" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="metodo" class="form-label fw-bold">Método de pago</label>
+                                    <select id="metodo" name="metodo" class="form-select" required onchange="mostrarModal()">
+                                        <option value="">Selecciona un método de pago</option>
+                                        <option value="tarjeta">Tarjeta crédito/débito</option>
+                                        <option value="sinpe">Sinpe móvil</option>
+                                        <option value="paypal">PayPal</option>
+                                    </select>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-warning fw-bold text-dark" id="submit-button">Donar</button>
+                                </div>
+                            </form>
+                            <p class="text-center text-muted mt-3 small">
+                                <i class="fas fa-heart text-warning"></i> Gracias por tu generosidad
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modales -->
+@* Tarjeta *@
+<div class="modal fade" id="modalTarjeta" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pago con Tarjeta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formTarjeta">
+                    <div class="mb-3">
+                        <label for="numeroTarjeta">Número de tarjeta</label>
+                        <input type="text" id="numeroTarjeta" class="form-control" placeholder="XXXX-XXXX-XXXX-XXXX" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="titularTarjeta">Nombre del titular</label>
+                        <input type="text" id="titularTarjeta" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="codigoSeguridad">Código de seguridad</label>
+                        <input type="text" id="codigoSeguridad" class="form-control" placeholder="XXX" required />
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="validarTarjeta()">Finalizar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Sinpe *@
+<div class="modal fade" id="modalSinpe" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pago por Sinpe Móvil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Realice su Sinpe al número: <strong>70265643</strong></p>
+                <p>Nombre del titular: <strong>Casa Natura</strong></p>
+                <button type="button" class="btn btn-success" onclick="validarSinpe()">Hecho</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Paypal *@
+<div class="modal fade" id="modalPaypal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pago con PayPal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formPaypal">
+                    <div class="mb-3">
+                        <label for="usuarioPaypal">Usuario de PayPal</label>
+                        <input type="text" id="usuarioPaypal" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="contrasenaPaypal">Contraseña</label>
+                        <input type="password" id="contrasenaPaypal" class="form-control" required />
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="validarPaypal()">Finalizar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function mostrarModal() {
+            const metodo = document.getElementById("metodo").value;
+            if (metodo === "tarjeta") {
+                new bootstrap.Modal(document.getElementById('modalTarjeta')).show();
+            } else if (metodo === "sinpe") {
+                new bootstrap.Modal(document.getElementById('modalSinpe')).show();
+            } else if (metodo === "paypal") {
+                new bootstrap.Modal(document.getElementById('modalPaypal')).show();
+            }
+        }
+
+        function validarTarjeta() {
+            const numero = document.getElementById("numeroTarjeta").value;
+            const titular = document.getElementById("titularTarjeta").value;
+            const codigo = document.getElementById("codigoSeguridad").value;
+
+            if (!numero || !titular || !codigo) {
+                alert("Por favor complete todos los campos.");
+                return;
+            }
+            bootstrap.Modal.getInstance(document.getElementById('modalTarjeta')).hide();
+            alert("Pago completado con tarjeta.");
+        }
+
+        function validarSinpe() {
+            bootstrap.Modal.getInstance(document.getElementById('modalSinpe')).hide();
+            alert("Pago por Sinpe confirmado.");
+        }
+
+        function validarPaypal() {
+            const user = document.getElementById("usuarioPaypal").value;
+            const pass = document.getElementById("contrasenaPaypal").value;
+
+            if (!user || !pass) {
+                alert("Por favor complete todos los campos.");
+                return;
+            }
+            bootstrap.Modal.getInstance(document.getElementById('modalPaypal')).hide();
+            alert("Pago completado con PayPal.");
+        }
+    </script>
+}

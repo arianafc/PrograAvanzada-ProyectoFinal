@@ -136,6 +136,9 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\animales.png" />
+    <Content Include="Imagenes\animalesDonar.png" />
+    <Content Include="Imagenes\donaciones1.jpeg" />
     <Content Include="Imagenes\face.png" />
     <Content Include="Imagenes\footer.png" />
     <Content Include="Imagenes\img3.png" />
@@ -189,6 +192,8 @@
     <Content Include="Views\Home\dashboard.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Signup.cshtml" />
+    <Content Include="Views\Home\Donaciones.cshtml" />
+    <Content Include="Views\Home\FormularioDonar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
