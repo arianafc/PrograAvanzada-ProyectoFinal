@@ -1,0 +1,1577 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CASA_NATURAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ACTIVIDADES_TB">
+          <Key>
+            <PropertyRef Name="ID_ACTIVIDAD" />
+          </Key>
+          <Property Name="ID_ACTIVIDAD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="4000" Nullable="false" />
+          <Property Name="FECHA" Type="datetime" Nullable="false" />
+          <Property Name="PRECIO_BOLETO" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TICKETS_DISPONIBLES" Type="int" />
+          <Property Name="TICKETS_VENDIDOS" Type="int" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+          <Property Name="IMAGEN" Type="varchar" MaxLength="255" />
+          <Property Name="TIPO" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ANIMAL_TB">
+          <Key>
+            <PropertyRef Name="ID_ANIMAL" />
+          </Key>
+          <Property Name="ID_ANIMAL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="30" />
+          <Property Name="ID_RAZA" Type="int" Nullable="false" />
+          <Property Name="FECHA_INGRESO" Type="datetime" Nullable="false" />
+          <Property Name="FECHA_BAJA" Type="datetime" />
+          <Property Name="FECHA_NACIMIENTO" Type="datetime" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+          <Property Name="ID_SALUD" Type="int" Nullable="false" />
+          <Property Name="IMAGEN" Type="varchar" MaxLength="255" />
+          <Property Name="HISTORIA" Type="varchar" MaxLength="255" />
+          <Property Name="NECESIDAD" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="APADRINAMIENTOS_TB">
+          <Key>
+            <PropertyRef Name="ID_APADRINAMIENTO" />
+          </Key>
+          <Property Name="ID_APADRINAMIENTO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MONTO_MENSUAL" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="FECHA" Type="datetime" Nullable="false" />
+          <Property Name="FECHA_BAJA" Type="datetime" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+          <Property Name="ID_ANIMAL" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CANTONES_TB">
+          <Key>
+            <PropertyRef Name="ID_CANTON" />
+          </Key>
+          <Property Name="ID_CANTON" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" />
+          <Property Name="PROVINCIA" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CONSULTAS">
+          <Key>
+            <PropertyRef Name="ID_CONSULTA" />
+          </Key>
+          <Property Name="ID_CONSULTA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="APELLIDO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="50" />
+          <Property Name="MENSAJE" Type="varchar" MaxLength="500" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DIRECCIONES_TB">
+          <Key>
+            <PropertyRef Name="ID_DIRECCION" />
+          </Key>
+          <Property Name="ID_DIRECCION" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_DISTRITO" Type="int" Nullable="false" />
+          <Property Name="DIRECCION_EXACTA" Type="varchar" MaxLength="255" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DISTRITOS_TB">
+          <Key>
+            <PropertyRef Name="ID_DISTRITO" />
+          </Key>
+          <Property Name="ID_DISTRITO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" />
+          <Property Name="CANTON" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DONACIONES_TB">
+          <Key>
+            <PropertyRef Name="ID_DONACION" />
+          </Key>
+          <Property Name="ID_DONACION" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MONTO" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FECHA" Type="datetime" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="ID_METODO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ESPECIES_TB">
+          <Key>
+            <PropertyRef Name="ID_ESPECIE" />
+          </Key>
+          <Property Name="ID_ESPECIE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ESTADOS_SALUD_TB">
+          <Key>
+            <PropertyRef Name="ID_SALUD" />
+          </Key>
+          <Property Name="ID_SALUD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ESTADOS_TB">
+          <Key>
+            <PropertyRef Name="ID_ESTADO" />
+          </Key>
+          <Property Name="ID_ESTADO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="METODO_PAGO_TB">
+          <Key>
+            <PropertyRef Name="ID_METODO" />
+          </Key>
+          <Property Name="ID_METODO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="METODO" Type="varchar" MaxLength="30" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PROVINCIAS_TB">
+          <Key>
+            <PropertyRef Name="ID_PROVINCIA" />
+          </Key>
+          <Property Name="ID_PROVINCIA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RAZAS_TB">
+          <Key>
+            <PropertyRef Name="ID_RAZA" />
+          </Key>
+          <Property Name="ID_RAZA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" />
+          <Property Name="ID_ESPECIE" Type="int" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROLES_TB">
+          <Key>
+            <PropertyRef Name="ID_ROL" />
+          </Key>
+          <Property Name="ID_ROL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ROL" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIO_ACTIVIDAD_TB">
+          <Key>
+            <PropertyRef Name="ID_USUARIO_ACTIVIDAD" />
+          </Key>
+          <Property Name="ID_USUARIO_ACTIVIDAD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TICKETS_ADQUIRIDOS" Type="int" />
+          <Property Name="FECHA" Type="datetime" />
+          <Property Name="TOTAL" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="ID_ACTIVIDAD" Type="int" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+          <Property Name="ID_METODO_PAGO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIOS_TB">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="APELLIDO1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="APELLIDO2" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CORREO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+          <Property Name="PASSWORD" Type="varchar" MaxLength="255" />
+          <Property Name="ID_ROL" Type="int" Nullable="false" />
+          <Property Name="Identificacion" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__ACTIVIDAD__ID_ES__571DF1D5">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="ACTIVIDADES_TB" Type="Self.ACTIVIDADES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="ACTIVIDADES_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ANIMAL_TB__ID_ES__4AB81AF0">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="ANIMAL_TB" Type="Self.ANIMAL_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="ANIMAL_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ANIMAL_TB__ID_RA__49C3F6B7">
+          <End Role="RAZAS_TB" Type="Self.RAZAS_TB" Multiplicity="1" />
+          <End Role="ANIMAL_TB" Type="Self.ANIMAL_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAZAS_TB">
+              <PropertyRef Name="ID_RAZA" />
+            </Principal>
+            <Dependent Role="ANIMAL_TB">
+              <PropertyRef Name="ID_RAZA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ANIMAL_TB__ID_SA__4BAC3F29">
+          <End Role="ESTADOS_SALUD_TB" Type="Self.ESTADOS_SALUD_TB" Multiplicity="1" />
+          <End Role="ANIMAL_TB" Type="Self.ANIMAL_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_SALUD_TB">
+              <PropertyRef Name="ID_SALUD" />
+            </Principal>
+            <Dependent Role="ANIMAL_TB">
+              <PropertyRef Name="ID_SALUD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__APADRINAM__ID_AN__5441852A">
+          <End Role="ANIMAL_TB" Type="Self.ANIMAL_TB" Multiplicity="1" />
+          <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANIMAL_TB">
+              <PropertyRef Name="ID_ANIMAL" />
+            </Principal>
+            <Dependent Role="APADRINAMIENTOS_TB">
+              <PropertyRef Name="ID_ANIMAL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__APADRINAM__ID_ES__534D60F1">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="APADRINAMIENTOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__APADRINAM__ID_US__52593CB8">
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
+          <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="APADRINAMIENTOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CANTONES___PROVI__68487DD7">
+          <End Role="PROVINCIAS_TB" Type="Self.PROVINCIAS_TB" Multiplicity="1" />
+          <End Role="CANTONES_TB" Type="Self.CANTONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVINCIAS_TB">
+              <PropertyRef Name="ID_PROVINCIA" />
+            </Principal>
+            <Dependent Role="CANTONES_TB">
+              <PropertyRef Name="PROVINCIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CONSULTAS__ID_ES__4E88ABD4">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="CONSULTAS" Type="Self.CONSULTAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="CONSULTAS">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CONSULTAS__ID_US__4F7CD00D">
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
+          <End Role="CONSULTAS" Type="Self.CONSULTAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="CONSULTAS">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DIRECCION__ID_DI__6E01572D">
+          <End Role="DISTRITOS_TB" Type="Self.DISTRITOS_TB" Multiplicity="1" />
+          <End Role="DIRECCIONES_TB" Type="Self.DIRECCIONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DISTRITOS_TB">
+              <PropertyRef Name="ID_DISTRITO" />
+            </Principal>
+            <Dependent Role="DIRECCIONES_TB">
+              <PropertyRef Name="ID_DISTRITO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DIRECCION__ID_ES__6FE99F9F">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="DIRECCIONES_TB" Type="Self.DIRECCIONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="DIRECCIONES_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DIRECCION__ID_US__6EF57B66">
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
+          <End Role="DIRECCIONES_TB" Type="Self.DIRECCIONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="DIRECCIONES_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DISTRITOS__CANTO__6B24EA82">
+          <End Role="CANTONES_TB" Type="Self.CANTONES_TB" Multiplicity="1" />
+          <End Role="DISTRITOS_TB" Type="Self.DISTRITOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CANTONES_TB">
+              <PropertyRef Name="ID_CANTON" />
+            </Principal>
+            <Dependent Role="DISTRITOS_TB">
+              <PropertyRef Name="CANTON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DONACIONE__ID_ME__6383C8BA">
+          <End Role="METODO_PAGO_TB" Type="Self.METODO_PAGO_TB" Multiplicity="1" />
+          <End Role="DONACIONES_TB" Type="Self.DONACIONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="METODO_PAGO_TB">
+              <PropertyRef Name="ID_METODO" />
+            </Principal>
+            <Dependent Role="DONACIONES_TB">
+              <PropertyRef Name="ID_METODO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DONACIONE__ID_US__628FA481">
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
+          <End Role="DONACIONES_TB" Type="Self.DONACIONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="DONACIONES_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ESPECIES___ID_ES__412EB0B6">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="ESPECIES_TB" Type="Self.ESPECIES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="ESPECIES_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__METODO_PA__ID_ES__59FA5E80">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="METODO_PAGO_TB" Type="Self.METODO_PAGO_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="METODO_PAGO_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RAZAS_TB__ID_ESP__440B1D61">
+          <End Role="ESPECIES_TB" Type="Self.ESPECIES_TB" Multiplicity="1" />
+          <End Role="RAZAS_TB" Type="Self.RAZAS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESPECIES_TB">
+              <PropertyRef Name="ID_ESPECIE" />
+            </Principal>
+            <Dependent Role="RAZAS_TB">
+              <PropertyRef Name="ID_ESPECIE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RAZAS_TB__ID_EST__44FF419A">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="RAZAS_TB" Type="Self.RAZAS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="RAZAS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ROLES_TB__ID_EST__398D8EEE">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="ROLES_TB" Type="Self.ROLES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="ROLES_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIO_A__ID_AC__5DCAEF64">
+          <End Role="ACTIVIDADES_TB" Type="Self.ACTIVIDADES_TB" Multiplicity="1" />
+          <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACTIVIDADES_TB">
+              <PropertyRef Name="ID_ACTIVIDAD" />
+            </Principal>
+            <Dependent Role="USUARIO_ACTIVIDAD_TB">
+              <PropertyRef Name="ID_ACTIVIDAD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIO_A__ID_ES__5EBF139D">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="USUARIO_ACTIVIDAD_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIO_A__ID_ME__5FB337D6">
+          <End Role="METODO_PAGO_TB" Type="Self.METODO_PAGO_TB" Multiplicity="1" />
+          <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="METODO_PAGO_TB">
+              <PropertyRef Name="ID_METODO" />
+            </Principal>
+            <Dependent Role="USUARIO_ACTIVIDAD_TB">
+              <PropertyRef Name="ID_METODO_PAGO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIO_A__ID_US__5CD6CB2B">
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
+          <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="USUARIO_ACTIVIDAD_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIOS___ID_ES__3D5E1FD2">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="USUARIOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIOS___ID_RO__3E52440B">
+          <End Role="ROLES_TB" Type="Self.ROLES_TB" Multiplicity="1" />
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES_TB">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="USUARIOS_TB">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="LOGIN_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CORREO" Type="varchar" Mode="In" />
+          <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="REGISTRO_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NOMBRE" Type="varchar" Mode="In" />
+          <Parameter Name="APELLIDO1" Type="varchar" Mode="In" />
+          <Parameter Name="APELLIDO2" Type="varchar" Mode="In" />
+          <Parameter Name="CORREO" Type="varchar" Mode="In" />
+          <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
+          <Parameter Name="IDENTIFICACION" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="CASA_NATURAModelStoreContainer">
+          <EntitySet Name="ACTIVIDADES_TB" EntityType="Self.ACTIVIDADES_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ANIMAL_TB" EntityType="Self.ANIMAL_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="APADRINAMIENTOS_TB" EntityType="Self.APADRINAMIENTOS_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CANTONES_TB" EntityType="Self.CANTONES_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONSULTAS" EntityType="Self.CONSULTAS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DIRECCIONES_TB" EntityType="Self.DIRECCIONES_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DISTRITOS_TB" EntityType="Self.DISTRITOS_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DONACIONES_TB" EntityType="Self.DONACIONES_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESPECIES_TB" EntityType="Self.ESPECIES_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESTADOS_SALUD_TB" EntityType="Self.ESTADOS_SALUD_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESTADOS_TB" EntityType="Self.ESTADOS_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="METODO_PAGO_TB" EntityType="Self.METODO_PAGO_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PROVINCIAS_TB" EntityType="Self.PROVINCIAS_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RAZAS_TB" EntityType="Self.RAZAS_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROLES_TB" EntityType="Self.ROLES_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIO_ACTIVIDAD_TB" EntityType="Self.USUARIO_ACTIVIDAD_TB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIOS_TB" EntityType="Self.USUARIOS_TB" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ACTIVIDAD__ID_ES__571DF1D5" Association="Self.FK__ACTIVIDAD__ID_ES__571DF1D5">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="ACTIVIDADES_TB" EntitySet="ACTIVIDADES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ANIMAL_TB__ID_ES__4AB81AF0" Association="Self.FK__ANIMAL_TB__ID_ES__4AB81AF0">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ANIMAL_TB__ID_RA__49C3F6B7" Association="Self.FK__ANIMAL_TB__ID_RA__49C3F6B7">
+            <End Role="RAZAS_TB" EntitySet="RAZAS_TB" />
+            <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ANIMAL_TB__ID_SA__4BAC3F29" Association="Self.FK__ANIMAL_TB__ID_SA__4BAC3F29">
+            <End Role="ESTADOS_SALUD_TB" EntitySet="ESTADOS_SALUD_TB" />
+            <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__APADRINAM__ID_AN__5441852A" Association="Self.FK__APADRINAM__ID_AN__5441852A">
+            <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
+            <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__APADRINAM__ID_ES__534D60F1" Association="Self.FK__APADRINAM__ID_ES__534D60F1">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__APADRINAM__ID_US__52593CB8" Association="Self.FK__APADRINAM__ID_US__52593CB8">
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+            <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CANTONES___PROVI__68487DD7" Association="Self.FK__CANTONES___PROVI__68487DD7">
+            <End Role="PROVINCIAS_TB" EntitySet="PROVINCIAS_TB" />
+            <End Role="CANTONES_TB" EntitySet="CANTONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CONSULTAS__ID_ES__4E88ABD4" Association="Self.FK__CONSULTAS__ID_ES__4E88ABD4">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="CONSULTAS" EntitySet="CONSULTAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CONSULTAS__ID_US__4F7CD00D" Association="Self.FK__CONSULTAS__ID_US__4F7CD00D">
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+            <End Role="CONSULTAS" EntitySet="CONSULTAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DIRECCION__ID_DI__6E01572D" Association="Self.FK__DIRECCION__ID_DI__6E01572D">
+            <End Role="DISTRITOS_TB" EntitySet="DISTRITOS_TB" />
+            <End Role="DIRECCIONES_TB" EntitySet="DIRECCIONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DIRECCION__ID_ES__6FE99F9F" Association="Self.FK__DIRECCION__ID_ES__6FE99F9F">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="DIRECCIONES_TB" EntitySet="DIRECCIONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DIRECCION__ID_US__6EF57B66" Association="Self.FK__DIRECCION__ID_US__6EF57B66">
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+            <End Role="DIRECCIONES_TB" EntitySet="DIRECCIONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DISTRITOS__CANTO__6B24EA82" Association="Self.FK__DISTRITOS__CANTO__6B24EA82">
+            <End Role="CANTONES_TB" EntitySet="CANTONES_TB" />
+            <End Role="DISTRITOS_TB" EntitySet="DISTRITOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DONACIONE__ID_ME__6383C8BA" Association="Self.FK__DONACIONE__ID_ME__6383C8BA">
+            <End Role="METODO_PAGO_TB" EntitySet="METODO_PAGO_TB" />
+            <End Role="DONACIONES_TB" EntitySet="DONACIONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DONACIONE__ID_US__628FA481" Association="Self.FK__DONACIONE__ID_US__628FA481">
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+            <End Role="DONACIONES_TB" EntitySet="DONACIONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ESPECIES___ID_ES__412EB0B6" Association="Self.FK__ESPECIES___ID_ES__412EB0B6">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="ESPECIES_TB" EntitySet="ESPECIES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__METODO_PA__ID_ES__59FA5E80" Association="Self.FK__METODO_PA__ID_ES__59FA5E80">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="METODO_PAGO_TB" EntitySet="METODO_PAGO_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RAZAS_TB__ID_ESP__440B1D61" Association="Self.FK__RAZAS_TB__ID_ESP__440B1D61">
+            <End Role="ESPECIES_TB" EntitySet="ESPECIES_TB" />
+            <End Role="RAZAS_TB" EntitySet="RAZAS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RAZAS_TB__ID_EST__44FF419A" Association="Self.FK__RAZAS_TB__ID_EST__44FF419A">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="RAZAS_TB" EntitySet="RAZAS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ROLES_TB__ID_EST__398D8EEE" Association="Self.FK__ROLES_TB__ID_EST__398D8EEE">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="ROLES_TB" EntitySet="ROLES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIO_A__ID_AC__5DCAEF64" Association="Self.FK__USUARIO_A__ID_AC__5DCAEF64">
+            <End Role="ACTIVIDADES_TB" EntitySet="ACTIVIDADES_TB" />
+            <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIO_A__ID_ES__5EBF139D" Association="Self.FK__USUARIO_A__ID_ES__5EBF139D">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIO_A__ID_ME__5FB337D6" Association="Self.FK__USUARIO_A__ID_ME__5FB337D6">
+            <End Role="METODO_PAGO_TB" EntitySet="METODO_PAGO_TB" />
+            <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIO_A__ID_US__5CD6CB2B" Association="Self.FK__USUARIO_A__ID_US__5CD6CB2B">
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+            <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIOS___ID_ES__3D5E1FD2" Association="Self.FK__USUARIOS___ID_ES__3D5E1FD2">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIOS___ID_RO__3E52440B" Association="Self.FK__USUARIOS___ID_RO__3E52440B">
+            <End Role="ROLES_TB" EntitySet="ROLES_TB" />
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CASA_NATURAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ACTIVIDADES_TB">
+          <Key>
+            <PropertyRef Name="ID_ACTIVIDAD" />
+          </Key>
+          <Property Name="ID_ACTIVIDAD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PRECIO_BOLETO" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TICKETS_DISPONIBLES" Type="Int32" />
+          <Property Name="TICKETS_VENDIDOS" Type="Int32" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <Property Name="IMAGEN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TIPO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__ACTIVIDAD__ID_ES__571DF1D5" FromRole="ACTIVIDADES_TB" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_AC__5DCAEF64" FromRole="ACTIVIDADES_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
+        </EntityType>
+        <EntityType Name="ANIMAL_TB">
+          <Key>
+            <PropertyRef Name="ID_ANIMAL" />
+          </Key>
+          <Property Name="ID_ANIMAL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ID_RAZA" Type="Int32" Nullable="false" />
+          <Property Name="FECHA_INGRESO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FECHA_BAJA" Type="DateTime" Precision="3" />
+          <Property Name="FECHA_NACIMIENTO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <Property Name="ID_SALUD" Type="Int32" Nullable="false" />
+          <Property Name="IMAGEN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HISTORIA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NECESIDAD" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__ANIMAL_TB__ID_ES__4AB81AF0" FromRole="ANIMAL_TB" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="RAZAS_TB" Relationship="Self.FK__ANIMAL_TB__ID_RA__49C3F6B7" FromRole="ANIMAL_TB" ToRole="RAZAS_TB" />
+          <NavigationProperty Name="ESTADOS_SALUD_TB" Relationship="Self.FK__ANIMAL_TB__ID_SA__4BAC3F29" FromRole="ANIMAL_TB" ToRole="ESTADOS_SALUD_TB" />
+          <NavigationProperty Name="APADRINAMIENTOS_TB" Relationship="Self.FK__APADRINAM__ID_AN__5441852A" FromRole="ANIMAL_TB" ToRole="APADRINAMIENTOS_TB" />
+        </EntityType>
+        <EntityType Name="APADRINAMIENTOS_TB">
+          <Key>
+            <PropertyRef Name="ID_APADRINAMIENTO" />
+          </Key>
+          <Property Name="ID_APADRINAMIENTO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MONTO_MENSUAL" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="FECHA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FECHA_BAJA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <Property Name="ID_ANIMAL" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ANIMAL_TB" Relationship="Self.FK__APADRINAM__ID_AN__5441852A" FromRole="APADRINAMIENTOS_TB" ToRole="ANIMAL_TB" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__APADRINAM__ID_ES__534D60F1" FromRole="APADRINAMIENTOS_TB" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__APADRINAM__ID_US__52593CB8" FromRole="APADRINAMIENTOS_TB" ToRole="USUARIOS_TB" />
+        </EntityType>
+        <EntityType Name="CANTONES_TB">
+          <Key>
+            <PropertyRef Name="ID_CANTON" />
+          </Key>
+          <Property Name="ID_CANTON" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PROVINCIA" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PROVINCIAS_TB" Relationship="Self.FK__CANTONES___PROVI__68487DD7" FromRole="CANTONES_TB" ToRole="PROVINCIAS_TB" />
+          <NavigationProperty Name="DISTRITOS_TB" Relationship="Self.FK__DISTRITOS__CANTO__6B24EA82" FromRole="CANTONES_TB" ToRole="DISTRITOS_TB" />
+        </EntityType>
+        <EntityType Name="CONSULTAS">
+          <Key>
+            <PropertyRef Name="ID_CONSULTA" />
+          </Key>
+          <Property Name="ID_CONSULTA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="APELLIDO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MENSAJE" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__CONSULTAS__ID_ES__4E88ABD4" FromRole="CONSULTAS" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__CONSULTAS__ID_US__4F7CD00D" FromRole="CONSULTAS" ToRole="USUARIOS_TB" />
+        </EntityType>
+        <EntityType Name="DIRECCIONES_TB">
+          <Key>
+            <PropertyRef Name="ID_DIRECCION" />
+          </Key>
+          <Property Name="ID_DIRECCION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_DISTRITO" Type="Int32" Nullable="false" />
+          <Property Name="DIRECCION_EXACTA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DISTRITOS_TB" Relationship="Self.FK__DIRECCION__ID_DI__6E01572D" FromRole="DIRECCIONES_TB" ToRole="DISTRITOS_TB" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__DIRECCION__ID_ES__6FE99F9F" FromRole="DIRECCIONES_TB" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__DIRECCION__ID_US__6EF57B66" FromRole="DIRECCIONES_TB" ToRole="USUARIOS_TB" />
+        </EntityType>
+        <EntityType Name="DISTRITOS_TB">
+          <Key>
+            <PropertyRef Name="ID_DISTRITO" />
+          </Key>
+          <Property Name="ID_DISTRITO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CANTON" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CANTONES_TB" Relationship="Self.FK__DISTRITOS__CANTO__6B24EA82" FromRole="DISTRITOS_TB" ToRole="CANTONES_TB" />
+          <NavigationProperty Name="DIRECCIONES_TB" Relationship="Self.FK__DIRECCION__ID_DI__6E01572D" FromRole="DISTRITOS_TB" ToRole="DIRECCIONES_TB" />
+        </EntityType>
+        <EntityType Name="DONACIONES_TB">
+          <Key>
+            <PropertyRef Name="ID_DONACION" />
+          </Key>
+          <Property Name="ID_DONACION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MONTO" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FECHA" Type="DateTime" Precision="3" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_METODO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="METODO_PAGO_TB" Relationship="Self.FK__DONACIONE__ID_ME__6383C8BA" FromRole="DONACIONES_TB" ToRole="METODO_PAGO_TB" />
+          <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__DONACIONE__ID_US__628FA481" FromRole="DONACIONES_TB" ToRole="USUARIOS_TB" />
+        </EntityType>
+        <EntityType Name="ESPECIES_TB">
+          <Key>
+            <PropertyRef Name="ID_ESPECIE" />
+          </Key>
+          <Property Name="ID_ESPECIE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__ESPECIES___ID_ES__412EB0B6" FromRole="ESPECIES_TB" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="RAZAS_TB" Relationship="Self.FK__RAZAS_TB__ID_ESP__440B1D61" FromRole="ESPECIES_TB" ToRole="RAZAS_TB" />
+        </EntityType>
+        <EntityType Name="ESTADOS_SALUD_TB">
+          <Key>
+            <PropertyRef Name="ID_SALUD" />
+          </Key>
+          <Property Name="ID_SALUD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ANIMAL_TB" Relationship="Self.FK__ANIMAL_TB__ID_SA__4BAC3F29" FromRole="ESTADOS_SALUD_TB" ToRole="ANIMAL_TB" />
+        </EntityType>
+        <EntityType Name="ESTADOS_TB">
+          <Key>
+            <PropertyRef Name="ID_ESTADO" />
+          </Key>
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ACTIVIDADES_TB" Relationship="Self.FK__ACTIVIDAD__ID_ES__571DF1D5" FromRole="ESTADOS_TB" ToRole="ACTIVIDADES_TB" />
+          <NavigationProperty Name="ANIMAL_TB" Relationship="Self.FK__ANIMAL_TB__ID_ES__4AB81AF0" FromRole="ESTADOS_TB" ToRole="ANIMAL_TB" />
+          <NavigationProperty Name="APADRINAMIENTOS_TB" Relationship="Self.FK__APADRINAM__ID_ES__534D60F1" FromRole="ESTADOS_TB" ToRole="APADRINAMIENTOS_TB" />
+          <NavigationProperty Name="CONSULTAS" Relationship="Self.FK__CONSULTAS__ID_ES__4E88ABD4" FromRole="ESTADOS_TB" ToRole="CONSULTAS" />
+          <NavigationProperty Name="DIRECCIONES_TB" Relationship="Self.FK__DIRECCION__ID_ES__6FE99F9F" FromRole="ESTADOS_TB" ToRole="DIRECCIONES_TB" />
+          <NavigationProperty Name="ESPECIES_TB" Relationship="Self.FK__ESPECIES___ID_ES__412EB0B6" FromRole="ESTADOS_TB" ToRole="ESPECIES_TB" />
+          <NavigationProperty Name="METODO_PAGO_TB" Relationship="Self.FK__METODO_PA__ID_ES__59FA5E80" FromRole="ESTADOS_TB" ToRole="METODO_PAGO_TB" />
+          <NavigationProperty Name="RAZAS_TB" Relationship="Self.FK__RAZAS_TB__ID_EST__44FF419A" FromRole="ESTADOS_TB" ToRole="RAZAS_TB" />
+          <NavigationProperty Name="ROLES_TB" Relationship="Self.FK__ROLES_TB__ID_EST__398D8EEE" FromRole="ESTADOS_TB" ToRole="ROLES_TB" />
+          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_ES__5EBF139D" FromRole="ESTADOS_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
+          <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__USUARIOS___ID_ES__3D5E1FD2" FromRole="ESTADOS_TB" ToRole="USUARIOS_TB" />
+        </EntityType>
+        <EntityType Name="METODO_PAGO_TB">
+          <Key>
+            <PropertyRef Name="ID_METODO" />
+          </Key>
+          <Property Name="ID_METODO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="METODO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DONACIONES_TB" Relationship="Self.FK__DONACIONE__ID_ME__6383C8BA" FromRole="METODO_PAGO_TB" ToRole="DONACIONES_TB" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__METODO_PA__ID_ES__59FA5E80" FromRole="METODO_PAGO_TB" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_ME__5FB337D6" FromRole="METODO_PAGO_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
+        </EntityType>
+        <EntityType Name="PROVINCIAS_TB">
+          <Key>
+            <PropertyRef Name="ID_PROVINCIA" />
+          </Key>
+          <Property Name="ID_PROVINCIA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CANTONES_TB" Relationship="Self.FK__CANTONES___PROVI__68487DD7" FromRole="PROVINCIAS_TB" ToRole="CANTONES_TB" />
+        </EntityType>
+        <EntityType Name="RAZAS_TB">
+          <Key>
+            <PropertyRef Name="ID_RAZA" />
+          </Key>
+          <Property Name="ID_RAZA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ID_ESPECIE" Type="Int32" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ANIMAL_TB" Relationship="Self.FK__ANIMAL_TB__ID_RA__49C3F6B7" FromRole="RAZAS_TB" ToRole="ANIMAL_TB" />
+          <NavigationProperty Name="ESPECIES_TB" Relationship="Self.FK__RAZAS_TB__ID_ESP__440B1D61" FromRole="RAZAS_TB" ToRole="ESPECIES_TB" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__RAZAS_TB__ID_EST__44FF419A" FromRole="RAZAS_TB" ToRole="ESTADOS_TB" />
+        </EntityType>
+        <EntityType Name="ROLES_TB">
+          <Key>
+            <PropertyRef Name="ID_ROL" />
+          </Key>
+          <Property Name="ID_ROL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ROL" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__ROLES_TB__ID_EST__398D8EEE" FromRole="ROLES_TB" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__USUARIOS___ID_RO__3E52440B" FromRole="ROLES_TB" ToRole="USUARIOS_TB" />
+        </EntityType>
+        <EntityType Name="USUARIO_ACTIVIDAD_TB">
+          <Key>
+            <PropertyRef Name="ID_USUARIO_ACTIVIDAD" />
+          </Key>
+          <Property Name="ID_USUARIO_ACTIVIDAD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TICKETS_ADQUIRIDOS" Type="Int32" />
+          <Property Name="FECHA" Type="DateTime" Precision="3" />
+          <Property Name="TOTAL" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_ACTIVIDAD" Type="Int32" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <Property Name="ID_METODO_PAGO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ACTIVIDADES_TB" Relationship="Self.FK__USUARIO_A__ID_AC__5DCAEF64" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="ACTIVIDADES_TB" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__USUARIO_A__ID_ES__5EBF139D" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="METODO_PAGO_TB" Relationship="Self.FK__USUARIO_A__ID_ME__5FB337D6" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="METODO_PAGO_TB" />
+          <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__USUARIO_A__ID_US__5CD6CB2B" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="USUARIOS_TB" />
+        </EntityType>
+        <EntityType Name="USUARIOS_TB">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="APELLIDO1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="APELLIDO2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CORREO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <Property Name="PASSWORD" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ID_ROL" Type="Int32" Nullable="false" />
+          <Property Name="Identificacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="APADRINAMIENTOS_TB" Relationship="Self.FK__APADRINAM__ID_US__52593CB8" FromRole="USUARIOS_TB" ToRole="APADRINAMIENTOS_TB" />
+          <NavigationProperty Name="CONSULTAS" Relationship="Self.FK__CONSULTAS__ID_US__4F7CD00D" FromRole="USUARIOS_TB" ToRole="CONSULTAS" />
+          <NavigationProperty Name="DIRECCIONES_TB" Relationship="Self.FK__DIRECCION__ID_US__6EF57B66" FromRole="USUARIOS_TB" ToRole="DIRECCIONES_TB" />
+          <NavigationProperty Name="DONACIONES_TB" Relationship="Self.FK__DONACIONE__ID_US__628FA481" FromRole="USUARIOS_TB" ToRole="DONACIONES_TB" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__USUARIOS___ID_ES__3D5E1FD2" FromRole="USUARIOS_TB" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="ROLES_TB" Relationship="Self.FK__USUARIOS___ID_RO__3E52440B" FromRole="USUARIOS_TB" ToRole="ROLES_TB" />
+          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_US__5CD6CB2B" FromRole="USUARIOS_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
+        </EntityType>
+        <Association Name="FK__ACTIVIDAD__ID_ES__571DF1D5">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="ACTIVIDADES_TB" Type="Self.ACTIVIDADES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="ACTIVIDADES_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIO_A__ID_AC__5DCAEF64">
+          <End Role="ACTIVIDADES_TB" Type="Self.ACTIVIDADES_TB" Multiplicity="1" />
+          <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACTIVIDADES_TB">
+              <PropertyRef Name="ID_ACTIVIDAD" />
+            </Principal>
+            <Dependent Role="USUARIO_ACTIVIDAD_TB">
+              <PropertyRef Name="ID_ACTIVIDAD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ANIMAL_TB__ID_ES__4AB81AF0">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="ANIMAL_TB" Type="Self.ANIMAL_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="ANIMAL_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ANIMAL_TB__ID_RA__49C3F6B7">
+          <End Role="RAZAS_TB" Type="Self.RAZAS_TB" Multiplicity="1" />
+          <End Role="ANIMAL_TB" Type="Self.ANIMAL_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RAZAS_TB">
+              <PropertyRef Name="ID_RAZA" />
+            </Principal>
+            <Dependent Role="ANIMAL_TB">
+              <PropertyRef Name="ID_RAZA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ANIMAL_TB__ID_SA__4BAC3F29">
+          <End Role="ESTADOS_SALUD_TB" Type="Self.ESTADOS_SALUD_TB" Multiplicity="1" />
+          <End Role="ANIMAL_TB" Type="Self.ANIMAL_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_SALUD_TB">
+              <PropertyRef Name="ID_SALUD" />
+            </Principal>
+            <Dependent Role="ANIMAL_TB">
+              <PropertyRef Name="ID_SALUD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__APADRINAM__ID_AN__5441852A">
+          <End Role="ANIMAL_TB" Type="Self.ANIMAL_TB" Multiplicity="1" />
+          <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ANIMAL_TB">
+              <PropertyRef Name="ID_ANIMAL" />
+            </Principal>
+            <Dependent Role="APADRINAMIENTOS_TB">
+              <PropertyRef Name="ID_ANIMAL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__APADRINAM__ID_ES__534D60F1">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="APADRINAMIENTOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__APADRINAM__ID_US__52593CB8">
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
+          <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="APADRINAMIENTOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CANTONES___PROVI__68487DD7">
+          <End Role="PROVINCIAS_TB" Type="Self.PROVINCIAS_TB" Multiplicity="1" />
+          <End Role="CANTONES_TB" Type="Self.CANTONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVINCIAS_TB">
+              <PropertyRef Name="ID_PROVINCIA" />
+            </Principal>
+            <Dependent Role="CANTONES_TB">
+              <PropertyRef Name="PROVINCIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DISTRITOS__CANTO__6B24EA82">
+          <End Role="CANTONES_TB" Type="Self.CANTONES_TB" Multiplicity="1" />
+          <End Role="DISTRITOS_TB" Type="Self.DISTRITOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CANTONES_TB">
+              <PropertyRef Name="ID_CANTON" />
+            </Principal>
+            <Dependent Role="DISTRITOS_TB">
+              <PropertyRef Name="CANTON" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CONSULTAS__ID_ES__4E88ABD4">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="CONSULTAS" Type="Self.CONSULTAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="CONSULTAS">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CONSULTAS__ID_US__4F7CD00D">
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
+          <End Role="CONSULTAS" Type="Self.CONSULTAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="CONSULTAS">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DIRECCION__ID_DI__6E01572D">
+          <End Role="DISTRITOS_TB" Type="Self.DISTRITOS_TB" Multiplicity="1" />
+          <End Role="DIRECCIONES_TB" Type="Self.DIRECCIONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DISTRITOS_TB">
+              <PropertyRef Name="ID_DISTRITO" />
+            </Principal>
+            <Dependent Role="DIRECCIONES_TB">
+              <PropertyRef Name="ID_DISTRITO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DIRECCION__ID_ES__6FE99F9F">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="DIRECCIONES_TB" Type="Self.DIRECCIONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="DIRECCIONES_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DIRECCION__ID_US__6EF57B66">
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
+          <End Role="DIRECCIONES_TB" Type="Self.DIRECCIONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="DIRECCIONES_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DONACIONE__ID_ME__6383C8BA">
+          <End Role="METODO_PAGO_TB" Type="Self.METODO_PAGO_TB" Multiplicity="1" />
+          <End Role="DONACIONES_TB" Type="Self.DONACIONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="METODO_PAGO_TB">
+              <PropertyRef Name="ID_METODO" />
+            </Principal>
+            <Dependent Role="DONACIONES_TB">
+              <PropertyRef Name="ID_METODO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DONACIONE__ID_US__628FA481">
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
+          <End Role="DONACIONES_TB" Type="Self.DONACIONES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="DONACIONES_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ESPECIES___ID_ES__412EB0B6">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="ESPECIES_TB" Type="Self.ESPECIES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="ESPECIES_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RAZAS_TB__ID_ESP__440B1D61">
+          <End Role="ESPECIES_TB" Type="Self.ESPECIES_TB" Multiplicity="1" />
+          <End Role="RAZAS_TB" Type="Self.RAZAS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESPECIES_TB">
+              <PropertyRef Name="ID_ESPECIE" />
+            </Principal>
+            <Dependent Role="RAZAS_TB">
+              <PropertyRef Name="ID_ESPECIE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__METODO_PA__ID_ES__59FA5E80">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="METODO_PAGO_TB" Type="Self.METODO_PAGO_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="METODO_PAGO_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RAZAS_TB__ID_EST__44FF419A">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="RAZAS_TB" Type="Self.RAZAS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="RAZAS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ROLES_TB__ID_EST__398D8EEE">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="ROLES_TB" Type="Self.ROLES_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="ROLES_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIO_A__ID_ES__5EBF139D">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="USUARIO_ACTIVIDAD_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIOS___ID_ES__3D5E1FD2">
+          <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="USUARIOS_TB">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIO_A__ID_ME__5FB337D6">
+          <End Role="METODO_PAGO_TB" Type="Self.METODO_PAGO_TB" Multiplicity="1" />
+          <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="METODO_PAGO_TB">
+              <PropertyRef Name="ID_METODO" />
+            </Principal>
+            <Dependent Role="USUARIO_ACTIVIDAD_TB">
+              <PropertyRef Name="ID_METODO_PAGO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIOS___ID_RO__3E52440B">
+          <End Role="ROLES_TB" Type="Self.ROLES_TB" Multiplicity="1" />
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES_TB">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="USUARIOS_TB">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIO_A__ID_US__5CD6CB2B">
+          <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
+          <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="USUARIO_ACTIVIDAD_TB">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CASA_NATURAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ACTIVIDADES_TB" EntityType="Self.ACTIVIDADES_TB" />
+          <EntitySet Name="ANIMAL_TB" EntityType="Self.ANIMAL_TB" />
+          <EntitySet Name="APADRINAMIENTOS_TB" EntityType="Self.APADRINAMIENTOS_TB" />
+          <EntitySet Name="CANTONES_TB" EntityType="Self.CANTONES_TB" />
+          <EntitySet Name="CONSULTAS" EntityType="Self.CONSULTAS" />
+          <EntitySet Name="DIRECCIONES_TB" EntityType="Self.DIRECCIONES_TB" />
+          <EntitySet Name="DISTRITOS_TB" EntityType="Self.DISTRITOS_TB" />
+          <EntitySet Name="DONACIONES_TB" EntityType="Self.DONACIONES_TB" />
+          <EntitySet Name="ESPECIES_TB" EntityType="Self.ESPECIES_TB" />
+          <EntitySet Name="ESTADOS_SALUD_TB" EntityType="Self.ESTADOS_SALUD_TB" />
+          <EntitySet Name="ESTADOS_TB" EntityType="Self.ESTADOS_TB" />
+          <EntitySet Name="METODO_PAGO_TB" EntityType="Self.METODO_PAGO_TB" />
+          <EntitySet Name="PROVINCIAS_TB" EntityType="Self.PROVINCIAS_TB" />
+          <EntitySet Name="RAZAS_TB" EntityType="Self.RAZAS_TB" />
+          <EntitySet Name="ROLES_TB" EntityType="Self.ROLES_TB" />
+          <EntitySet Name="USUARIO_ACTIVIDAD_TB" EntityType="Self.USUARIO_ACTIVIDAD_TB" />
+          <EntitySet Name="USUARIOS_TB" EntityType="Self.USUARIOS_TB" />
+          <AssociationSet Name="FK__ACTIVIDAD__ID_ES__571DF1D5" Association="Self.FK__ACTIVIDAD__ID_ES__571DF1D5">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="ACTIVIDADES_TB" EntitySet="ACTIVIDADES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIO_A__ID_AC__5DCAEF64" Association="Self.FK__USUARIO_A__ID_AC__5DCAEF64">
+            <End Role="ACTIVIDADES_TB" EntitySet="ACTIVIDADES_TB" />
+            <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ANIMAL_TB__ID_ES__4AB81AF0" Association="Self.FK__ANIMAL_TB__ID_ES__4AB81AF0">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ANIMAL_TB__ID_RA__49C3F6B7" Association="Self.FK__ANIMAL_TB__ID_RA__49C3F6B7">
+            <End Role="RAZAS_TB" EntitySet="RAZAS_TB" />
+            <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ANIMAL_TB__ID_SA__4BAC3F29" Association="Self.FK__ANIMAL_TB__ID_SA__4BAC3F29">
+            <End Role="ESTADOS_SALUD_TB" EntitySet="ESTADOS_SALUD_TB" />
+            <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__APADRINAM__ID_AN__5441852A" Association="Self.FK__APADRINAM__ID_AN__5441852A">
+            <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
+            <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__APADRINAM__ID_ES__534D60F1" Association="Self.FK__APADRINAM__ID_ES__534D60F1">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__APADRINAM__ID_US__52593CB8" Association="Self.FK__APADRINAM__ID_US__52593CB8">
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+            <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CANTONES___PROVI__68487DD7" Association="Self.FK__CANTONES___PROVI__68487DD7">
+            <End Role="PROVINCIAS_TB" EntitySet="PROVINCIAS_TB" />
+            <End Role="CANTONES_TB" EntitySet="CANTONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DISTRITOS__CANTO__6B24EA82" Association="Self.FK__DISTRITOS__CANTO__6B24EA82">
+            <End Role="CANTONES_TB" EntitySet="CANTONES_TB" />
+            <End Role="DISTRITOS_TB" EntitySet="DISTRITOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CONSULTAS__ID_ES__4E88ABD4" Association="Self.FK__CONSULTAS__ID_ES__4E88ABD4">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="CONSULTAS" EntitySet="CONSULTAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CONSULTAS__ID_US__4F7CD00D" Association="Self.FK__CONSULTAS__ID_US__4F7CD00D">
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+            <End Role="CONSULTAS" EntitySet="CONSULTAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DIRECCION__ID_DI__6E01572D" Association="Self.FK__DIRECCION__ID_DI__6E01572D">
+            <End Role="DISTRITOS_TB" EntitySet="DISTRITOS_TB" />
+            <End Role="DIRECCIONES_TB" EntitySet="DIRECCIONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DIRECCION__ID_ES__6FE99F9F" Association="Self.FK__DIRECCION__ID_ES__6FE99F9F">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="DIRECCIONES_TB" EntitySet="DIRECCIONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DIRECCION__ID_US__6EF57B66" Association="Self.FK__DIRECCION__ID_US__6EF57B66">
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+            <End Role="DIRECCIONES_TB" EntitySet="DIRECCIONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DONACIONE__ID_ME__6383C8BA" Association="Self.FK__DONACIONE__ID_ME__6383C8BA">
+            <End Role="METODO_PAGO_TB" EntitySet="METODO_PAGO_TB" />
+            <End Role="DONACIONES_TB" EntitySet="DONACIONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DONACIONE__ID_US__628FA481" Association="Self.FK__DONACIONE__ID_US__628FA481">
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+            <End Role="DONACIONES_TB" EntitySet="DONACIONES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ESPECIES___ID_ES__412EB0B6" Association="Self.FK__ESPECIES___ID_ES__412EB0B6">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="ESPECIES_TB" EntitySet="ESPECIES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RAZAS_TB__ID_ESP__440B1D61" Association="Self.FK__RAZAS_TB__ID_ESP__440B1D61">
+            <End Role="ESPECIES_TB" EntitySet="ESPECIES_TB" />
+            <End Role="RAZAS_TB" EntitySet="RAZAS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__METODO_PA__ID_ES__59FA5E80" Association="Self.FK__METODO_PA__ID_ES__59FA5E80">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="METODO_PAGO_TB" EntitySet="METODO_PAGO_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RAZAS_TB__ID_EST__44FF419A" Association="Self.FK__RAZAS_TB__ID_EST__44FF419A">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="RAZAS_TB" EntitySet="RAZAS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ROLES_TB__ID_EST__398D8EEE" Association="Self.FK__ROLES_TB__ID_EST__398D8EEE">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="ROLES_TB" EntitySet="ROLES_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIO_A__ID_ES__5EBF139D" Association="Self.FK__USUARIO_A__ID_ES__5EBF139D">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIOS___ID_ES__3D5E1FD2" Association="Self.FK__USUARIOS___ID_ES__3D5E1FD2">
+            <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIO_A__ID_ME__5FB337D6" Association="Self.FK__USUARIO_A__ID_ME__5FB337D6">
+            <End Role="METODO_PAGO_TB" EntitySet="METODO_PAGO_TB" />
+            <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIOS___ID_RO__3E52440B" Association="Self.FK__USUARIOS___ID_RO__3E52440B">
+            <End Role="ROLES_TB" EntitySet="ROLES_TB" />
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIO_A__ID_US__5CD6CB2B" Association="Self.FK__USUARIO_A__ID_US__5CD6CB2B">
+            <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
+            <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
+          </AssociationSet>
+          <FunctionImport Name="LOGIN_SP" ReturnType="Collection(CASA_NATURAModel.LOGIN_SP_Result)">
+            <Parameter Name="CORREO" Mode="In" Type="String" />
+            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="REGISTRO_SP">
+            <Parameter Name="NOMBRE" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO1" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO2" Mode="In" Type="String" />
+            <Parameter Name="CORREO" Mode="In" Type="String" />
+            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
+            <Parameter Name="IDENTIFICACION" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="LOGIN_SP_Result">
+          <Property Type="Int32" Name="ID_USUARIO" Nullable="false" />
+          <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="APELLIDO2" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="APELLIDO1" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="IDENTIFICACION" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CORREO" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ID_ROL" Nullable="false" />
+          <Property Type="Int32" Name="ID_ESTADO" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CASA_NATURAModelStoreContainer" CdmEntityContainer="CASA_NATURAEntities">
+          <EntitySetMapping Name="ACTIVIDADES_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.ACTIVIDADES_TB">
+              <MappingFragment StoreEntitySet="ACTIVIDADES_TB">
+                <ScalarProperty Name="ID_ACTIVIDAD" ColumnName="ID_ACTIVIDAD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="PRECIO_BOLETO" ColumnName="PRECIO_BOLETO" />
+                <ScalarProperty Name="TICKETS_DISPONIBLES" ColumnName="TICKETS_DISPONIBLES" />
+                <ScalarProperty Name="TICKETS_VENDIDOS" ColumnName="TICKETS_VENDIDOS" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ANIMAL_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.ANIMAL_TB">
+              <MappingFragment StoreEntitySet="ANIMAL_TB">
+                <ScalarProperty Name="ID_ANIMAL" ColumnName="ID_ANIMAL" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ID_RAZA" ColumnName="ID_RAZA" />
+                <ScalarProperty Name="FECHA_INGRESO" ColumnName="FECHA_INGRESO" />
+                <ScalarProperty Name="FECHA_BAJA" ColumnName="FECHA_BAJA" />
+                <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="ID_SALUD" ColumnName="ID_SALUD" />
+                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
+                <ScalarProperty Name="HISTORIA" ColumnName="HISTORIA" />
+                <ScalarProperty Name="NECESIDAD" ColumnName="NECESIDAD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="APADRINAMIENTOS_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.APADRINAMIENTOS_TB">
+              <MappingFragment StoreEntitySet="APADRINAMIENTOS_TB">
+                <ScalarProperty Name="ID_APADRINAMIENTO" ColumnName="ID_APADRINAMIENTO" />
+                <ScalarProperty Name="MONTO_MENSUAL" ColumnName="MONTO_MENSUAL" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="FECHA_BAJA" ColumnName="FECHA_BAJA" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="ID_ANIMAL" ColumnName="ID_ANIMAL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CANTONES_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.CANTONES_TB">
+              <MappingFragment StoreEntitySet="CANTONES_TB">
+                <ScalarProperty Name="ID_CANTON" ColumnName="ID_CANTON" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="PROVINCIA" ColumnName="PROVINCIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CONSULTAS">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.CONSULTAS">
+              <MappingFragment StoreEntitySet="CONSULTAS">
+                <ScalarProperty Name="ID_CONSULTA" ColumnName="ID_CONSULTA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="MENSAJE" ColumnName="MENSAJE" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DIRECCIONES_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.DIRECCIONES_TB">
+              <MappingFragment StoreEntitySet="DIRECCIONES_TB">
+                <ScalarProperty Name="ID_DIRECCION" ColumnName="ID_DIRECCION" />
+                <ScalarProperty Name="ID_DISTRITO" ColumnName="ID_DISTRITO" />
+                <ScalarProperty Name="DIRECCION_EXACTA" ColumnName="DIRECCION_EXACTA" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DISTRITOS_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.DISTRITOS_TB">
+              <MappingFragment StoreEntitySet="DISTRITOS_TB">
+                <ScalarProperty Name="ID_DISTRITO" ColumnName="ID_DISTRITO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CANTON" ColumnName="CANTON" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DONACIONES_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.DONACIONES_TB">
+              <MappingFragment StoreEntitySet="DONACIONES_TB">
+                <ScalarProperty Name="ID_DONACION" ColumnName="ID_DONACION" />
+                <ScalarProperty Name="MONTO" ColumnName="MONTO" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_METODO" ColumnName="ID_METODO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESPECIES_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.ESPECIES_TB">
+              <MappingFragment StoreEntitySet="ESPECIES_TB">
+                <ScalarProperty Name="ID_ESPECIE" ColumnName="ID_ESPECIE" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESTADOS_SALUD_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.ESTADOS_SALUD_TB">
+              <MappingFragment StoreEntitySet="ESTADOS_SALUD_TB">
+                <ScalarProperty Name="ID_SALUD" ColumnName="ID_SALUD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESTADOS_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.ESTADOS_TB">
+              <MappingFragment StoreEntitySet="ESTADOS_TB">
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="METODO_PAGO_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.METODO_PAGO_TB">
+              <MappingFragment StoreEntitySet="METODO_PAGO_TB">
+                <ScalarProperty Name="ID_METODO" ColumnName="ID_METODO" />
+                <ScalarProperty Name="METODO" ColumnName="METODO" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROVINCIAS_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.PROVINCIAS_TB">
+              <MappingFragment StoreEntitySet="PROVINCIAS_TB">
+                <ScalarProperty Name="ID_PROVINCIA" ColumnName="ID_PROVINCIA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RAZAS_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.RAZAS_TB">
+              <MappingFragment StoreEntitySet="RAZAS_TB">
+                <ScalarProperty Name="ID_RAZA" ColumnName="ID_RAZA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ID_ESPECIE" ColumnName="ID_ESPECIE" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROLES_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.ROLES_TB">
+              <MappingFragment StoreEntitySet="ROLES_TB">
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="ROL" ColumnName="ROL" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIO_ACTIVIDAD_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.USUARIO_ACTIVIDAD_TB">
+              <MappingFragment StoreEntitySet="USUARIO_ACTIVIDAD_TB">
+                <ScalarProperty Name="ID_USUARIO_ACTIVIDAD" ColumnName="ID_USUARIO_ACTIVIDAD" />
+                <ScalarProperty Name="TICKETS_ADQUIRIDOS" ColumnName="TICKETS_ADQUIRIDOS" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_ACTIVIDAD" ColumnName="ID_ACTIVIDAD" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="ID_METODO_PAGO" ColumnName="ID_METODO_PAGO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIOS_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.USUARIOS_TB">
+              <MappingFragment StoreEntitySet="USUARIOS_TB">
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />
+                <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="LOGIN_SP" FunctionName="CASA_NATURAModel.Store.LOGIN_SP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CASA_NATURAModel.LOGIN_SP_Result">
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
+                <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />
+                <ScalarProperty Name="IDENTIFICACION" ColumnName="IDENTIFICACION" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="REGISTRO_SP" FunctionName="CASA_NATURAModel.Store.REGISTRO_SP" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,60 @@
+Alter table USUARIOS_TB ADD Identificacion VARCHAR(20) NOT NULL
+
+INSERT INTO ROLES_TB VALUES ('Administrador', 1)
+
+INSERT INTO USUARIOS_TB (NOMBRE, APELLIDO1, APELLIDO2, CORREO, ID_ESTADO, PASSWORD, ID_ROL, IDENTIFICACION) VALUES
+('Ariana', 'Fallas', 'Calderon', 'arianafallas1@gmail.com', 1, 'arianaa', 1, '118810955')
+
+
+CREATE PROCEDURE REGISTRO_SP 
+    @NOMBRE VARCHAR(100), 
+    @APELLIDO1 VARCHAR(100), 
+    @APELLIDO2 VARCHAR(100), 
+    @CORREO VARCHAR(100), 
+    @CONTRASENNA VARCHAR(100), 
+    @IDENTIFICACION VARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF EXISTS (SELECT 1 FROM USUARIOS_TB WHERE CORREO = @CORREO)
+    BEGIN
+        RAISERROR('El correo ya está registrado.', 16, 1);
+        RETURN;
+    END
+
+    -- Insertar el usuario con contraseña encriptada (hash)
+    INSERT INTO USUARIOS_TB (NOMBRE, APELLIDO1, APELLIDO2, CORREO, PASSWORD, IDENTIFICACION)
+    VALUES (
+        @NOMBRE, 
+        @APELLIDO1, 
+        @APELLIDO2, 
+        @CORREO, 
+        CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', @CONTRASENNA), 2), --AQUI ESTAMOS HASHEANDO LA CONTRASENNA
+        @IDENTIFICACION 
+    );
+END;
+
+CREATE PROCEDURE LOGIN_SP
+    @CORREO VARCHAR(100),
+    @CONTRASENNA VARCHAR(100),
+    @RESULTADO BIT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Verificar si el usuario existe con el correo y la contraseña hash coincidente
+    IF EXISTS (
+        SELECT 1 FROM USUARIOS_TB
+        WHERE CORREO = @CORREO
+        AND PASSWORD = CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', @CONTRASENNA), 2)
+    )
+    BEGIN
+        SET @RESULTADO = 1 -- Login correcto
+    END
+    ELSE
+    BEGIN
+        SET @RESULTADO = 0 -- Login fallido
+    END
+END;
+

@@ -48,6 +48,8 @@ main {
 .navbar {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     background-color: #fff;
+    position: relative;
+    z-index: 1 !important;
 }
 .navbar-nav {
     flex-direction: row;
@@ -70,6 +72,10 @@ main {
 
 .navbar-nav .nav-item.active .nav-link {
     color: #FBBC05;
+}
+.dropdown-menu {
+    position: absolute !important;
+    z-index: 1000; /* Más que el navbar */
 }
 
 /* --- BUTTON --- */
@@ -133,8 +139,7 @@ main {
 }
 
 /* --- FORMS --- */
-
-input, select, textarea {
+ select, textarea {
     max-width: 280px;
 }
 
@@ -959,4 +964,11 @@ img {
     .fw-bold {
         font-weight: 600;
     }
+}
+
+
+.inputLogin {
+
+  width: 100% !important;
+  box-sizing: border-box; /* Importante para que padding y border no excedan el 100% */
 }

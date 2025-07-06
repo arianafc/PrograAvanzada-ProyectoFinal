@@ -11,8 +11,12 @@
     <link href="~/Content/Site.css" rel="stylesheet" />
     <link href="~/Content/navbar.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
 </head>
+
 <body>
+
+
     <nav class="navbar">
         <div class="container">
             <div class="navbar-brand fw-bold ps-3">
@@ -21,19 +25,49 @@
                     <span style="margin-left: 10px;">CASA<span class="highlight">NATURA</span></span>
                 </a>
             </div>
-            <ul class="nav-links navbar-nav ">
+            <ul class="nav-links navbar-nav">
                 <i class="hide-toggle gg-close"></i>
+
                 @Html.ActionLink("HOME", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("DONACIONES", "Donaciones", "Home", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("APADRINAR", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("TOURS", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("EVENTOS", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("CONTACTO", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
-                @Html.ActionLink("ADMIN DASHBOARD", "dashboard", "Home", new { area = "" }, new { @class = "nav-link" })
-                <a class="nav-link user-icon-link" href="@Url.Action("Login", "Home")">
-                    <i class="fa fa-user"></i>
-                </a>
+
+                @if (Session["Nombre"] != null)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="ms-2">Hola, @Session["Nombre"]</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("ConsultarPerfilUsuario", "Usuario")">
+                                    <i class="ti-settings me-2"></i> Mi Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("CerrarSesion", "Home")">
+                                    <i class="fa fa-sign-out-alt me-2"></i> Salir
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link user-icon-link" href="@Url.Action("IniciarSesion", "Home")">
+                            <i class="fa fa-user"></i>
+                        </a>
+                    </li>
+                }
             </ul>
+
             <div class="menu-toggle">
                 <i class="d-sm-block d-sm-none gg-menu-right"></i>
             </div>
@@ -103,9 +137,9 @@
                         <a class="footer-call-to-action-button button" href="#" target="_self"> Contactar </a>
                     </div>
                     @*<div class="footer-call-to-action">
-                        <h2 class="footer-call-to-action-title"> Llámanos</h2>
-                        <p class="footer-call-to-action-link-wrapper"> <a class="footer-call-to-action-link" href="tel:0124-64XXXX" target="_self"> +506 73892722</a></p>
-                    </div>*@
+                            <h2 class="footer-call-to-action-title"> Llámanos</h2>
+                            <p class="footer-call-to-action-link-wrapper"> <a class="footer-call-to-action-link" href="tel:0124-64XXXX" target="_self"> +506 73892722</a></p>
+                        </div>*@
                 </div>
                 <div class="footer-social-links">
                     <svg class="footer-social-amoeba-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 236 54">
@@ -147,10 +181,11 @@
             </div>
         </footer>
     </div>
-    <script src="~/Scripts/script.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
- 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/Scripts/CasaNatura.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

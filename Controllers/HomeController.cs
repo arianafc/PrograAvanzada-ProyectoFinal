@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ProyectoFinal.EF;
+using ProyectoFinal.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,20 +15,6 @@ namespace ProyectoFinal.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
         public ActionResult dashboard()
         {
             ViewBag.Message = "Your contact page.";
@@ -34,19 +22,89 @@ namespace ProyectoFinal.Controllers
             return View();
         }
 
-        public ActionResult Login()
+        [HttpGet]
+        public ActionResult IniciarSesion()
         {
-            ViewBag.Message = "Your contact page.";
 
             return View();
         }
 
-        public ActionResult Signup()
+
+        [HttpPost]
+
+        public ActionResult IniciarSesion(Usuario usuario)
         {
-            ViewBag.Message = "Your contact page.";
+            using (var dbContext = new CASA_NATURAEntities())
+            {
+                
+                var result = dbContext.LOGIN_SP(usuario.Correo, usuario.Contrasenna).FirstOrDefault();
+
+                if (result != null)
+                {
+                    Session["Nombre"] = result.NOMBRE;
+                    Session["Apellido1"] = result.APELLIDO1;
+                    Session["Cedula"] = result.IDENTIFICACION;
+                    Session["idUsuario"] = result.ID_USUARIO;
+
+                    if (result.ID_ROL == 1)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return RedirectToAction("dashboard", "Home");
+                    }
+                }
+
+                TempData["SwalError"] = "Lo sentimos. Usuario o contraseña incorrectos";
+                return View();
+            }
+
+        }
+
+        [HttpGet]
+        public ActionResult Registro()
+        {
+            
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Registro(Usuario usuario)
+        {
+            using (var dbContext = new CASA_NATURAEntities())
+            {
+                try
+                {
+                    var result = dbContext.REGISTRO_SP(
+                        usuario.Nombre,
+                        usuario.Apellido1,
+                        usuario.Apellido2,
+                        usuario.Correo,
+                        usuario.Contrasenna,
+                        usuario.Identificacion
+                    );
+
+                    if (result == -1)
+                    {
+                        TempData["SwalError"] = "Lo sentimos. No se pudo registrar su información.";
+                        return RedirectToAction("Registro");
+
+                    }
+
+                    TempData["SwalSuccess"] = "Usuario registrado con éxito";
+                    return RedirectToAction("IniciarSesion", "Home");
+                }
+                catch (Exception ex)
+                {
+                
+                    TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
+                    return RedirectToAction("Registro");
+                }
+            }
+        }
+
 
         public ActionResult Donaciones()
         {
@@ -62,5 +120,13 @@ namespace ProyectoFinal.Controllers
             return View();
         }
 
+
+
+        [HttpGet]
+        public ActionResult CerrarSesion()
+        {
+            Session.Clear();
+            return RedirectToAction("IniciarSesion", "Home");
+        }
     }
 }

@@ -1,0 +1,52 @@
+﻿@model ProyectoFinal.Models.Usuario
+
+@{
+    ViewBag.Title = "Inicio de Sesión";
+}
+<main class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-5">
+            <div id="login-form" class="bg-light p-4 rounded shadow mx-auto">
+                <h2 class="fw-bold text-center mb-4">INICIAR SESIÓN</h2>
+                @using (Html.BeginForm("IniciarSesion", "Home", FormMethod.Post, new { @class = "form-horizontal m-t-20" }))
+                {
+                    
+                        if (TempData["SwalSuccess"] != null)
+                        {
+                            <input type="hidden" id="swal-success" value="@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalSuccess"].ToString()))" />
+                        }
+
+                        if (TempData["SwalError"] != null)
+                        {
+                            <input type="hidden" id="swal-error" value="@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalError"].ToString()))" />
+                        }
+                    
+
+                    <div class="mb-3">
+
+                        @Html.TextBoxFor(x => x.Correo, new { @type = "email", @class = "form-control form-control-lg inputLogin", @placeholder = "Correo Electrónico" })
+                    </div>
+
+                    <div class="mb-3">
+
+                        @Html.TextBoxFor(x => x.Contrasenna, new { @type = "password", @class = "justify-content-center form-control form-control-lg w-100", @placeholder = "Contraseña" })
+                    </div>
+
+                    <div class="mb-3 text-end">
+                        <a href="#" class="text-muted small">¿Olvidaste tu contraseña?</a>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning fw-bold text-dark">INICIAR SESIÓN</button>
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        @Html.ActionLink("¿No tienes cuenta? Regístrate aquí", "Registro", "Home", new { area = "" }, new { @class = "nav-link" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</main>
+
