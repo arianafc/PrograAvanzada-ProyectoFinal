@@ -500,11 +500,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="LOGIN_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="LoginSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CORREO" Type="varchar" Mode="In" />
           <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="REGISTRO_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="RecuperarAccesoSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
+          <Parameter Name="CORREO" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="RegistroSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="NOMBRE" Type="varchar" Mode="In" />
           <Parameter Name="APELLIDO1" Type="varchar" Mode="In" />
           <Parameter Name="APELLIDO2" Type="varchar" Mode="In" />
@@ -1319,11 +1323,15 @@
             <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
             <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
           </AssociationSet>
-          <FunctionImport Name="LOGIN_SP" ReturnType="Collection(CASA_NATURAModel.LOGIN_SP_Result)">
+          <FunctionImport Name="LoginSP" ReturnType="Collection(CASA_NATURAModel.LoginSP_Result)">
             <Parameter Name="CORREO" Mode="In" Type="String" />
             <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="REGISTRO_SP">
+          <FunctionImport Name="RecuperarAccesoSP">
+            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
+            <Parameter Name="CORREO" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RegistroSP">
             <Parameter Name="NOMBRE" Mode="In" Type="String" />
             <Parameter Name="APELLIDO1" Mode="In" Type="String" />
             <Parameter Name="APELLIDO2" Mode="In" Type="String" />
@@ -1332,7 +1340,7 @@
             <Parameter Name="IDENTIFICACION" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="LOGIN_SP_Result">
+        <ComplexType Name="LoginSP_Result">
           <Property Type="Int32" Name="ID_USUARIO" Nullable="false" />
           <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="APELLIDO2" Nullable="false" MaxLength="50" />
@@ -1536,9 +1544,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="LOGIN_SP" FunctionName="CASA_NATURAModel.Store.LOGIN_SP">
+          <FunctionImportMapping FunctionImportName="LoginSP" FunctionName="CASA_NATURAModel.Store.LoginSP">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="CASA_NATURAModel.LOGIN_SP_Result">
+              <ComplexTypeMapping TypeName="CASA_NATURAModel.LoginSP_Result">
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
                 <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
@@ -1550,7 +1558,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="REGISTRO_SP" FunctionName="CASA_NATURAModel.Store.REGISTRO_SP" />
+          <FunctionImportMapping FunctionImportName="RecuperarAccesoSP" FunctionName="CASA_NATURAModel.Store.RecuperarAccesoSP" />
+          <FunctionImportMapping FunctionImportName="RegistroSP" FunctionName="CASA_NATURAModel.Store.RegistroSP" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

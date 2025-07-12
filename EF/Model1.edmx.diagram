@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f47a21ce516343e293c619d9c6239317" Name="Diagram1">
+      <Diagram DiagramId="4e1926f4aaf347fcb2147b50c68fa24c" Name="Diagram1">
         <EntityTypeShape EntityType="CASA_NATURAModel.ACTIVIDADES_TB" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CASA_NATURAModel.ANIMAL_TB" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CASA_NATURAModel.APADRINAMIENTOS_TB" Width="1.5" PointX="10.5" PointY="18.625" IsExpanded="true" />

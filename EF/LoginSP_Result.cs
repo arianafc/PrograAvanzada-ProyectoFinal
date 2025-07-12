@@ -11,7 +11,7 @@ namespace ProyectoFinal.EF
 {
     using System;
     
-    public partial class LOGIN_SP_Result
+    public partial class LoginSP_Result
     {
         public int ID_USUARIO { get; set; }
         public string NOMBRE { get; set; }

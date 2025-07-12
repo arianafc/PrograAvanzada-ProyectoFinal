@@ -1,8 +1,10 @@
 ﻿using ProyectoFinal.EF;
 using ProyectoFinal.Models;
+using ProyectoFinal.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -10,6 +12,8 @@ namespace ProyectoFinal.Controllers
 {
     public class HomeController : Controller
     {
+
+        Utilitarios service = new Utilitarios();
         public ActionResult Index()
         {
             return View();
@@ -37,7 +41,7 @@ namespace ProyectoFinal.Controllers
             using (var dbContext = new CASA_NATURAEntities())
             {
                 
-                var result = dbContext.LOGIN_SP(usuario.Correo, usuario.Contrasenna).FirstOrDefault();
+                var result = dbContext.LoginSP(usuario.Correo, usuario.Contrasenna).FirstOrDefault();
 
                 if (result != null)
                 {
@@ -77,7 +81,7 @@ namespace ProyectoFinal.Controllers
             {
                 try
                 {
-                    var result = dbContext.REGISTRO_SP(
+                    var result = dbContext.RegistroSP(
                         usuario.Nombre,
                         usuario.Apellido1,
                         usuario.Apellido2,
@@ -127,6 +131,55 @@ namespace ProyectoFinal.Controllers
         {
             Session.Clear();
             return RedirectToAction("IniciarSesion", "Home");
+        }
+
+
+        [HttpGet]
+
+        public ActionResult RecuperarAcceso()
+        {
+            return View();
+        }
+
+        [HttpPost]
+
+        public ActionResult RecuperarAcceso(Usuario user)
+        {
+            using (var dbContext = new CASA_NATURAEntities())
+            {
+
+                var result = dbContext.USUARIOS_TB.FirstOrDefault(u => u.CORREO == user.Correo
+                                                            && u.Identificacion == user.Identificacion);
+
+                if (result != null)
+                {
+                    var Contrasenna = service.GenerarPassword();
+
+                    result.PASSWORD = Contrasenna; //actualizamos la contra para poder validarla
+                    dbContext.RecuperarAccesoSP(Contrasenna, user.Correo);
+
+
+                    StringBuilder mensaje = new StringBuilder();
+
+
+                    mensaje.Append("<p>Estimado <strong>" + result.NOMBRE + "</strong>,</p>");
+                    mensaje.Append("<p>Se ha generado una solicitud de recuperación de contraseña a su nombre.</p>");
+                    mensaje.Append("<p><strong>Su contraseña temporal es:</strong> <span style='color: #d9534f;'><b>" + Contrasenna + "</b></span></p>");
+                    mensaje.Append("<p>Le recomendamos cambiar su contraseña tan pronto como ingrese al sistema.</p>");
+                    mensaje.Append("<p>Muchas gracias,<br/>El equipo de soporte</p>");
+
+
+                    if (service.EnviarCorreo(result.CORREO, mensaje.ToString(), "Solicitud de acceso"))
+                        return RedirectToAction("Index", "Home");
+
+                    ViewBag.Mensaje = "No se pudo realizar la notificación de su acceso al sistema";
+                    return View();
+                }
+
+                ViewBag.Mensaje = "No se pudo recuperar su contraseña"; 
+                return View(); 
+
+            }
         }
     }
 }

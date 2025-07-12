@@ -18,31 +18,31 @@
                     }
                     <div class="mb-3">
 
-                        @Html.TextBoxFor(x => x.Identificacion, new { @type = "text", @class = "form-control form-control-lg inputLogin", @placeholder = "Identificación", @id = "cedula" })
+                        @Html.TextBoxFor(x => x.Identificacion, new { @type = "text", @class = "form-control form-control-lg InputLogin", @placeholder = "Identificación", @id = "cedula" })
                     </div>
                     <div class="mb-3">
 
-                        @Html.TextBoxFor(x => x.Nombre, new { @type = "text", @class = "form-control form-control-lg inputLogin", @placeholder = "Nombre", @id = "nombre" })
+                        @Html.TextBoxFor(x => x.Nombre, new { @type = "text", @class = "form-control form-control-lg InputLogin SoloVista", @placeholder = "Nombre", @id = "nombre", @readonly = "readonly" })
                     </div>
                     <div class="mb-3">
 
-                        @Html.TextBoxFor(x => x.Apellido1, new { @type = "text", @class = "form-control form-control-lg inputLogin", @placeholder = "Primer Apellido", @id = "apellido1" })
+                        @Html.TextBoxFor(x => x.Apellido1, new { @type = "text", @class = "form-control form-control-lg InputLogin SoloVista", @placeholder = "Primer Apellido", @id = "apellido1" })
                     </div>
                     <div class="mb-3">
 
-                        @Html.TextBoxFor(x => x.Apellido2, new { @type = "text", @class = "form-control form-control-lg inputLogin", @placeholder = "Segundo Apellido", @id = "apellido2" })
+                        @Html.TextBoxFor(x => x.Apellido2, new { @type = "text", @class = "form-control form-control-lg InputLogin SoloVista", @placeholder = "Segundo Apellido", @id = "apellido2" })
                     </div>
                     <div class="mb-3">
 
-                        @Html.TextBoxFor(x => x.Correo, new { @type = "email", @class = "form-control form-control-lg inputLogin", @placeholder = "Correo Electrónico", @id = "correo" })
+                        @Html.TextBoxFor(x => x.Correo, new { @type = "email", @class = "form-control form-control-lg InputLogin", @placeholder = "Correo Electrónico", @id = "correo" })
                     </div>
                     <div class="mb-3">
 
-                        @Html.TextBoxFor(x => x.Contrasenna, new { @type = "password", @class = "form-control form-control-lg inputLogin", @placeholder = "Contraseña", @id = "contrasenna" })
+                        @Html.TextBoxFor(x => x.Contrasenna, new { @type = "password", @class = "form-control form-control-lg InputLogin", @placeholder = "Contraseña", @id = "contrasenna" })
                     </div>
                     <div class="mb-3">
 
-                        @Html.TextBoxFor(x => x.Contrasenna, new { @type = "password", @class = "form-control form-control-lg inputLogin", @placeholder = "Confirmar Contraseña", @id = "confirmarContrasenna" })
+                        @Html.TextBoxFor(x => x.Contrasenna, new { @type = "password", @class = "form-control form-control-lg InputLogin", @placeholder = "Confirmar Contraseña", @id = "confirmarContrasenna" })
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-warning fw-bold text-dark">REGISTRARSE</button>

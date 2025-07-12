@@ -967,8 +967,13 @@ img {
 }
 
 
-.inputLogin {
+.InputLogin {
 
   width: 100% !important;
   box-sizing: border-box; /* Importante para que padding y border no excedan el 100% */
+}
+
+
+.SoloVista {
+    background-color: whitesmoke !important;
 }
