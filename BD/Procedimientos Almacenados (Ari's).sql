@@ -1,0 +1,94 @@
+USE [CASA_NATURA]
+GO
+
+/****** Object:  StoredProcedure [dbo].[LoginSP]    Script Date: 7/12/2025 8:41:07 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[LoginSP]
+    @CORREO VARCHAR(100),
+    @CONTRASENNA VARCHAR(100)
+AS
+BEGIN
+
+    SELECT 
+        ID_USUARIO,
+        NOMBRE,
+        APELLIDO2,
+        APELLIDO1,
+        IDENTIFICACION,
+        CORREO,
+        ID_ROL, 
+        ID_ESTADO
+    FROM dbo.USUARIOS_TB
+    WHERE CORREO = @CORREO
+    AND PASSWORD = CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', @CONTRASENNA), 2);
+END;
+GO
+
+
+USE [CASA_NATURA]
+GO
+
+/****** Object:  StoredProcedure [dbo].[RecuperarAccesoSP]    Script Date: 7/12/2025 8:41:38 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[RecuperarAccesoSP] 
+    @CONTRASENNA VARCHAR(100), 
+    @CORREO VARCHAR(255)
+AS
+BEGIN
+    -- Actualizar el campo PASSWORD usando HASHBYTES con SHA2_256
+    UPDATE USUARIOS_TB 
+    SET PASSWORD = CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', @CONTRASENNA), 2)
+    WHERE CORREO = @CORREO;
+END
+GO
+
+USE [CASA_NATURA]
+GO
+
+/****** Object:  StoredProcedure [dbo].[RegistroSP]    Script Date: 7/12/2025 8:41:58 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[RegistroSP] 
+    @NOMBRE VARCHAR(100), 
+    @APELLIDO1 VARCHAR(100), 
+    @APELLIDO2 VARCHAR(100), 
+    @CORREO VARCHAR(100), 
+    @CONTRASENNA VARCHAR(100), 
+    @IDENTIFICACION VARCHAR(20)
+AS
+BEGIN
+
+    IF EXISTS (SELECT 1 FROM USUARIOS_TB WHERE CORREO = @CORREO)
+    BEGIN
+        RAISERROR('El correo ya está registrado.', 16, 1);
+        RETURN;
+    END
+
+    -- Insertar el usuario con contraseña encriptada (hash)
+    INSERT INTO dbo.USUARIOS_TB (NOMBRE, APELLIDO1, APELLIDO2, CORREO, PASSWORD, IDENTIFICACION, ID_ESTADO, ID_ROL)
+    VALUES (
+        @NOMBRE, 
+        @APELLIDO1, 
+        @APELLIDO2, 
+        @CORREO, 
+        CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', @CONTRASENNA), 2), --AQUI ESTAMOS HASHEANDO LA CONTRASENNA
+        @IDENTIFICACION, 1,1
+    );
+END;
+GO
+
