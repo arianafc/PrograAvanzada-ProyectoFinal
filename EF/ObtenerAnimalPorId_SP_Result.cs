@@ -10,20 +10,19 @@
 namespace ProyectoFinal.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class APADRINAMIENTOS_TB
+    public partial class ObtenerAnimalPorId_SP_Result
     {
-        public int ID_APADRINAMIENTO { get; set; }
-        public decimal MONTO_MENSUAL { get; set; }
-        public System.DateTime FECHA { get; set; }
-        public System.DateTime FECHA_BAJA { get; set; }
-        public int ID_USUARIO { get; set; }
-        public int ID_ESTADO { get; set; }
         public int ID_ANIMAL { get; set; }
-    
-        public virtual ANIMAL_TB ANIMAL_TB { get; set; }
-        public virtual ESTADOS_TB ESTADOS_TB { get; set; }
-        public virtual USUARIOS_TB USUARIOS_TB { get; set; }
+        public string NOMBRE { get; set; }
+        public int ID_RAZA { get; set; }
+        public System.DateTime FECHA_INGRESO { get; set; }
+        public Nullable<System.DateTime> FECHA_BAJA { get; set; }
+        public System.DateTime FECHA_NACIMIENTO { get; set; }
+        public int ID_ESTADO { get; set; }
+        public int ID_SALUD { get; set; }
+        public string IMAGEN { get; set; }
+        public string HISTORIA { get; set; }
+        public string NECESIDAD { get; set; }
     }
 }

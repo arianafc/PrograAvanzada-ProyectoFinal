@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ProyectoFinal.EF.ObtenerAnimalesActivos_SP_Result>
+@{
+    ViewBag.Title = "ConsultarAnimales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1 class="animales-apadrinar-title">Animales Disponibles para Apadrinar</h1>
+    <p class="animales-apadrinar-subtitle">Apadrinar un animal es una forma maravillosa de apoyar a los seres más vulnerables, ayudándolos a obtener cuidado, alimentación y atención médica que necesitan.</p>
+    <h3 class="animales-apadrinar-list-title">Lista de Animales Disponibles</h3>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Error
+        </div>
+    }
+
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var animal in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <!-- Imagen del animal -->
+                        <img src="@(string.IsNullOrEmpty(animal.IMAGEN) ? "/images/default-animal.jpg" : animal.IMAGEN)"
+                             class="card-img-top"
+                             alt="@animal.NOMBRE"
+                             style="height: 200px; object-fit: cover;">
+
+                        <div class="card-body">
+                            <h5 class="card-title">@animal.NOMBRE</h5>
+
+                            <!-- Información básica -->
+                            @if (animal.FECHA_INGRESO != default(DateTime))
+                            {
+                                <p><strong>En refugio desde:</strong> @animal.FECHA_INGRESO.ToString("dd/MM/yyyy")</p>
+                            }
+
+                            @if (animal.FECHA_NACIMIENTO != default(DateTime))
+                            {
+                                <p><strong>Fecha de nacimiento:</strong> @animal.FECHA_NACIMIENTO.ToString("dd/MM/yyyy")</p>
+                            }
+
+                            @if (!string.IsNullOrEmpty(animal.NECESIDAD))
+                            {
+                                <p>
+                                    <strong>Necesidades:</strong>
+                                    @(animal.NECESIDAD.Length > 50 ? animal.NECESIDAD.Substring(0, 50) + "..." : animal.NECESIDAD)
+                                </p>
+                            }
+
+                            <!-- Botones -->
+                            <div class="d-grid gap-2">
+                                @Html.ActionLink("Ver Detalles", "DetalleAnimal", new { id = animal.ID_ANIMAL }, new { @class = "btn btn-primary" })
+                                @Html.ActionLink("Apadrinar", "ApadrinarAnimal", new { id = animal.ID_ANIMAL }, new { @class = "btn btn-success" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h4>No hay animales disponibles</h4>
+                    <p>En este momento no hay animales disponibles para apadrinamiento.</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
