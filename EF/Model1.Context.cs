@@ -45,7 +45,7 @@ namespace ProyectoFinal.EF
         public virtual DbSet<USUARIO_ACTIVIDAD_TB> USUARIO_ACTIVIDAD_TB { get; set; }
         public virtual DbSet<USUARIOS_TB> USUARIOS_TB { get; set; }
     
-        public virtual ObjectResult<LoginSP_Result> LoginSP(string cORREO, string cONTRASENNA)
+        public virtual ObjectResult<LOGIN_SP_Result> LOGIN_SP(string cORREO, string cONTRASENNA)
         {
             var cORREOParameter = cORREO != null ?
                 new ObjectParameter("CORREO", cORREO) :
@@ -55,25 +55,9 @@ namespace ProyectoFinal.EF
                 new ObjectParameter("CONTRASENNA", cONTRASENNA) :
                 new ObjectParameter("CONTRASENNA", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginSP_Result>("LoginSP", cORREOParameter, cONTRASENNAParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LOGIN_SP_Result>("LOGIN_SP", cORREOParameter, cONTRASENNAParameter);
         }
     
-<<<<<<< Updated upstream
-        public virtual int RecuperarAccesoSP(string cONTRASENNA, string cORREO)
-        {
-            var cONTRASENNAParameter = cONTRASENNA != null ?
-                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
-                new ObjectParameter("CONTRASENNA", typeof(string));
-    
-            var cORREOParameter = cORREO != null ?
-                new ObjectParameter("CORREO", cORREO) :
-                new ObjectParameter("CORREO", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RecuperarAccesoSP", cONTRASENNAParameter, cORREOParameter);
-        }
-    
-        public virtual int RegistroSP(string nOMBRE, string aPELLIDO1, string aPELLIDO2, string cORREO, string cONTRASENNA, string iDENTIFICACION)
-=======
         public virtual ObjectResult<ObtenerAnimalesActivos_SP_Result> ObtenerAnimalesActivos_SP()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerAnimalesActivos_SP_Result>("ObtenerAnimalesActivos_SP");
@@ -89,7 +73,61 @@ namespace ProyectoFinal.EF
         }
     
         public virtual int REGISTRO_SP(string nOMBRE, string aPELLIDO1, string aPELLIDO2, string cORREO, string cONTRASENNA, string iDENTIFICACION)
->>>>>>> Stashed changes
+        {
+            var nOMBREParameter = nOMBRE != null ?
+                new ObjectParameter("NOMBRE", nOMBRE) :
+                new ObjectParameter("NOMBRE", typeof(string));
+    
+            var aPELLIDO1Parameter = aPELLIDO1 != null ?
+                new ObjectParameter("APELLIDO1", aPELLIDO1) :
+                new ObjectParameter("APELLIDO1", typeof(string));
+    
+            var aPELLIDO2Parameter = aPELLIDO2 != null ?
+                new ObjectParameter("APELLIDO2", aPELLIDO2) :
+                new ObjectParameter("APELLIDO2", typeof(string));
+    
+            var cORREOParameter = cORREO != null ?
+                new ObjectParameter("CORREO", cORREO) :
+                new ObjectParameter("CORREO", typeof(string));
+    
+            var cONTRASENNAParameter = cONTRASENNA != null ?
+                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
+                new ObjectParameter("CONTRASENNA", typeof(string));
+    
+            var iDENTIFICACIONParameter = iDENTIFICACION != null ?
+                new ObjectParameter("IDENTIFICACION", iDENTIFICACION) :
+                new ObjectParameter("IDENTIFICACION", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("REGISTRO_SP", nOMBREParameter, aPELLIDO1Parameter, aPELLIDO2Parameter, cORREOParameter, cONTRASENNAParameter, iDENTIFICACIONParameter);
+        }
+    
+        public virtual ObjectResult<LoginSP_Result> LoginSP(string cORREO, string cONTRASENNA)
+        {
+            var cORREOParameter = cORREO != null ?
+                new ObjectParameter("CORREO", cORREO) :
+                new ObjectParameter("CORREO", typeof(string));
+    
+            var cONTRASENNAParameter = cONTRASENNA != null ?
+                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
+                new ObjectParameter("CONTRASENNA", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginSP_Result>("LoginSP", cORREOParameter, cONTRASENNAParameter);
+        }
+    
+        public virtual int RecuperarAccesoSP(string cONTRASENNA, string cORREO)
+        {
+            var cONTRASENNAParameter = cONTRASENNA != null ?
+                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
+                new ObjectParameter("CONTRASENNA", typeof(string));
+    
+            var cORREOParameter = cORREO != null ?
+                new ObjectParameter("CORREO", cORREO) :
+                new ObjectParameter("CORREO", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RecuperarAccesoSP", cONTRASENNAParameter, cORREOParameter);
+        }
+    
+        public virtual int RegistroSP(string nOMBRE, string aPELLIDO1, string aPELLIDO2, string cORREO, string cONTRASENNA, string iDENTIFICACION)
         {
             var nOMBREParameter = nOMBRE != null ?
                 new ObjectParameter("NOMBRE", nOMBRE) :

@@ -155,6 +155,9 @@
     <Compile Include="EF\LoginSP_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\LOGIN_SP_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\METODO_PAGO_TB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -302,13 +305,10 @@
     <Content Include="Views\Home\Registro.cshtml" />
     <Content Include="Views\Home\Donaciones.cshtml" />
     <Content Include="Views\Home\FormularioDonar.cshtml" />
-<<<<<<< Updated upstream
     <Content Include="Views\Home\RecuperarAcceso.cshtml" />
-=======
     <Content Include="Views\Animal\ConsultarAnimales.cshtml" />
     <Content Include="Views\Animal\DetalleAnimal.cshtml" />
     <Content Include="Views\Animal\ApadrinarAnimal.cshtml" />
->>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

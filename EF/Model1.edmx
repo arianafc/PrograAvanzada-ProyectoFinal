@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CASA_NATURAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CASA_NATURAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ACTIVIDADES_TB">
           <Key>
             <PropertyRef Name="ID_ACTIVIDAD" />
@@ -504,19 +504,15 @@
           <Parameter Name="CORREO" Type="varchar" Mode="In" />
           <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
         </Function>
-<<<<<<< Updated upstream
+        <Function Name="ObtenerAnimalesActivos_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ObtenerAnimalPorId_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_ANIMAL" Type="int" Mode="In" />
+        </Function>
         <Function Name="RecuperarAccesoSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
           <Parameter Name="CORREO" Type="varchar" Mode="In" />
         </Function>
         <Function Name="RegistroSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-=======
-        <Function Name="ObtenerAnimalesActivos_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="ObtenerAnimalPorId_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="ID_ANIMAL" Type="int" Mode="In" />
-        </Function>
-        <Function Name="REGISTRO_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
->>>>>>> Stashed changes
           <Parameter Name="NOMBRE" Type="varchar" Mode="In" />
           <Parameter Name="APELLIDO1" Type="varchar" Mode="In" />
           <Parameter Name="APELLIDO2" Type="varchar" Mode="In" />
@@ -651,8 +647,7 @@
             <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CASA_NATURAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1331,23 +1326,31 @@
             <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
             <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
           </AssociationSet>
+          <FunctionImport Name="LOGIN_SP" ReturnType="Collection(CASA_NATURAModel.LOGIN_SP_Result)">
+            <Parameter Name="CORREO" Mode="In" Type="String" />
+            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerAnimalesActivos_SP" ReturnType="Collection(CASA_NATURAModel.ObtenerAnimalesActivos_SP_Result)" />
+          <FunctionImport Name="ObtenerAnimalPorId_SP" ReturnType="Collection(CASA_NATURAModel.ObtenerAnimalPorId_SP_Result)">
+          <Parameter Name="ID_ANIMAL" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="REGISTRO_SP">
+            <Parameter Name="NOMBRE" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO1" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO2" Mode="In" Type="String" />
+            <Parameter Name="CORREO" Mode="In" Type="String" />
+            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
+            <Parameter Name="IDENTIFICACION" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="LoginSP" ReturnType="Collection(CASA_NATURAModel.LoginSP_Result)">
             <Parameter Name="CORREO" Mode="In" Type="String" />
             <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
           </FunctionImport>
-<<<<<<< Updated upstream
           <FunctionImport Name="RecuperarAccesoSP">
             <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
             <Parameter Name="CORREO" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="RegistroSP">
-=======
-          <FunctionImport Name="ObtenerAnimalesActivos_SP" ReturnType="Collection(CASA_NATURAModel.ObtenerAnimalesActivos_SP_Result)" />
-          <FunctionImport Name="ObtenerAnimalPorId_SP" ReturnType="Collection(CASA_NATURAModel.ObtenerAnimalPorId_SP_Result)">
-            <Parameter Name="ID_ANIMAL" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="REGISTRO_SP">
->>>>>>> Stashed changes
             <Parameter Name="NOMBRE" Mode="In" Type="String" />
             <Parameter Name="APELLIDO1" Mode="In" Type="String" />
             <Parameter Name="APELLIDO2" Mode="In" Type="String" />
@@ -1356,7 +1359,7 @@
             <Parameter Name="IDENTIFICACION" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="LoginSP_Result">
+        <ComplexType Name="LOGIN_SP_Result">
           <Property Type="Int32" Name="ID_USUARIO" Nullable="false" />
           <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="APELLIDO2" Nullable="false" MaxLength="50" />
@@ -1391,6 +1394,16 @@
           <Property Type="String" Name="IMAGEN" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="HISTORIA" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="NECESIDAD" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="LoginSP_Result">
+          <Property Type="Int32" Name="ID_USUARIO" Nullable="false" />
+          <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="APELLIDO2" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="APELLIDO1" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="IDENTIFICACION" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CORREO" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ID_ROL" Nullable="false" />
+          <Property Type="Int32" Name="ID_ESTADO" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1586,24 +1599,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="LoginSP" FunctionName="CASA_NATURAModel.Store.LoginSP">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="CASA_NATURAModel.LoginSP_Result">
-                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
-                <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />
-                <ScalarProperty Name="IDENTIFICACION" ColumnName="IDENTIFICACION" />
-                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
-                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
-                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-<<<<<<< Updated upstream
-          <FunctionImportMapping FunctionImportName="RecuperarAccesoSP" FunctionName="CASA_NATURAModel.Store.RecuperarAccesoSP" />
-          <FunctionImportMapping FunctionImportName="RegistroSP" FunctionName="CASA_NATURAModel.Store.RegistroSP" />
-=======
           <FunctionImportMapping FunctionImportName="ObtenerAnimalesActivos_SP" FunctionName="CASA_NATURAModel.Store.ObtenerAnimalesActivos_SP">
             <ResultMapping>
               <ComplexTypeMapping TypeName="CASA_NATURAModel.ObtenerAnimalesActivos_SP_Result">
@@ -1638,8 +1633,22 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="REGISTRO_SP" FunctionName="CASA_NATURAModel.Store.REGISTRO_SP" />
->>>>>>> Stashed changes
+          <FunctionImportMapping FunctionImportName="LoginSP" FunctionName="CASA_NATURAModel.Store.LoginSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CASA_NATURAModel.LoginSP_Result">
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
+                <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />
+                <ScalarProperty Name="IDENTIFICACION" ColumnName="IDENTIFICACION" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RecuperarAccesoSP" FunctionName="CASA_NATURAModel.Store.RecuperarAccesoSP" />
+          <FunctionImportMapping FunctionImportName="RegistroSP" FunctionName="CASA_NATURAModel.Store.RegistroSP" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
