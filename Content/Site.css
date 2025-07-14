@@ -977,7 +977,37 @@ img {
   box-sizing: border-box; /* Importante para que padding y border no excedan el 100% */
 }
 
+<<<<<<< Updated upstream
 
 .SoloVista {
     background-color: whitesmoke !important;
+=======
+/*Estilos para apadrinar animales*/
+.animales-apadrinar-title {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-weight: bold;
+    color: #f5bb0d;
+}
+
+.animales-apadrinar-subtitle {
+    margin-bottom: 50px;
+    /* Mayor espacio debajo del subtítulo */
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 20px;
+    color: #062D3E;
+}
+
+.animales-apadrinar-list-title {
+    text-align: center;
+    color: #062D3E;
+    font-family: 'Montserrat', sans-serif;
+    /* Azul específico */
+    font-weight: bold;
+    margin-top: 40px;
+    margin-bottom: 20px;
+>>>>>>> Stashed changes
 }

@@ -10,20 +10,16 @@
 namespace ProyectoFinal.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class APADRINAMIENTOS_TB
+    public partial class LOGIN_SP_Result
     {
-        public int ID_APADRINAMIENTO { get; set; }
-        public decimal MONTO_MENSUAL { get; set; }
-        public System.DateTime FECHA { get; set; }
-        public System.DateTime FECHA_BAJA { get; set; }
         public int ID_USUARIO { get; set; }
+        public string NOMBRE { get; set; }
+        public string APELLIDO2 { get; set; }
+        public string APELLIDO1 { get; set; }
+        public string IDENTIFICACION { get; set; }
+        public string CORREO { get; set; }
+        public int ID_ROL { get; set; }
         public int ID_ESTADO { get; set; }
-        public int ID_ANIMAL { get; set; }
-    
-        public virtual ANIMAL_TB ANIMAL_TB { get; set; }
-        public virtual ESTADOS_TB ESTADOS_TB { get; set; }
-        public virtual USUARIOS_TB USUARIOS_TB { get; set; }
     }
 }
