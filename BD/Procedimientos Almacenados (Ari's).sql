@@ -75,11 +75,11 @@ BEGIN
 
     IF EXISTS (SELECT 1 FROM USUARIOS_TB WHERE CORREO = @CORREO)
     BEGIN
-        RAISERROR('El correo ya está registrado.', 16, 1);
+        RAISERROR('El correo ya est  registrado.', 16, 1);
         RETURN;
     END
 
-    -- Insertar el usuario con contraseña encriptada (hash)
+    -- Insertar el usuario con contrase a encriptada (hash)
     INSERT INTO dbo.USUARIOS_TB (NOMBRE, APELLIDO1, APELLIDO2, CORREO, PASSWORD, IDENTIFICACION, ID_ESTADO, ID_ROL)
     VALUES (
         @NOMBRE, 
@@ -92,3 +92,44 @@ BEGIN
 END;
 GO
 
+
+AS
+BEGIN
+    SELECT ID_ACTIVIDAD
+      ,DESCRIPCION
+      ,FECHA
+      ,PRECIO_BOLETO
+      ,TICKETS_DISPONIBLES
+      ,TICKETS_VENDIDOS
+      ,ID_ESTADO
+      ,IMAGEN
+      ,TIPO
+      ,NOMBRE
+  FROM dbo.ACTIVIDADES_TB WHERE ID_ESTADO = 1
+
+END;
+
+USE [CASA_NATURA]
+GO
+/****** Object:  StoredProcedure [dbo].[AgregarActividadSP]    Script Date: 7/13/2025 6:52:53 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[AgregarActividadSP] (
+@Descripcion VARCHAR,
+@Fecha DATETIME,
+@PrecioBoleto DECIMAL(10,2),
+@TicketsDisponibles INT,
+@Imagen VARCHAR,
+@Tipo Varchar, 
+@Nombre Varchar) 
+AS
+BEGIN
+	INSERT INTO dbo.ACTIVIDADES_TB (DESCRIPCION, FECHA, PRECIO_BOLETO, TICKETS_DISPONIBLES, 
+	TICKETS_VENDIDOS, ID_ESTADO, IMAGEN, TIPO, NOMBRE) VALUES
+	(@Descripcion, @Fecha, @PrecioBoleto, @TicketsDisponibles, 0, 1, @Imagen, @Tipo, @Nombre);
+
+
+
+END;

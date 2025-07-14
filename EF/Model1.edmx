@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CASA_NATURAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CASA_NATURAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ACTIVIDADES_TB">
           <Key>
             <PropertyRef Name="ID_ACTIVIDAD" />
@@ -18,6 +18,7 @@
           <Property Name="ID_ESTADO" Type="int" Nullable="false" />
           <Property Name="IMAGEN" Type="varchar" MaxLength="255" />
           <Property Name="TIPO" Type="varchar" MaxLength="255" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="ANIMAL_TB">
           <Key>
@@ -500,6 +501,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="AgregarActividadSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Fecha" Type="datetime" Mode="In" />
+          <Parameter Name="PrecioBoleto" Type="decimal" Mode="In" />
+          <Parameter Name="TicketsDisponibles" Type="int" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+          <Parameter Name="Tipo" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="LoginSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CORREO" Type="varchar" Mode="In" />
           <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
@@ -643,8 +653,7 @@
             <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CASA_NATURAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -663,6 +672,7 @@
           <Property Name="TIPO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__ACTIVIDAD__ID_ES__571DF1D5" FromRole="ACTIVIDADES_TB" ToRole="ESTADOS_TB" />
           <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_AC__5DCAEF64" FromRole="ACTIVIDADES_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
+          <Property Name="NOMBRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ANIMAL_TB">
           <Key>
@@ -1339,6 +1349,15 @@
             <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
             <Parameter Name="IDENTIFICACION" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="AgregarActividadSP">
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="PrecioBoleto" Mode="In" Type="Decimal" />
+            <Parameter Name="TicketsDisponibles" Mode="In" Type="Int32" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="Tipo" Mode="In" Type="String" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="LoginSP_Result">
           <Property Type="Int32" Name="ID_USUARIO" Nullable="false" />
@@ -1359,6 +1378,7 @@
           <EntitySetMapping Name="ACTIVIDADES_TB">
             <EntityTypeMapping TypeName="CASA_NATURAModel.ACTIVIDADES_TB">
               <MappingFragment StoreEntitySet="ACTIVIDADES_TB">
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="ID_ACTIVIDAD" ColumnName="ID_ACTIVIDAD" />
                 <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
                 <ScalarProperty Name="FECHA" ColumnName="FECHA" />
@@ -1560,6 +1580,7 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="RecuperarAccesoSP" FunctionName="CASA_NATURAModel.Store.RecuperarAccesoSP" />
           <FunctionImportMapping FunctionImportName="RegistroSP" FunctionName="CASA_NATURAModel.Store.RegistroSP" />
+          <FunctionImportMapping FunctionImportName="AgregarActividadSP" FunctionName="CASA_NATURAModel.Store.AgregarActividadSP" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

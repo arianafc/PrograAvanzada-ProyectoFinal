@@ -8201,7 +8201,6 @@ sidebar navigation
         width: 35px;
         line-height: 25px;
         font-size: 20px;
-        color: #fff;
         display: inline-block;
         text-align: center; }
 
@@ -8236,10 +8235,9 @@ sidebar navigation
 
 .sidebar-nav > #sidebarnav > .sidebar-item > .sidebar-link:hover, .sidebar-nav > #sidebarnav > .sidebar-item.selected > .sidebar-link {
   background: rgba(0, 0, 0, 0.1);
-  border-left: 20px solid #137eff; }
+  border-left: 20px solid #ffbc34; }
 
-.sidebar-nav > #sidebarnav > .sidebar-item > .sidebar-link {
-  border-left: 20px solid transparent; }
+
 
 /*******************
  common m-p removed

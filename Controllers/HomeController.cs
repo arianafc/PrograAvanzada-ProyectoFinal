@@ -41,7 +41,7 @@ namespace ProyectoFinal.Controllers
             using (var dbContext = new CASA_NATURAEntities())
             {
                 
-                var result = dbContext.LoginSP(usuario.Correo, usuario.Contrasenna).FirstOrDefault();
+                var result = dbContext.LoginSP(usuario.Correo.ToLower(), usuario.Contrasenna).FirstOrDefault();
 
                 if (result != null)
                 {
@@ -85,7 +85,7 @@ namespace ProyectoFinal.Controllers
                         usuario.Nombre,
                         usuario.Apellido1,
                         usuario.Apellido2,
-                        usuario.Correo,
+                        usuario.Correo.ToLower(),
                         usuario.Contrasenna,
                         usuario.Identificacion
                     );
@@ -148,15 +148,15 @@ namespace ProyectoFinal.Controllers
             using (var dbContext = new CASA_NATURAEntities())
             {
 
-                var result = dbContext.USUARIOS_TB.FirstOrDefault(u => u.CORREO == user.Correo
-                                                            && u.Identificacion == user.Identificacion);
+                var result = dbContext.USUARIOS_TB.FirstOrDefault(u => u.CORREO.ToLower() == user.Correo.ToLower()
+                                                             && u.Identificacion == user.Identificacion);
 
                 if (result != null)
                 {
                     var Contrasenna = service.GenerarPassword();
 
                     result.PASSWORD = Contrasenna; //actualizamos la contra para poder validarla
-                    dbContext.RecuperarAccesoSP(Contrasenna, user.Correo);
+                    dbContext.RecuperarAccesoSP(Contrasenna, user.Correo.ToLower());
 
 
                     StringBuilder mensaje = new StringBuilder();

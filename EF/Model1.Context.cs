@@ -99,5 +99,38 @@ namespace ProyectoFinal.EF
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistroSP", nOMBREParameter, aPELLIDO1Parameter, aPELLIDO2Parameter, cORREOParameter, cONTRASENNAParameter, iDENTIFICACIONParameter);
         }
+    
+        public virtual int AgregarActividadSP(string descripcion, Nullable<System.DateTime> fecha, Nullable<decimal> precioBoleto, Nullable<int> ticketsDisponibles, string imagen, string tipo, string nombre)
+        {
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("Descripcion", descripcion) :
+                new ObjectParameter("Descripcion", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var precioBoletoParameter = precioBoleto.HasValue ?
+                new ObjectParameter("PrecioBoleto", precioBoleto) :
+                new ObjectParameter("PrecioBoleto", typeof(decimal));
+    
+            var ticketsDisponiblesParameter = ticketsDisponibles.HasValue ?
+                new ObjectParameter("TicketsDisponibles", ticketsDisponibles) :
+                new ObjectParameter("TicketsDisponibles", typeof(int));
+    
+            var imagenParameter = imagen != null ?
+                new ObjectParameter("Imagen", imagen) :
+                new ObjectParameter("Imagen", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarActividadSP", descripcionParameter, fechaParameter, precioBoletoParameter, ticketsDisponiblesParameter, imagenParameter, tipoParameter, nombreParameter);
+        }
     }
 }
