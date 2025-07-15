@@ -109,23 +109,6 @@ namespace ProyectoFinal.Controllers
             }
         }
 
-
-        public ActionResult Donaciones()
-        {
-            ViewBag.Message = "Your Donaciones page.";
-
-            return View();
-        }
-
-        public ActionResult FormularioDonar()
-        {
-            ViewBag.Message = "Your Formulario page.";
-
-            return View();
-        }
-
-
-
         [HttpGet]
         public ActionResult CerrarSesion()
         {

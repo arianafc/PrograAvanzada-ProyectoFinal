@@ -1,8 +1,5 @@
-﻿using ProyectoFinal.EF;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using ProyectoFinal.EF;
 
 namespace ProyectoFinal.Models
 {

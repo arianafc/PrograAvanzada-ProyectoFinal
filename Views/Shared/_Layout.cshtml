@@ -29,11 +29,11 @@
                 
 
                 @Html.ActionLink("HOME", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
-                @Html.ActionLink("DONACIONES", "Donaciones", "Home", new { area = "" }, new { @class = "nav-link" })
+                @Html.ActionLink("DONACIONES", "Donaciones", "Donacion", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("APADRINAR", "ConsultarAnimales", "Animal", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("TOURS", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("EVENTOS", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
-                @Html.ActionLink("CONTACTO", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
+                @Html.ActionLink("CONTACTO", "Contacto", "Contacto", new { area = "" }, new { @class = "nav-link" })
 
                 @if (Session["Nombre"] != null)
                 {

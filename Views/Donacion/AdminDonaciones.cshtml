@@ -1,0 +1,47 @@
+﻿@model List<ProyectoFinal.Models.DonacionViewModel>
+
+@{
+    ViewBag.Title = "Panel de Donaciones - Admin";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="donaciones-container">
+    <h2 class="titulo-donaciones">Donaciones Registradas</h2>
+    <div class="filtro-fechas">
+        <button class="btn-filtro-fecha">
+            <i class="fas fa-calendar-alt"></i> Filtrar por Fecha
+        </button>
+    </div>
+    <table class="tabla-donaciones">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>USUARIO</th>
+                <th>EMAIL</th>
+                <th>DONACIÓN</th>
+                <th>FECHA</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.DonacionId</td>
+                        <td>@item.NombreCompleto</td>
+                        <td>@item.Correo</td>
+                        <td>@item.Monto.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
+                        <td>@item.Fecha.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="sin-datos">No se encontraron donaciones registradas.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -13608,3 +13608,100 @@ File: scss
 @media (max-width: 991.98px) {
   .do-block {
     display: block !important; } }
+
+
+
+
+
+/* =======================
+   ESTILOS - AdminDonaciones.cshtml
+   ======================= */
+
+.donaciones-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+}
+
+.titulo-donaciones {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    position: relative;
+}
+
+    .titulo-donaciones::before {
+        content: "\f4b9";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 10px;
+        color: #17a2b8;
+    }
+
+.tabla-donaciones {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+    .tabla-donaciones thead {
+        background-color: #f8f9fa;
+    }
+
+    .tabla-donaciones th,
+    .tabla-donaciones td {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        vertical-align: middle;
+    }
+
+    .tabla-donaciones th {
+        font-weight: 600;
+        color: #343a40;
+    }
+
+    .tabla-donaciones tr:hover {
+        background-color: #f1f1f1;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+.sin-datos {
+    color: #999;
+    font-style: italic;
+    text-align: center;
+}
+
+/* Estilo del contenedor del filtro */
+.filtro-fechas {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+/* Botón del filtro */
+.btn-filtro-fecha {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-filtro-fecha i {
+        margin-right: 6px;
+    }
+
+    .btn-filtro-fecha:hover {
+        background-color: #138496;
+    }

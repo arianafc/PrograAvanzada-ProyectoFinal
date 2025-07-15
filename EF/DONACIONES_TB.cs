@@ -19,6 +19,7 @@ namespace ProyectoFinal.EF
         public Nullable<System.DateTime> FECHA { get; set; }
         public int ID_USUARIO { get; set; }
         public int ID_METODO { get; set; }
+        public string REFERENCIA { get; set; }
     
         public virtual METODO_PAGO_TB METODO_PAGO_TB { get; set; }
         public virtual USUARIOS_TB USUARIOS_TB { get; set; }
