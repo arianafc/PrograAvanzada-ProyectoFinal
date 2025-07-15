@@ -15,8 +15,33 @@ namespace ProyectoFinal.Controllers
         [HttpGet]
         public ActionResult GestionActividades()
         {
-            return View();
+            using (var dbContext = new CASA_NATURAEntities())
+            {
+                try
+                {
+                    var result = dbContext.VisualizarActividadesSP().ToList();
+
+                    var viewModel = new GestionActividadesModel
+                    {
+                        NuevaActividad = new Actividad(),
+                        ListaActividades = result
+                    };
+
+                    return View(viewModel);
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Error = "Ocurrió un error al cargar las actividades: " + ex.Message;
+
+                    return View(new GestionActividadesModel
+                    {
+                        NuevaActividad = new Actividad(),
+                        ListaActividades = new List<VisualizarActividadesSP_Result>()
+                    });
+                }
+            }
         }
+
 
         [HttpPost]
 
