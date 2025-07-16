@@ -23,16 +23,12 @@
             {
                 <div class="col-md-4 mb-4">
                     <div class="card">
-                        <!-- Imagen del animal -->
-                        <img src="@(string.IsNullOrEmpty(animal.IMAGEN) ? "/images/default-animal.jpg" : animal.IMAGEN)"
-                             class="card-img-top"
-                             alt="@animal.NOMBRE"
-                             style="height: 200px; object-fit: cover;">
-
+                        
+                        <img src="@Url.Content("~/" + animal.IMAGEN)" alt="@animal.NOMBRE" class="img-animal" />
                         <div class="card-body">
                             <h5 class="card-title">@animal.NOMBRE</h5>
 
-                            <!-- Información básica -->
+                            
                             @if (animal.FECHA_INGRESO != default(DateTime))
                             {
                                 <p><strong>En refugio desde:</strong> @animal.FECHA_INGRESO.ToString("dd/MM/yyyy")</p>
@@ -51,10 +47,10 @@
                                 </p>
                             }
 
-                            <!-- Botones -->
+                            
                             <div class="d-grid gap-2">
                                 @Html.ActionLink("Ver Detalles", "DetalleAnimal", new { id = animal.ID_ANIMAL }, new { @class = "btn btn-primary" })
-                                @Html.ActionLink("Apadrinar", "ApadrinarAnimal", new { id = animal.ID_ANIMAL }, new { @class = "btn btn-success" })
+                                @Html.ActionLink("Apadrinar", "ApadrinarAnimal", new { id = animal.ID_ANIMAL }, new { @class = " apadrinar-btn" })
                             </div>
                         </div>
                     </div>

@@ -41,7 +41,7 @@ namespace ProyectoFinal.Controllers
             using (var dbContext = new CASA_NATURAEntities())
             {
                 
-                var result = dbContext.LOGIN_SP(usuario.Correo, usuario.Contrasenna).FirstOrDefault();
+                var result = dbContext.LoginSP(usuario.Correo, usuario.Contrasenna).FirstOrDefault();
 
                 if (result != null)
                 {

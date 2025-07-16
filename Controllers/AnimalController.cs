@@ -10,7 +10,7 @@ namespace ProyectoFinal.Controllers
 {
     public class AnimalController : Controller
     {
-        // Vista principal - mostrar todos los animales activos
+        
         [HttpGet]
         public ActionResult ConsultarAnimales()
         {
@@ -29,7 +29,7 @@ namespace ProyectoFinal.Controllers
             }
         }
 
-        // Vista de detalles de un animal específico
+        
         [HttpGet]
         public ActionResult DetalleAnimal(int id)
         {
@@ -37,7 +37,7 @@ namespace ProyectoFinal.Controllers
             {
                 using (var dbcontext = new CASA_NATURAEntities())
                 {
-                    // Usar SP para obtener un animal específico
+                    
                     var result = dbcontext.ObtenerAnimalPorId_SP(id).FirstOrDefault();
 
                     if (result == null)
@@ -56,7 +56,7 @@ namespace ProyectoFinal.Controllers
             }
         }
 
-        // Vista para apadrinar un animal
+        
         [HttpGet]
         public ActionResult ApadrinarAnimal(int id)
         {
