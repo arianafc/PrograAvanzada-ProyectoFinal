@@ -1,6 +1,11 @@
 ﻿@{
     ViewBag.Title = "FormularioDonar";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Session["IdUsuario"] == null)
+    {
+        Response.Redirect("~/Home/IniciarSesion");
+    }
 }
 
 <main class="container py-5">
@@ -11,26 +16,39 @@
         Selecciona la cantidad y método de pago. ¡Gracias por ser parte del cambio!
     </p>
 
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-success text-center fw-bold">
+            @TempData["Mensaje"]
+        </div>
+    }
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger text-center">
+            @ViewBag.Error
+        </div>
+    }
+
     <div class="row justify-content-center align-items-center g-4">
         <div class="col-lg-10">
             <div class="card border-0 overflow-hidden">
                 <div class="row g-0">
-                    <!-- Imagen integrada como parte lateral del formulario -->
                     <div class="col-md-5 d-none d-md-block bg-white">
                         <div class="h-100 d-flex align-items-center justify-content-center p-3">
                             <img src="~/imagenes/animalesDonar.png" alt="Animales felices" class="img-fluid" style="max-height: 400px;">
                         </div>
                     </div>
 
-                    <!-- Formulario -->
                     <div class="col-md-7">
                         <div class="card-body bg-light h-100 d-flex flex-column justify-content-center">
                             <h4 class="fw-bold text-center text-dark mb-4">Formulario de Donación</h4>
-                            <form id="formDonar">
+
+                            <form id="formDonar" method="post" action="/Donacion/FormularioDonar">
                                 <div class="mb-3">
                                     <label for="cantidad" class="form-label fw-bold">Cantidad a donar</label>
                                     <input type="number" id="cantidad" name="cantidad" class="form-control" placeholder="Digite la cantidad" min="1" required />
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="metodo" class="form-label fw-bold">Método de pago</label>
                                     <select id="metodo" name="metodo" class="form-select" required onchange="mostrarModal()">
@@ -40,10 +58,19 @@
                                         <option value="paypal">PayPal</option>
                                     </select>
                                 </div>
+                                <div class="mb-3 d-none" id="campoReferencia">
+                                    <label for="referencia" class="form-label fw-bold">Número de referencia Sinpe</label>
+                                    <input type="text" id="referencia" name="referencia" class="form-control"
+                                           placeholder="Digite el número de referencia"
+                                           pattern="^\d{6,30}$"
+                                           title="Solo números, mínimo 6 dígitos" />
+                                </div>
+
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-warning fw-bold text-dark" id="submit-button">Donar</button>
                                 </div>
                             </form>
+
                             <p class="text-center text-muted mt-3 small">
                                 <i class="fas fa-heart text-warning"></i> Gracias por tu generosidad
                             </p>
@@ -55,14 +82,13 @@
     </div>
 </main>
 
-<!-- Modales -->
-@* Tarjeta *@
+<!-- Modal Tarjeta -->
 <div class="modal fade" id="modalTarjeta" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Pago con Tarjeta</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="formTarjeta">
@@ -85,7 +111,7 @@
     </div>
 </div>
 
-@* Sinpe *@
+<!-- Modal Sinpe -->
 <div class="modal fade" id="modalSinpe" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -102,7 +128,7 @@
     </div>
 </div>
 
-@* Paypal *@
+<!-- Modal PayPal -->
 <div class="modal fade" id="modalPaypal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -131,12 +157,19 @@
     <script>
         function mostrarModal() {
             const metodo = document.getElementById("metodo").value;
+            const campoRef = document.getElementById("campoReferencia");
+
             if (metodo === "tarjeta") {
+                campoRef.classList.add("d-none");
                 new bootstrap.Modal(document.getElementById('modalTarjeta')).show();
             } else if (metodo === "sinpe") {
+                campoRef.classList.remove("d-none");
                 new bootstrap.Modal(document.getElementById('modalSinpe')).show();
             } else if (metodo === "paypal") {
+                campoRef.classList.add("d-none");
                 new bootstrap.Modal(document.getElementById('modalPaypal')).show();
+            } else {
+                campoRef.classList.add("d-none");
             }
         }
 
@@ -154,13 +187,18 @@
         }
 
         function validarSinpe() {
+            const referencia = document.getElementById("referencia").value;
+            if (!/^\d{6,30}$/.test(referencia)) {
+                alert("Ingrese un número de referencia válido (solo dígitos, mínimo 6).");
+                return;
+            }
             bootstrap.Modal.getInstance(document.getElementById('modalSinpe')).hide();
             alert("Pago por Sinpe confirmado.");
         }
 
         function validarPaypal() {
-            const user = document.getElementById("usuarioPaypal").value;
-            const pass = document.getElementById("contrasenaPaypal").value;
+            const user = document.getElementById("usuarioPaypal")?.value;
+            const pass = document.getElementById("contrasenaPaypal")?.value;
 
             if (!user || !pass) {
                 alert("Por favor complete todos los campos.");

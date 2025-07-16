@@ -29,6 +29,7 @@ namespace ProyectoFinal.EF
         public int ID_ESTADO { get; set; }
         public string IMAGEN { get; set; }
         public string TIPO { get; set; }
+        public string NOMBRE { get; set; }
     
         public virtual ESTADOS_TB ESTADOS_TB { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -964,6 +964,10 @@ img {
         vertical-align: middle;
     }
 
+.LogoText {
+    font-family: 'Montserrat', sans-serif;
+}
+
 /* Para donaciones*/
 @media (max-width: 768px) {
     .d-grid.w-lg-auto {

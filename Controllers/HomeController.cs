@@ -85,7 +85,7 @@ namespace ProyectoFinal.Controllers
                         usuario.Nombre,
                         usuario.Apellido1,
                         usuario.Apellido2,
-                        usuario.Correo,
+                        usuario.Correo.ToLower(),
                         usuario.Contrasenna,
                         usuario.Identificacion
                     );
@@ -109,23 +109,6 @@ namespace ProyectoFinal.Controllers
             }
         }
 
-
-        public ActionResult Donaciones()
-        {
-            ViewBag.Message = "Your Donaciones page.";
-
-            return View();
-        }
-
-        public ActionResult FormularioDonar()
-        {
-            ViewBag.Message = "Your Formulario page.";
-
-            return View();
-        }
-
-
-
         [HttpGet]
         public ActionResult CerrarSesion()
         {
@@ -148,15 +131,15 @@ namespace ProyectoFinal.Controllers
             using (var dbContext = new CASA_NATURAEntities())
             {
 
-                var result = dbContext.USUARIOS_TB.FirstOrDefault(u => u.CORREO == user.Correo
-                                                            && u.Identificacion == user.Identificacion);
+                var result = dbContext.USUARIOS_TB.FirstOrDefault(u => u.CORREO.ToLower() == user.Correo.ToLower()
+                                                             && u.Identificacion == user.Identificacion);
 
                 if (result != null)
                 {
                     var Contrasenna = service.GenerarPassword();
 
                     result.PASSWORD = Contrasenna; //actualizamos la contra para poder validarla
-                    dbContext.RecuperarAccesoSP(Contrasenna, user.Correo);
+                    dbContext.RecuperarAccesoSP(Contrasenna, user.Correo.ToLower());
 
 
                     StringBuilder mensaje = new StringBuilder();

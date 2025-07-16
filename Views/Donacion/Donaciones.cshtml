@@ -66,7 +66,7 @@
                 </li>
             </ul>
             <div class="d-grid mt-3">
-                <a href="@Url.Action("FormularioDonar", "Home")" class="btn btn-warning fw-bold text-dark w-100 w-lg-auto">Quiero Donar</a>
+                <button class="btn btn-warning fw-bold text-dark w-100 w-lg-auto" onclick="verificarLogin()">Quiero Donar</button>
             </div>
         </div>
         <div class="col-lg-6 col-12 text-center mb-3 mb-lg-0">
@@ -78,14 +78,14 @@
 @section Scripts {
     <script>
         function verificarLogin() {
-            fetch('@Url.Action("VerificarLogin", "Home")')
+            fetch('@Url.Action("VerificarLogin", "Donacion")')
                 .then(response => response.json())
                 .then(data => {
                     if (data.logueado) {
-                        window.location.href = '@Url.Action("FormularioDonaciones", "Home")';
+                        window.location.href = '@Url.Action("FormularioDonar", "Donacion")';
                     } else {
                         alert("Debe estar logueado para realizar donaciones.");
-                        window.location.href = '@Url.Action("Login", "Home")';
+                        window.location.href = '@Url.Action("IniciarSesion", "Home")';
                     }
                 })
                 .catch(error => console.error('Error:', error));
