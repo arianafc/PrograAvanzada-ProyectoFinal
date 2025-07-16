@@ -47,9 +47,10 @@ namespace ProyectoFinal.Controllers
                 {
                     Session["Nombre"] = result.NOMBRE;
                     Session["Apellido1"] = result.APELLIDO1;
+                    Session["Apellido2"] = result.APELLIDO2;
                     Session["Cedula"] = result.IDENTIFICACION;
                     Session["idUsuario"] = result.ID_USUARIO;
-
+                    Session["email"] = result.CORREO;
                     if (result.ID_ROL == 1)
                     {
                         return RedirectToAction("Index", "Home");

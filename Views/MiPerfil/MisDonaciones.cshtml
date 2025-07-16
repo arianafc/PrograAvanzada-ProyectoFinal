@@ -1,0 +1,125 @@
+﻿@model List<ProyectoFinal.Models.DonacionViewModel>
+@{
+    ViewBag.Title = "Mis Donaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn-minimal {
+        border: 1px solid transparent;
+        border-radius: 6px;
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: block;
+        color: #212529;
+        font-weight: 600;
+        text-decoration: none;
+        border-color: #dedede;
+    }
+
+        .btn-minimal:hover,
+        .btn-minimal:focus {
+            border-color: #808080;
+            box-shadow: 0 4px 8px #808080;
+            text-decoration: none;
+        }
+
+        .btn-minimal span {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+</style>
+
+<main class="container py-5">
+
+    <!-- Menú rápido tipo dashboard minimalista con borde y sombra hover -->
+    <div class="row justify-content-center mb-5 text-center">
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+            <a href="@Url.Action("editarPerfil", "MiPerfil")" class="btn-minimal">
+                <span>🏠</span>
+                DASHBOARD
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+            <a href="@Url.Action("MisDonaciones", "MiPerfil")" class="btn-minimal">
+                <span>💰</span>
+                MIS DONACIONES
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+            <a href="@Url.Action("MisAnimales", "MiPerfil")" class="btn-minimal">
+                <span>🐾</span>
+                MIS ANIMALES
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+            <a href="@Url.Action("MisTours", "MiPerfil")" class="btn-minimal">
+                <span>🎟️</span>
+                MIS TOURS
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+            <a href="@Url.Action("MisEventos", "MiPerfil")" class="btn-minimal">
+                <span>💛</span>
+                MIS EVENTOS
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+            <a href="@Url.Action("Editar", "MiPerfil")" class="btn-minimal">
+                <span>✏️</span>
+                EDITAR
+            </a>
+        </div>
+    </div>
+
+    <!-- Donaciones -->
+    <div class="text-center mb-3">
+        <h4 class="fw-bold">MIS DONACIONES</h4>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="table-responsive shadow-sm rounded bg-white">
+                <table class="table table-bordered text-center m-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>MONTO</th>
+                            <th>FECHA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Monto.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
+                                    <td>@item.Fecha.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="sin-datos">No se encontraron donaciones registradas.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+
+
+

@@ -117,6 +117,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\MiPerfilController.cs" />
     <Compile Include="Controllers\ActividadesController.cs" />
     <Compile Include="Controllers\AnimalController.cs" />
     <Compile Include="Controllers\ContactoController.cs" />
@@ -158,9 +159,6 @@
     <Compile Include="EF\LoginSP_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\LOGIN_SP1_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="EF\LOGIN_SP_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -197,15 +195,6 @@
     <Compile Include="EF\ROLES_TB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EF\sp_helpdiagrams_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EF\sysdiagrams.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="EF\USUARIOS_TB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -227,8 +216,6 @@
     <Compile Include="Services\Utilitarios.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\ProyectoFinal.dll" />
-    <Content Include="bin\ProyectoFinal.pdb" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -332,6 +319,11 @@
     <Content Include="Views\Animal\ApadrinarAnimal.cshtml" />
     <Content Include="Views\Actividades\GestionActividades.cshtml" />
     <Content Include="Views\Donacion\AdminDonaciones.cshtml" />
+    <Content Include="Views\MiPerfil\editarPerfil.cshtml" />
+    <Content Include="Views\MiPerfil\MisDonaciones.cshtml" />
+    <Content Include="Views\MiPerfil\MisAnimales.cshtml" />
+    <Content Include="Views\MiPerfil\MisTours.cshtml" />
+    <Content Include="Views\MiPerfil\MisEventos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
