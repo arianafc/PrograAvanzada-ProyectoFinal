@@ -80,6 +80,20 @@ main {
 
 /* --- BUTTON --- */
 
+.apadrinar-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: white;
+    background-color: #FBBC05;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+    width: 100%;
+}
+
 .about-btn {
     margin-top: 20px;
     padding: 10px 20px;
@@ -138,6 +152,11 @@ main {
     object-fit: contain;
 }
 
+.img-animal {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 /* --- FORMS --- */
  select, textarea {
     max-width: 280px;
@@ -977,11 +996,12 @@ img {
   box-sizing: border-box; /* Importante para que padding y border no excedan el 100% */
 }
 
-<<<<<<< Updated upstream
 
 .SoloVista {
     background-color: whitesmoke !important;
-=======
+}
+
+
 /*Estilos para apadrinar animales*/
 .animales-apadrinar-title {
     margin-top: 20px;
@@ -1005,9 +1025,8 @@ img {
     text-align: center;
     color: #062D3E;
     font-family: 'Montserrat', sans-serif;
-    /* Azul específico */
     font-weight: bold;
     margin-top: 40px;
     margin-bottom: 20px;
->>>>>>> Stashed changes
+
 }

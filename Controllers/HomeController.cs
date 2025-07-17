@@ -41,15 +41,16 @@ namespace ProyectoFinal.Controllers
             using (var dbContext = new CASA_NATURAEntities())
             {
                 
-                var result = dbContext.LoginSP(usuario.Correo.ToLower(), usuario.Contrasenna).FirstOrDefault();
+                var result = dbContext.LoginSP(usuario.Correo, usuario.Contrasenna).FirstOrDefault();
 
                 if (result != null)
                 {
                     Session["Nombre"] = result.NOMBRE;
                     Session["Apellido1"] = result.APELLIDO1;
+                    Session["Apellido2"] = result.APELLIDO2;
                     Session["Cedula"] = result.IDENTIFICACION;
                     Session["idUsuario"] = result.ID_USUARIO;
-
+                    Session["email"] = result.CORREO;
                     if (result.ID_ROL == 1)
                     {
                         return RedirectToAction("Index", "Home");
