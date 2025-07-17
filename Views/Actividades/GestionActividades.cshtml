@@ -1,5 +1,6 @@
 ﻿@model ProyectoFinal.Models.GestionActividadesModel
 
+
 @{
     ViewBag.Title = "Gestión Actividades";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -7,11 +8,25 @@
 
 <main class="container py-5">
     <div class="row">
-        <div class="col-md-7">
+        <div>
             <div class="bg-white p-3 rounded shadow">
-                <h3 class="fw-bold mb-3">Actividades Activas</h3>
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark">
+                <div class="row">
+                    <div class="col-md-10">       <h3 class="w-bold mb-3">GESTIÓN DE ACTIVIDADES</h3></div>
+                    <div class="col-sm-2">
+                        <button class="AgregarBtn btn btn-primary d-flex justify-content-end text-white"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalActividad">
+                            Agregar
+                        </button>
+                    </div>
+
+
+                </div>
+
+
+                <table id="tablaActividades" class="table table-bordered table-striped">
+
+                    <thead class="table-info">
                         <tr>
                             <th>Nombre</th>
                             <th>Fecha</th>
@@ -19,29 +34,35 @@
                             <th>Disponibles</th>
                             <th>Vendidos</th>
                             <th>Tipo</th>
+                            <th>Estado</th>
                             <th>Imagen</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="thead-dark">
                         @foreach (var act in Model.ListaActividades)
                         {
                             <tr>
                                 <td>@act.NOMBRE</td>
-                                <td>@act.FECHA?.ToString("dd/MM/yyyy")</td>
+                                <td>@act.FECHA</td>
                                 <td>@act.PRECIO_BOLETO</td>
                                 <td>@act.TICKETS_DISPONIBLES</td>
                                 <td>@act.TICKETS_VENDIDOS</td>
+                                <td>@(act.ID_ESTADO == 1 ? "Activo" : "Inactivo")</td>
                                 <td>@act.TIPO</td>
                                 <td>
                                     @if (act.IMAGEN != null)
                                     {
                                         var base64 = act.IMAGEN;
-                                        <img src="data:image/png;base64,@base64" width="80" />
+                                        <img style="width: 100px; height:100px" src="@act.IMAGEN" />
                                     }
                                     else
                                     {
                                         <span>Sin imagen</span>
                                     }
+                                </td>
+                                <td>
+                                    <btn><i class="fa fa-trash"></i></btn>
                                 </td>
                             </tr>
                         }
@@ -50,53 +71,71 @@
             </div>
         </div>
 
-        <div class="modal">
-            <div class="bg-light p-4 rounded shadow">
-                <h2 class="fw-bold text-center mb-4">CREAR NUEVA ACTIVIDAD</h2>
-
-                @using (Html.BeginForm("GestionActividades", "Actividades", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-
-
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.NuevaActividad.Nombre)
-                        @Html.TextBoxFor(m => m.NuevaActividad.Nombre, new { @class = "form-control" })
+        <div class="modal fade" id="modalActividad" tabindex="-1" aria-labelledby="modalActividadLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold" id="modalActividadLabel">CREAR NUEVA ACTIVIDAD</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
 
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.NuevaActividad.Descripcion)
-                        @Html.TextAreaFor(m => m.NuevaActividad.Descripcion, new { @class = "form-control", rows = 3 })
-                    </div>
+                    <div class="modal-body bg-light p-4 rounded shadow">
+                        @using (Html.BeginForm("GestionActividades", "Actividades", FormMethod.Post, new { @enctype = "Multipart/form-data" }))
+                        {
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    @Html.LabelFor(m => m.NuevaActividad.Nombre)
+                                    @Html.TextBoxFor(m => m.NuevaActividad.Nombre, new { @class = "form-control" })
+                                </div>
 
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.NuevaActividad.Fecha)
-                        @Html.TextBoxFor(m => m.NuevaActividad.Fecha, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
-                    </div>
+                                <div class="col-md-6 mb-3">
+                                    @Html.LabelFor(m => m.NuevaActividad.Tipo)
+                                    @Html.DropDownListFor(m => m.NuevaActividad.Tipo,
+                                        new SelectList(new[] {
+                                            new { Value = "Tour", Text = "Tour" },
+                                            new { Value = "Evento", Text = "Evento" }
+                                        }, "Value", "Text"),
+                                        "Seleccione un tipo",
+                                        new { @class = "form-control" })
+                                </div>
 
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.NuevaActividad.PrecioBoleto)
-                        @Html.TextBoxFor(m => m.NuevaActividad.PrecioBoleto, new { @type = "number", @step = "0.01", @class = "form-control" })
-                    </div>
+                                <div class="col-md-6 mb-3">
+                                    @Html.LabelFor(m => m.NuevaActividad.Fecha)
+                                    @Html.TextBoxFor(m => m.NuevaActividad.Fecha, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+                                </div>
 
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.NuevaActividad.TicketsDisponibles)
-                        @Html.TextBoxFor(m => m.NuevaActividad.TicketsDisponibles, new { @type = "number", @class = "form-control" })
-                    </div>
+                                <div class="col-md-6 mb-3">
+                                    @Html.Label("Hora")
+                                    @Html.TextBox("Hora", null, new { @type = "time", @class = "form-control", @name = "Hora" })
+                                </div>
 
-                    <div class="mb-3">
-                        @Html.LabelFor(m => m.NuevaActividad.Tipo)
-                        @Html.TextBoxFor(m => m.NuevaActividad.Tipo, new { @class = "form-control" })
-                    </div>
+                                <div class="col-md-6 mb-3">
+                                    @Html.LabelFor(m => m.NuevaActividad.PrecioBoleto)
+                                    @Html.TextBoxFor(m => m.NuevaActividad.PrecioBoleto, new { @type = "number", @step = "0.01", @class = "form-control" })
+                                </div>
 
-                    <div class="mb-3">
-                        @Html.Label("Imagen")
-                        <input type="file" name="ImagenSubida" class="form-control" accept="image/*" />
-                    </div>
+                                <div class="col-md-6 mb-3">
+                                    @Html.LabelFor(m => m.NuevaActividad.TicketsDisponibles)
+                                    @Html.TextBoxFor(m => m.NuevaActividad.TicketsDisponibles, new { @type = "number", @class = "form-control" })
+                                </div>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-warning text-dark">Registrar Actividad</button>
+                                <div class="col-md-6 mb-3">
+                                    @Html.Label("Imagen")
+                                    <input type="file" name="ImagenActividad" class="form-control" accept="image/*" />
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    @Html.LabelFor(m => m.NuevaActividad.Descripcion)
+                                    @Html.TextAreaFor(m => m.NuevaActividad.Descripcion, new { @class = "form-control", rows = 3 })
+                                </div>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-warning text-dark">Registrar Actividad</button>
+                            </div>
+                        }
                     </div>
-                }
+                </div>
             </div>
         </div>
 

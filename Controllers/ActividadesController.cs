@@ -2,9 +2,12 @@
 using ProyectoFinal.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace ProyectoFinal.Controllers
 {
@@ -45,26 +48,46 @@ namespace ProyectoFinal.Controllers
 
         [HttpPost]
 
-        public ActionResult GestionActividades( Actividad actividad)
+        public ActionResult GestionActividades(GestionActividadesModel actividad, HttpPostedFileBase ImagenActividad, String Hora)
         {
             using (var dbContext = new CASA_NATURAEntities())
             {
                 try
                 {
-                    var result = dbContext.AgregarActividadSP(
-                        actividad.Descripcion, actividad.Fecha, actividad.PrecioBoleto, actividad.TicketsDisponibles,
-                        actividad.Imagen, actividad.Tipo, actividad.Nombre
-                        );
-
-                    if (result == -1)
+                    var actividades = new ACTIVIDADES_TB();
+                    DateTime fechaCompleta;
+                    if (DateTime.TryParse(actividad.NuevaActividad.Fecha.ToString("yyyy-MM-dd") + " " + Hora, out fechaCompleta))
                     {
-                        TempData["SwalError"] = "Lo sentimos. No se pudo registrar su información.";
-                        return RedirectToAction("Registro");
+                        actividades.FECHA = fechaCompleta;
+                    }
+     
+                    actividades.ID_ACTIVIDAD = 0;
+                    actividades.NOMBRE = actividad.NuevaActividad.Nombre;
+                    actividades.DESCRIPCION = actividad.NuevaActividad.Descripcion;
+                    actividades.PRECIO_BOLETO = actividad.NuevaActividad.PrecioBoleto;
+                    actividades.TICKETS_DISPONIBLES = actividad.NuevaActividad.TicketsDisponibles;
+                    actividades.ID_ESTADO = 1;
+                    actividades.IMAGEN = string.Empty;
+
+                    dbContext.ACTIVIDADES_TB.Add(actividades);
+                    var result = dbContext.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        string extension = Path.GetExtension(ImagenActividad.FileName);
+                        string ruta = AppDomain.CurrentDomain.BaseDirectory + "Imagenes\\" + actividades.ID_ACTIVIDAD + extension;
+                        ImagenActividad.SaveAs(ruta);
+
+                        actividades.IMAGEN = "/Imagenes/" + actividades.ID_ACTIVIDAD + extension;
+                        dbContext.SaveChanges();
+
+                        return RedirectToAction("GestionActividades", "Actividades");
+
 
                     }
 
                     TempData["SwalSuccess"] = "Actividad registrado con éxito";
-                    return RedirectToAction("GestionActividades", "Actividades");
+                    return View();
                 }
                 catch (Exception ex)
                 {
