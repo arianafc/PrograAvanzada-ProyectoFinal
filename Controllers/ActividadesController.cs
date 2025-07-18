@@ -49,6 +49,7 @@ namespace ProyectoFinal.Controllers
         [HttpPost]
 
         public ActionResult GestionActividades(GestionActividadesModel actividad, HttpPostedFileBase ImagenActividad, String Hora)
+
         {
             using (var dbContext = new CASA_NATURAEntities())
             {
@@ -99,6 +100,23 @@ namespace ProyectoFinal.Controllers
 
         }
 
+
+        [HttpPost]
+
+        public ActionResult CambioEstadoActividad ( int IdEstado, int IdActividad) {
+
+            using (var dbContext = new CASA_NATURAEntities())
+            {
+                var result = dbContext.CambioEstadoActividadSP(IdEstado, IdActividad);
+                if ( result > 0)
+                {
+                    return RedirectToAction("GestionActividades", "Actividades");
+                }
+                return View();
+            }
+        
+        }
+      
     }
 
 }

@@ -429,7 +429,7 @@ body {
   line-height: 1.5;
   color: #6a7a8c;
   text-align: left;
-  background-color: #f2f4f5; }
+  background-color: #f2f4f5 !important; }
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }
@@ -8195,6 +8195,8 @@ sidebar navigation
         white-space: nowrap;
         align-items: center;
         line-height: 35px;
+        text-decoration: none;
+        
     }
       .sidebar-nav ul .sidebar-item .sidebar-link i {
         font-style: normal;
@@ -13647,12 +13649,12 @@ File: scss
 .tabla-donaciones {
     width: 100%;
     border-collapse: collapse;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Monserrat', sans-serif !important;
     text-align: center;
 }
 
     .tabla-donaciones thead {
-        background-color: #f8f9fa;
+        background-color: #FFC107;
     }
 
     .tabla-donaciones th,
