@@ -105,7 +105,7 @@ BEGIN
       ,IMAGEN
       ,TIPO
       ,NOMBRE
-  FROM dbo.ACTIVIDADES_TB WHERE ID_ESTADO = 1
+  FROM dbo.ACTIVIDADES_TB 
 
 END;
 
@@ -132,4 +132,12 @@ BEGIN
 
 
 
+END;
+
+CREATE PROCEDURE CambioEstadoActividadSP (
+@IdEstado int,
+@IdActividad int
+) AS
+BEGIN
+	UPDATE ACTIVIDADES_TB SET ID_ESTADO = @IdEstado WHERE ID_ACTIVIDAD = @IdActividad;
 END;
