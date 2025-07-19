@@ -19,22 +19,22 @@
                 <h3 class="fw-bold text-dark mb-4 text-center">
                     <i class="bi bi-chat-dots-fill text-warning me-2"></i>¿Tienes alguna duda?
                 </h3>
-                <form id="contactoForm">
+                <form id="contactoForm" method="post" action="@Url.Action("EnviarConsulta", "Contacto")">
                     <div class="mb-3">
                         <label for="nombreConsulta" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombreConsulta" name="nombre" placeholder="Tu nombre" value="@nombre" required />
+                        <input type="text" class="form-control" id="nombreConsulta" name="Nombre" placeholder="Tu nombre" value="@nombre" required />
                     </div>
                     <div class="mb-3">
                         <label for="apellidoConsulta" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" id="apellidoConsulta" name="apellidos" placeholder="Tu apellido" value="@apellido" required />
+                        <input type="text" class="form-control" id="apellidoConsulta" name="Apellido" placeholder="Tu apellido" value="@apellido" required />
                     </div>
                     <div class="mb-3">
                         <label for="emailConsulta" class="form-label">Correo electrónico</label>
-                        <input type="email" class="form-control" id="emailConsulta" name="email" placeholder="Tu correo" value="@correo" required />
+                        <input type="email" class="form-control" id="emailConsulta" name="Correo" placeholder="Tu correo" value="@correo" required />
                     </div>
                     <div class="mb-3">
                         <label for="mensajeConsulta" class="form-label">Mensaje</label>
-                        <textarea class="form-control" id="mensajeConsulta" name="mensaje" rows="4" placeholder="Escribe tu mensaje..." required></textarea>
+                        <textarea class="form-control" id="mensajeConsulta" name="Mensaje" rows="4" placeholder="Escribe tu mensaje..." required></textarea>
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-warning fw-bold text-dark">

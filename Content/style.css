@@ -13716,3 +13716,94 @@ body, html {
     .btn-filtro-fecha:hover {
         background-color: #138496;
     }
+
+/* =======================
+   ESTILOS - GestionDudas.cshtml
+   ======================= */
+
+/* Reset global opcional */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Contenedor principal */
+.dudas-container {
+    width: 100%;
+    max-width: none;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+}
+
+/* Título */
+.titulo-dudas {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    position: relative;
+}
+
+    .titulo-dudas::before {
+        content: "\f086"; /* icono de comentario */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-right: 10px;
+        color: #ffc107;
+    }
+
+/* Tarjetas de consultas */
+.card-consulta {
+    background-color: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+
+    .card-consulta:hover {
+        background-color: #f9f9f9;
+    }
+
+/* Botón Marcar como Resuelta */
+.btn-resuelta {
+    background-color: #28a745;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-resuelta:hover {
+        background-color: #218838;
+    }
+
+/* Etiquetas pequeñas */
+small.text-muted {
+    font-size: 12px;
+    color: #666 !important;
+}
+
+/* Texto cuando no hay datos */
+.sin-datos {
+    color: #999;
+    font-style: italic;
+    text-align: center;
+}
+
+/* Encabezados de sección */
+.seccion-titulo {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
