@@ -137,20 +137,20 @@ namespace ProyectoFinal.Controllers
 
                 if (result != null)
                 {
-                    var Contrasenna = service.GenerarPassword();
-
-                    result.PASSWORD = Contrasenna; //actualizamos la contra para poder validarla
-                    dbContext.RecuperarAccesoSP(Contrasenna, user.Correo.ToLower());
-
-
+                    string link = Url.Action(
+               "CambioContrasenna",
+               "Home",
+               new { correo = user.Correo.ToLower() },
+               protocol: Request.Url.Scheme
+           );
                     StringBuilder mensaje = new StringBuilder();
 
-
                     mensaje.Append("<p>Estimado <strong>" + result.NOMBRE + "</strong>,</p>");
-                    mensaje.Append("<p>Se ha generado una solicitud de recuperación de contraseña a su nombre.</p>");
-                    mensaje.Append("<p><strong>Su contraseña temporal es:</strong> <span style='color: #d9534f;'><b>" + Contrasenna + "</b></span></p>");
-                    mensaje.Append("<p>Le recomendamos cambiar su contraseña tan pronto como ingrese al sistema.</p>");
-                    mensaje.Append("<p>Muchas gracias,<br/>El equipo de soporte</p>");
+                    mensaje.Append("<p>Recibimos una solicitud para recuperar su acceso.</p>");
+                    mensaje.Append("<p>Haga clic en el siguiente enlace para cambiar su contraseña:</p>");
+                    mensaje.Append("<p><a href='" + link + "' style='color:#007bff;'>" + link + "</a></p>");
+                    mensaje.Append("<p>Este enlace es válido por un tiempo limitado.</p>");
+                    mensaje.Append("<p>Gracias,<br/>El equipo de soporte</p>");
 
 
                     if (service.EnviarCorreo(result.CORREO, mensaje.ToString(), "Solicitud de acceso"))
@@ -164,6 +164,33 @@ namespace ProyectoFinal.Controllers
                 return View(); 
 
             }
+        }
+
+
+        [HttpGet]
+        public ActionResult CambioContrasenna(string correo)
+        {
+            ViewBag.Correo = correo;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CambioContrasenna(Usuario user, String correo)
+        {
+            using (var dbContext = new CASA_NATURAEntities())
+            {
+               var result = dbContext.CambiarContrasennaSP(correo, user.Contrasenna);
+
+                if (result > 0)
+                {
+                    TempData["SwalSuccess"] = "Contraseña actualizada con éxito.";
+                    return RedirectToAction("IniciarSesion", "Home");
+                }
+
+                TempData["SwalError"] = "No se pudo actualizar la contraseña.";
+                return View();
+            }
+             
         }
     }
 }

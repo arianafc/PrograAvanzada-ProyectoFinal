@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ProyectoFinal.EF.VisualizarActividadesActivasSP_Result>
+
+@{
+    ViewBag.Title = "ActividadesDisponibles";
+}
+
+<div class="container">
+    <h1 class="animales-apadrinar-title">Nuestras Actividades</h1>
+    <p class="animales-apadrinar-subtitle">No es necesario apadrinar, para ayudar. Sé parte de nuestras actividades y colaborá con la causa. Te esperamos!</p>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Error
+        </div>
+    }
+
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var actividad in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+
+                        <img src="@Url.Content("~/" + actividad.IMAGEN)" alt="@actividad.NOMBRE" class="img-animal" />
+                        <div class="card-body">
+                            <h5 class="card-title">@actividad.NOMBRE</h5>
+
+
+                           
+
+                            <div class="d-grid gap-2">
+                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h4>No hay animales disponibles</h4>
+                    <p>En este momento no hay animales disponibles para apadrinamiento.</p>
+                </div>
+            </div>
+        }
+    </div>
+    </div>

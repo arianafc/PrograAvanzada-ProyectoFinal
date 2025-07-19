@@ -65,8 +65,8 @@
 
 
     document.getElementById("formRegistro").addEventListener("submit", function (e) {
-            let contrasena = document.getElementById("contrasenna").value;
-        let confirmar = document.getElementById("confirmarContrasenna").value;
+        let contrasena = document.getElementsByClassName("contrasenna").value;
+        let confirmar = document.getElementsByClassName("confirmarContrasenna").value;
 
         if (contrasena.length < 8) {
             e.preventDefault();

@@ -1034,9 +1034,31 @@ img {
 
 .AgregarBtn {
     background-color: #062D3E !important;
-    color: white;
-   
+    color: #fff !important;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+    .AgregarBtn:hover {
+        background-color: #0a3c52 !important;
+        transform: scale(1.03);
+    }
+
+    .AgregarBtn:active {
+        transform: scale(0.98);
+    }
+
+    .AgregarBtn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.5);
+    }
+
 
 /* Encabezado de tabla personalizado */
 .table thead {
@@ -1066,11 +1088,20 @@ img {
 }
 
 /* Botón de acción personalizado */
+
 .btn-cambiar-estado {
     background-color: #FFC107;
     border: none;
     color: #062D3E;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 
     .btn-cambiar-estado:hover {
         background-color: #e0aa06;
@@ -1079,9 +1110,17 @@ img {
 
 /* Imagen redondeada */
 .img-actividad {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    max-width: 60px;
+    height: auto;
 }
+
+.HeadTablaActividades {
+    background: linear-gradient(to bottom, #ffc107, #e0a800);
+    color: #062D3E;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid #ddd;
+}
+

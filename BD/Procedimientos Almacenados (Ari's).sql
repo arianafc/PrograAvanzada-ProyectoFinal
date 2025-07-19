@@ -31,27 +31,6 @@ END;
 GO
 
 
-USE [CASA_NATURA]
-GO
-
-/****** Object:  StoredProcedure [dbo].[RecuperarAccesoSP]    Script Date: 7/12/2025 8:41:38 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE PROCEDURE [dbo].[RecuperarAccesoSP] 
-    @CONTRASENNA VARCHAR(100), 
-    @CORREO VARCHAR(255)
-AS
-BEGIN
-    -- Actualizar el campo PASSWORD usando HASHBYTES con SHA2_256
-    UPDATE USUARIOS_TB 
-    SET PASSWORD = CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', @CONTRASENNA), 2)
-    WHERE CORREO = @CORREO;
-END
-GO
 
 USE [CASA_NATURA]
 GO
@@ -141,3 +120,119 @@ CREATE PROCEDURE CambioEstadoActividadSP (
 BEGIN
 	UPDATE ACTIVIDADES_TB SET ID_ESTADO = @IdEstado WHERE ID_ACTIVIDAD = @IdActividad;
 END;
+
+
+CREATE PROCEDURE [dbo].[CambiarContrasennaSP]
+    @CORREO VARCHAR(100),
+    @NUEVA_CONTRASENNA VARCHAR(100)
+AS
+BEGIN
+    -- Verifica si el usuario existe
+    IF NOT EXISTS (SELECT 1 FROM USUARIOS_TB WHERE CORREO = @CORREO)
+    BEGIN
+        RAISERROR('El usuario no existe.', 16, 1);
+        RETURN;
+    END
+
+    -- Actualiza la contraseña encriptada
+    UPDATE USUARIOS_TB
+    SET PASSWORD = CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', @NUEVA_CONTRASENNA), 2)
+    WHERE CORREO = @CORREO;
+END;
+GO
+
+
+USE [CASA_NATURA]
+GO
+
+/****** Object:  StoredProcedure [dbo].[EditarActividadSP]    Script Date: 7/18/2025 11:32:54 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[EditarActividadSP]
+    @IdActividad INT,
+    @Descripcion VARCHAR(MAX),
+    @Fecha DATETIME,
+    @PrecioBoleto DECIMAL(10,2),
+    @TicketsDisponibles INT,
+    @Imagen VARCHAR(MAX),
+    @Tipo VARCHAR(50),
+    @Nombre VARCHAR(100)
+AS
+BEGIN
+    UPDATE dbo.ACTIVIDADES_TB
+    SET
+        DESCRIPCION = @Descripcion,
+        FECHA = @Fecha,
+        PRECIO_BOLETO = @PrecioBoleto,
+        TICKETS_DISPONIBLES = @TicketsDisponibles,
+        IMAGEN = @Imagen,
+        TIPO = @Tipo,
+        NOMBRE = @Nombre
+    WHERE ID_ACTIVIDAD = @IdActividad;
+END;
+GO
+
+USE [CASA_NATURA]
+GO
+
+/****** Object:  StoredProcedure [dbo].[CambiarContrasennaSP]    Script Date: 7/18/2025 11:33:19 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[CambiarContrasennaSP]
+    @CORREO VARCHAR(100),
+    @NUEVA_CONTRASENNA VARCHAR(100)
+AS
+BEGIN
+    -- Verifica si el usuario existe
+    IF NOT EXISTS (SELECT 1 FROM USUARIOS_TB WHERE CORREO = @CORREO)
+    BEGIN
+        RAISERROR('El usuario no existe.', 16, 1);
+        RETURN;
+    END
+
+    -- Actualiza la contraseña encriptada
+    UPDATE USUARIOS_TB
+    SET PASSWORD = CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', @NUEVA_CONTRASENNA), 2)
+    WHERE CORREO = @CORREO;
+END;
+GO
+
+
+
+
+USE [CASA_NATURA]
+GO
+
+/****** Object:  StoredProcedure [dbo].[VisualizarActividadesSP]    Script Date: 7/18/2025 11:53:07 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [dbo].[VisualizarActividadesActivasSP] 
+AS
+BEGIN
+    SELECT ID_ACTIVIDAD
+      ,DESCRIPCION
+      ,FECHA
+      ,PRECIO_BOLETO
+      ,TICKETS_DISPONIBLES
+      ,TICKETS_VENDIDOS
+      ,IMAGEN
+      ,TIPO
+      ,NOMBRE
+  FROM dbo.ACTIVIDADES_TB WHERE ID_ESTADO = 1;
+
+END;
+GO
+

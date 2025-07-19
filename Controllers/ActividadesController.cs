@@ -116,7 +116,84 @@ namespace ProyectoFinal.Controllers
             }
         
         }
-      
+
+        [HttpPost]
+
+        public ActionResult EditarActividades(GestionActividadesModel actividad, HttpPostedFileBase ImagenActividad, string Hora)
+        {
+            try
+            {
+                var id = actividad.NuevaActividad.IdActividad;
+
+                DateTime fechaCompleta;
+                if (!DateTime.TryParse(actividad.NuevaActividad.Fecha.ToString("yyyy-MM-dd") + " " + Hora, out fechaCompleta))
+                {
+                    TempData["SwalError"] = "Fecha u hora inválida.";
+                    return RedirectToAction("GestionActividades", "Actividades");
+                }
+
+
+                string rutaVirtual = null;
+
+                if (ImagenActividad != null && ImagenActividad.ContentLength > 0)
+                {
+                    string extension = Path.GetExtension(ImagenActividad.FileName);
+                    string nombreArchivo = id + extension;
+                    string rutaFisica = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Imagenes", nombreArchivo);
+
+                    ImagenActividad.SaveAs(rutaFisica);
+                    rutaVirtual = "/Imagenes/" + nombreArchivo;
+                }
+                else
+                {
+                    rutaVirtual = actividad.NuevaActividad.Imagen; 
+                }
+
+                using (var dbContext = new CASA_NATURAEntities())
+                {
+               
+                    dbContext.EditarActividadSP(
+                        id,
+                        actividad.NuevaActividad.Descripcion,
+                        fechaCompleta,
+                        actividad.NuevaActividad.PrecioBoleto,
+                        actividad.NuevaActividad.TicketsDisponibles,
+                        rutaVirtual,
+                        actividad.NuevaActividad.Tipo,
+                        actividad.NuevaActividad.Nombre
+                    );
+                }
+
+                TempData["SwalSuccess"] = "Actividad actualizada con éxito.";
+                return RedirectToAction("GestionActividades", "Actividades");
+            }
+            catch (Exception ex)
+            {
+                TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
+                return RedirectToAction("GestionActividades", "Actividades");
+            }
+        }
+
+        [HttpGet]
+
+        public ActionResult ActividadesDisponibles()
+        {
+            try
+            {
+                using (var dbcontext = new CASA_NATURAEntities())
+                {
+                    var result = dbcontext.VisualizarActividadesActivasSP().ToList();
+                    return View(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Error al cargar las actividades: " + ex.Message;
+                return View(new List<VisualizarActividadesActivasSP_Result>());
+            }
+        }
+        
+
     }
 
 }
