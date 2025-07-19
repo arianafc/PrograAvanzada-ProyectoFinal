@@ -8,16 +8,16 @@ namespace ProyectoFinal.Controllers
 {
     public class DonacionController : Controller
     {
-        /*[HttpGet]
+        [HttpGet]
         public ActionResult Donaciones()
         {
             return View();
-        }*/
+        }
 
         [HttpGet]
         public ActionResult AdminDonaciones()
         {
-            using (var db = new CASA_NATURAEntities())
+            using (var db = new CASA_NATURAEntities1())
             {
                 var donaciones = (from d in db.DONACIONES_TB
                                   join u in db.USUARIOS_TB on d.ID_USUARIO equals u.ID_USUARIO
@@ -26,8 +26,8 @@ namespace ProyectoFinal.Controllers
                                       DonacionId = d.ID_DONACION,
                                       NombreCompleto = u.NOMBRE + " " + u.APELLIDO1 + " " + u.APELLIDO2,
                                       Correo = u.CORREO,
-                                      Monto = d.MONTO.Value, 
-                                      Fecha = d.FECHA.Value   
+                                      Monto = d.MONTO.Value,
+                                      Fecha = d.FECHA.Value
                                   }).ToList();
 
                 return View("AdminDonaciones", donaciones);
@@ -62,9 +62,9 @@ namespace ProyectoFinal.Controllers
                 // Solo usamos la referencia si el método es SINPE
                 string referenciaFinal = (idMetodo == 2) ? referencia : null;
 
-                using (var db = new CASA_NATURAEntities())
+                using (var db = new CASA_NATURAEntities1())
                 {
-                    db.InsertarDonacion_SP(cantidad, idUsuario, idMetodo, referenciaFinal);
+                    db.InsertarDonacionSP(cantidad, idUsuario, idMetodo, referenciaFinal);
                 }
 
                 TempData["Mensaje"] = "Donación registrada exitosamente.";

@@ -13612,15 +13612,21 @@ File: scss
     display: block !important; } }
 
 
-
-
-
 /* =======================
    ESTILOS - AdminDonaciones.cshtml
    ======================= */
 
+/* Estilo global opcional (quita margenes y relleno innecesarios) */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Contenedor principal expandido */
 .donaciones-container {
-    max-width: 1000px;
+    width: 100%;
+    max-width: none;
     margin: 40px auto;
     background: #ffffff;
     border-radius: 12px;
@@ -13628,6 +13634,7 @@ File: scss
     padding: 30px;
 }
 
+/* Titulo */
 .titulo-donaciones {
     font-family: 'Montserrat', sans-serif;
     font-size: 26px;
@@ -13646,6 +13653,7 @@ File: scss
         color: #17a2b8;
     }
 
+/* Tabla */
 .tabla-donaciones {
     width: 100%;
     border-collapse: collapse;
@@ -13674,20 +13682,21 @@ File: scss
         transition: background-color 0.2s ease-in-out;
     }
 
+/* Mensaje si no hay datos */
 .sin-datos {
     color: #999;
     font-style: italic;
     text-align: center;
 }
 
-/* Estilo del contenedor del filtro */
+/* Contenedor del btn filtro */
 .filtro-fechas {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 20px;
 }
 
-/* Botón del filtro */
+/* Btn filtro */
 .btn-filtro-fecha {
     background-color: #17a2b8;
     color: white;

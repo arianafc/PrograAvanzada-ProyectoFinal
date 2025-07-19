@@ -58,14 +58,11 @@
                                         <option value="paypal">PayPal</option>
                                     </select>
                                 </div>
-                                <div class="mb-3 d-none" id="campoReferencia">
-                                    <label for="referencia" class="form-label fw-bold">Número de referencia Sinpe</label>
-                                    <input type="text" id="referencia" name="referencia" class="form-control"
-                                           placeholder="Digite el número de referencia"
-                                           pattern="^\d{6,30}$"
-                                           title="Solo números, mínimo 6 dígitos" />
+                                <div class="mb-3 d-none" id="grupoReferenciaVisible">
+                                    <label for="referenciaVisible" class="form-label fw-bold">Número de referencia ingresado</label>
+                                    <input type="text" id="referenciaVisible" class="form-control" readonly />
                                 </div>
-
+                                <input type="hidden" id="referenciaOculta" name="referencia" />
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-warning fw-bold text-dark" id="submit-button">Donar</button>
                                 </div>
@@ -122,6 +119,13 @@
             <div class="modal-body">
                 <p>Realice su Sinpe al número: <strong>70265643</strong></p>
                 <p>Nombre del titular: <strong>Casa Natura</strong></p>
+                <div class="mb-3">
+                    <label for="referencia" class="form-label fw-bold">Número de referencia Sinpe</label>
+                    <input type="text" id="referencia" name="referencia" class="form-control"
+                           placeholder="Digite el número de referencia"
+                           pattern="^\d{6,30}$"
+                           title="Solo números, mínimo 6 dígitos" />
+                </div>
                 <button type="button" class="btn btn-success" onclick="validarSinpe()">Hecho</button>
             </div>
         </div>
@@ -157,19 +161,13 @@
     <script>
         function mostrarModal() {
             const metodo = document.getElementById("metodo").value;
-            const campoRef = document.getElementById("campoReferencia");
 
             if (metodo === "tarjeta") {
-                campoRef.classList.add("d-none");
                 new bootstrap.Modal(document.getElementById('modalTarjeta')).show();
             } else if (metodo === "sinpe") {
-                campoRef.classList.remove("d-none");
                 new bootstrap.Modal(document.getElementById('modalSinpe')).show();
             } else if (metodo === "paypal") {
-                campoRef.classList.add("d-none");
                 new bootstrap.Modal(document.getElementById('modalPaypal')).show();
-            } else {
-                campoRef.classList.add("d-none");
             }
         }
 
@@ -188,12 +186,67 @@
 
         function validarSinpe() {
             const referencia = document.getElementById("referencia").value;
+
             if (!/^\d{6,30}$/.test(referencia)) {
                 alert("Ingrese un número de referencia válido (solo dígitos, mínimo 6).");
                 return;
             }
+
+            // Cerrar el modal
             bootstrap.Modal.getInstance(document.getElementById('modalSinpe')).hide();
-            alert("Pago por Sinpe confirmado.");
+
+            // Mostrar el campo en el formulario principal
+            const campoGrupo = document.getElementById("grupoReferenciaVisible");
+            const campoReferenciaVisible = document.getElementById("referenciaVisible");
+            const campoReferenciaOculta = document.getElementById("referenciaOculta");
+
+            campoReferenciaVisible.value = referencia;
+            campoReferenciaOculta.value = referencia;  // <-- Esto es lo que se envía en el POST
+            campoGrupo.classList.remove("d-none");
+
+            alert("Número de referencia ingresado con éxito.");
+        }
+
+        function enviarDonacionSinpe() {
+            const cantidad = document.getElementById("cantidad").value;
+            const referencia = document.getElementById("referencia").value;
+            const metodo = "sinpe";
+
+            if (!cantidad || cantidad <= 0) {
+                alert("Por favor ingrese una cantidad válida.");
+                return;
+            }
+
+            if (!/^\d{6,30}$/.test(referencia)) {
+                alert("Ingrese un número de referencia válido (solo dígitos, mínimo 6).");
+                return;
+            }
+
+            const form = document.createElement("form");
+            form.method = "post";
+            form.action = "/Donacion/FormularioDonar";
+
+            const inputCantidad = document.createElement("input");
+            inputCantidad.type = "hidden";
+            inputCantidad.name = "cantidad";
+            inputCantidad.value = cantidad;
+
+            const inputMetodo = document.createElement("input");
+            inputMetodo.type = "hidden";
+            inputMetodo.name = "metodo";
+            inputMetodo.value = metodo;
+
+            const inputReferencia = document.createElement("input");
+            inputReferencia.type = "hidden";
+            inputReferencia.name = "referencia";
+            inputReferencia.value = referencia;
+
+            form.appendChild(inputCantidad);
+            form.appendChild(inputMetodo);
+            form.appendChild(inputReferencia);
+
+            document.body.appendChild(form);
+            form.submit();
         }
 
         function validarPaypal() {
