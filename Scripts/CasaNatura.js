@@ -20,6 +20,19 @@
     }
 
 
+    function MostrarAlertaLogin() {
+        Swal.fire({
+            title: 'Debes iniciar sesión',
+            text: 'Para acceder a esta opción, primero inicia sesión en tu cuenta.',
+            icon: 'warning',
+            confirmButtonText: 'Iniciar sesión',
+            confirmButtonColor: ' #0a3c52'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = LoginUrl;
+            }
+        });
+    }
 
     // Función para capitalizar cada palabra
     function capitalizeWords(str) {
@@ -62,7 +75,7 @@
 
     // Asociar evento keyup al input
     $("#cedula").on("keyup", ConsultarPersonaApi);
-
+    $(".ValidacionLoginBtn").on("click", MostrarAlertaLogin)
 
     document.getElementById("formRegistro").addEventListener("submit", function (e) {
         let contrasena = document.getElementsByClassName("contrasenna").value;
@@ -89,7 +102,6 @@
             }
         });
  
-
 
 
 

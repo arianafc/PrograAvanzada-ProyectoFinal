@@ -62,7 +62,7 @@ CREATE TABLE DIRECCIONES_TB (
     FOREIGN KEY (ID_ESTADO) REFERENCES ESTADOS_TB(ID_ESTADO)
 );
 
-CREATE TABLE CONSULTAS (
+CREATE TABLE CONSULTAS_TB (
     ID_CONSULTA INT IDENTITY(1,1) PRIMARY KEY,
     NOMBRE VARCHAR(50) NOT NULL,
     APELLIDO VARCHAR(50) NOT NULL,
@@ -165,6 +165,7 @@ CREATE TABLE USUARIO_ACTIVIDAD_TB (
     TICKETS_ADQUIRIDOS INT,
     FECHA DATETIME,
     TOTAL DECIMAL(10,2),
+    REFERENCIA VARCHAR(100),
     ID_USUARIO INT NOT NULL,
     ID_ACTIVIDAD INT NOT NULL,
     ID_ESTADO INT NOT NULL,
@@ -248,7 +249,7 @@ GO
 -- =============================================
 -- SP: LoginUsuarioSP
 -- =============================================
-CREATE OR ALTER PROCEDURE LoginUsuarioSP
+CREATE OR ALTER PROCEDURE LoginSP
     @CORREO VARCHAR(100),
     @CONTRASENNA VARCHAR(100)
 AS
@@ -449,6 +450,52 @@ BEGIN
 END;
 GO
 
+
+------------------------------------------------------
+--SP PARA COMPRAR BOLETOS
+
+CREATE PROCEDURE CompraActividadSP (
+    @IdUsuario INT,
+    @IdMetodoPago INT,
+    @NumeroBoletos INT,
+    @IdActividad INT,
+    @Referencia VARCHAR(100)
+)
+AS
+BEGIN
+    DECLARE @CostoBoleto DECIMAL(10, 2);
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Obtener el precio del boleto
+        SELECT @CostoBoleto = PRECIO_BOLETO 
+        FROM ACTIVIDADES_TB 
+        WHERE ID_ACTIVIDAD = @IdActividad;
+
+     
+        INSERT INTO USUARIO_ACTIVIDAD_TB 
+        (TICKETS_ADQUIRIDOS,FECHA, TOTAL, ID_USUARIO, ID_ESTADO, ID_METODO_PAGO, ID_ACTIVIDAD, REFERENCIA)
+        VALUES 
+        (@NumeroBoletos, GETDATE(), @NumeroBoletos * @CostoBoleto, @IdUsuario, 3, @IdMetodoPago, @IdActividad, @Referencia);
+
+      
+        UPDATE ACTIVIDADES_TB 
+        SET 
+            TICKETS_DISPONIBLES = TICKETS_DISPONIBLES - @NumeroBoletos,
+            TICKETS_VENDIDOS = TICKETS_VENDIDOS + @NumeroBoletos
+        WHERE ID_ACTIVIDAD = @IdActividad;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        RAISERROR(@ErrorMessage, 16, 1);
+    END CATCH
+END;
 
 
 -- =============================================

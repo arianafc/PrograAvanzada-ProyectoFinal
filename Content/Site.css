@@ -1124,3 +1124,53 @@ img {
     border-bottom: 2px solid #ddd;
 }
 
+
+.transition-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .transition-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+.badge-evento {
+    background-color: #0a3c52;
+    color: white;
+}
+
+.badge-tour {
+    background-color: #ffc107;
+    color: black;
+}
+
+.badge-default {
+    background-color: #0a3c52;
+    color: white;
+}
+
+.btn-participar {
+    background-color: #ffc107;
+    color: white;
+    border: none;
+    padding: 10px 0;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+    .btn-participar:hover {
+        background-color: #0a3c52;
+        transform: scale(1.03);
+        color: white;
+    }
+
+.custom-card {
+    border-radius: 16px;
+    overflow: hidden;
+    border: none;
+}
+
+.cardActividades {
+   color: #0a3c52 !important;
+}

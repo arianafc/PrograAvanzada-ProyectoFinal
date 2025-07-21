@@ -17,7 +17,7 @@ namespace ProyectoFinal.Controllers
         [HttpGet]
         public ActionResult AdminDonaciones()
         {
-            using (var db = new CASA_NATURAEntities1())
+            using (var db = new CASA_NATURAEntities())
             {
                 var donaciones = (from d in db.DONACIONES_TB
                                   join u in db.USUARIOS_TB on d.ID_USUARIO equals u.ID_USUARIO
@@ -62,7 +62,7 @@ namespace ProyectoFinal.Controllers
                 // Solo usamos la referencia si el método es SINPE
                 string referenciaFinal = (idMetodo == 2) ? referencia : null;
 
-                using (var db = new CASA_NATURAEntities1())
+                using (var db = new CASA_NATURAEntities())
                 {
                     db.InsertarDonacionSP(cantidad, idUsuario, idMetodo, referenciaFinal);
                 }

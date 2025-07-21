@@ -66,8 +66,18 @@
                 </li>
             </ul>
             <div class="d-grid mt-3">
-                <button class="btn btn-warning fw-bold text-dark w-100 w-lg-auto" onclick="verificarLogin()">Quiero Donar</button>
-            </div>
+
+                @if (Session["Nombre"] == null)
+                {
+                    <button type="button" class="btn btn-participar w-100 mt-3 ValidacionLoginBtn">QUIERO DONAR</button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-participar w-100 mt-3">
+                      <a href='@Url.Action("FormularioDonar", "Donacion")' > QUIERO DONAR></a>
+                    </button>
+                }
+                </div>
         </div>
         <div class="col-lg-6 col-12 text-center mb-3 mb-lg-0">
             <img src="~/imagenes/animales.png" alt="Animales" class="img-fluid rounded">
@@ -75,20 +85,8 @@
     </div>
 </main>
 
-@section Scripts {
-    <script>
-        function verificarLogin() {
-            fetch('@Url.Action("VerificarLogin", "Donacion")')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.logueado) {
-                        window.location.href = '@Url.Action("FormularioDonar", "Donacion")';
-                    } else {
-                        alert("Debe estar logueado para realizar donaciones.");
-                        window.location.href = '@Url.Action("IniciarSesion", "Home")';
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-    </script>
-}
+
+<script>
+
+    var LoginUrl = '@Url.Action("IniciarSesion", "Home")';
+</script>

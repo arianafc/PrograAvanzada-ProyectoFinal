@@ -1,4 +1,5 @@
-﻿using ProyectoFinal.EF;
+﻿using Microsoft.Ajax.Utilities;
+using ProyectoFinal.EF;
 using ProyectoFinal.Models;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using System.Web.WebPages;
 
 namespace ProyectoFinal.Controllers
 {
@@ -192,7 +194,63 @@ namespace ProyectoFinal.Controllers
                 return View(new List<VisualizarActividadesActivasSP_Result>());
             }
         }
-        
+
+        [HttpGet]
+
+        public ActionResult DetalleActividad(int IdActividad)
+        {
+
+            try
+            {
+                using (var dbcontext = new CASA_NATURAEntities())
+                {
+
+                    var result = dbcontext.DetalleActividadSP(IdActividad).FirstOrDefault();
+
+                    if (result == null)
+                    {
+                        ViewBag.Error = "Actividad no encontrada";
+                        return RedirectToAction("Index");
+                    }
+
+                    return View(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Error: " + ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult ComprarBoletos(int IdActividad, int MetodoPago, int NumBoletos, string Referencia)
+        {
+            try
+            {
+                using (var dbContext = new CASA_NATURAEntities())
+                {
+                    int idUsuario = Convert.ToInt32(Session["idUsuario"]);
+                    
+                    if (Referencia.IsEmpty())
+                    {
+                        Referencia = "NA";
+                    }
+                  
+                    dbContext.CompraActividadSP(idUsuario, MetodoPago, NumBoletos, IdActividad, Referencia);
+
+                    TempData["SwalSuccess"] = "Muchas gracias por tu compra.";
+                    return RedirectToAction("ActividadesDisponibles", "Actividades");
+                }
+            }
+            catch (Exception ex)
+            {
+           
+                TempData["SwalError"] = "Ocurrió un error al procesar la compra.";
+                return RedirectToAction("ActividadesDisponibles", "Actividades");
+            }
+        }
 
     }
 

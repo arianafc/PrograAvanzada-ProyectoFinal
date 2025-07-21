@@ -18,7 +18,7 @@ namespace ProyectoFinal.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var db = new CASA_NATURAEntities1())
+                using (var db = new CASA_NATURAEntities())
                 {
                     var nueva = new CONSULTAS_TB
                     {
@@ -45,7 +45,7 @@ namespace ProyectoFinal.Controllers
         [HttpGet]
         public ActionResult GestionDudas()
         {
-            using (var db = new CASA_NATURAEntities1())
+            using (var db = new CASA_NATURAEntities())
             {
                 var resueltas = db.CONSULTAS_TB
                     .Where(c => c.ESTADO == "Resuelto")
@@ -81,7 +81,7 @@ namespace ProyectoFinal.Controllers
         [HttpPost]
         public ActionResult MarcarComoResuelta(int id)
         {
-            using (var db = new CASA_NATURAEntities1())
+            using (var db = new CASA_NATURAEntities())
             {
                 var consulta = db.CONSULTAS_TB.Find(id);
                 if (consulta != null)
