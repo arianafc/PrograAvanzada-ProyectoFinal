@@ -50,6 +50,7 @@ namespace ProyectoFinal.Controllers
                     Session["Apellido2"] = result.APELLIDO2;
                     Session["Cedula"] = result.IDENTIFICACION;
                     Session["idUsuario"] = result.ID_USUARIO;
+                    Session["ID_USUARIO"] = result.ID_USUARIO;
                     Session["email"] = result.CORREO;
                     if (result.ID_ROL == 1)
                     {

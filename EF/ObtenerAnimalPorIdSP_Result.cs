@@ -11,16 +11,20 @@ namespace ProyectoFinal.EF
 {
     using System;
     
-    public partial class VisualizarActividadesActivasSP_Result
+    public partial class ObtenerAnimalPorIdSP_Result
     {
-        public int ID_ACTIVIDAD { get; set; }
+        public int ID_ANIMAL { get; set; }
+        public string NOMBRE_ANIMAL { get; set; }
+        public int ID_RAZA { get; set; }
+        public string NOMBRE_RAZA { get; set; }
+        public System.DateTime FECHA_INGRESO { get; set; }
+        public Nullable<System.DateTime> FECHA_BAJA { get; set; }
+        public System.DateTime FECHA_NACIMIENTO { get; set; }
+        public int ID_ESTADO { get; set; }
+        public int ID_SALUD { get; set; }
         public string DESCRIPCION { get; set; }
-        public System.DateTime FECHA { get; set; }
-        public decimal PRECIO_BOLETO { get; set; }
-        public Nullable<int> TICKETS_DISPONIBLES { get; set; }
-        public Nullable<int> TICKETS_VENDIDOS { get; set; }
         public string IMAGEN { get; set; }
-        public string TIPO { get; set; }
-        public string NOMBRE { get; set; }
+        public string HISTORIA { get; set; }
+        public string NECESIDAD { get; set; }
     }
 }

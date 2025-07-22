@@ -43,10 +43,12 @@
           <Property Name="ID_APADRINAMIENTO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MONTO_MENSUAL" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="FECHA" Type="datetime" Nullable="false" />
-          <Property Name="FECHA_BAJA" Type="datetime" Nullable="false" />
+          <Property Name="FECHA_BAJA" Type="datetime" />
           <Property Name="ID_USUARIO" Type="int" Nullable="false" />
           <Property Name="ID_ESTADO" Type="int" Nullable="false" />
           <Property Name="ID_ANIMAL" Type="int" Nullable="false" />
+          <Property Name="ID_METODO" Type="int" Nullable="false" />
+          <Property Name="REFERENCIA" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="CANTONES_TB">
           <Key>
@@ -67,6 +69,19 @@
           <Property Name="MENSAJE" Type="varchar" MaxLength="500" />
           <Property Name="ID_ESTADO" Type="int" Nullable="false" />
           <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CONSULTAS_TB">
+          <Key>
+            <PropertyRef Name="ID_CONSULTA" />
+          </Key>
+          <Property Name="ID_CONSULTA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="APELLIDO" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CORREO" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="MENSAJE" Type="text" Nullable="false" />
+          <Property Name="FECHA" Type="datetime" Nullable="false" />
+          <Property Name="ESTADO" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FECHA_RESUELTA" Type="datetime" />
         </EntityType>
         <EntityType Name="DIRECCIONES_TB">
           <Key>
@@ -95,6 +110,7 @@
           <Property Name="FECHA" Type="datetime" />
           <Property Name="ID_USUARIO" Type="int" Nullable="false" />
           <Property Name="ID_METODO" Type="int" Nullable="false" />
+          <Property Name="REFERENCIA" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ESPECIES_TB">
           <Key>
@@ -158,6 +174,7 @@
           <Property Name="TICKETS_ADQUIRIDOS" Type="int" />
           <Property Name="FECHA" Type="datetime" />
           <Property Name="TOTAL" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="REFERENCIA" Type="varchar" MaxLength="100" />
           <Property Name="ID_USUARIO" Type="int" Nullable="false" />
           <Property Name="ID_ACTIVIDAD" Type="int" Nullable="false" />
           <Property Name="ID_ESTADO" Type="int" Nullable="false" />
@@ -225,7 +242,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__APADRINAM__ID_AN__5AEE82B9">
+        <Association Name="FK__APADRINAM__ID_AN__1DB06A4F">
           <End Role="ANIMAL_TB" Type="Self.ANIMAL_TB" Multiplicity="1" />
           <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -237,7 +254,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__APADRINAM__ID_ES__5BE2A6F2">
+        <Association Name="FK__APADRINAM__ID_ES__1CBC4616">
           <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
           <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -249,7 +266,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__APADRINAM__ID_US__5CD6CB2B">
+        <Association Name="FK__APADRINAM__ID_ME__1EA48E88">
+          <End Role="METODO_PAGO_TB" Type="Self.METODO_PAGO_TB" Multiplicity="1" />
+          <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="METODO_PAGO_TB">
+              <PropertyRef Name="ID_METODO" />
+            </Principal>
+            <Dependent Role="APADRINAMIENTOS_TB">
+              <PropertyRef Name="ID_METODO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__APADRINAM__ID_US__1BC821DD">
           <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
           <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -429,7 +458,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__USUARIO_A__ID_AC__6B24EA82">
+        <Association Name="FK__USUARIO_A__ID_AC__14270015">
           <End Role="ACTIVIDADES_TB" Type="Self.ACTIVIDADES_TB" Multiplicity="1" />
           <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -441,7 +470,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__USUARIO_A__ID_ES__6C190EBB">
+        <Association Name="FK__USUARIO_A__ID_ES__151B244E">
           <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
           <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -453,7 +482,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__USUARIO_A__ID_ME__6D0D32F4">
+        <Association Name="FK__USUARIO_A__ID_ME__160F4887">
           <End Role="METODO_PAGO_TB" Type="Self.METODO_PAGO_TB" Multiplicity="1" />
           <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -465,7 +494,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__USUARIO_A__ID_US__6E01572D">
+        <Association Name="FK__USUARIO_A__ID_US__1332DBDC">
           <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
           <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -510,17 +539,88 @@
           <Parameter Name="Tipo" Type="varchar" Mode="In" />
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="CambiarContrasenna2SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDENTIFICACION" Type="varchar" Mode="In" />
+          <Parameter Name="ACTUAL_CONTRASENNA" Type="varchar" Mode="In" />
+          <Parameter Name="NUEVA_CONTRASENNA" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CambiarContrasennaSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CORREO" Type="varchar" Mode="In" />
+          <Parameter Name="NUEVA_CONTRASENNA" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="CambioEstadoActividadSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstado" Type="int" Mode="In" />
+          <Parameter Name="IdActividad" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CompraActividadSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="IdMetodoPago" Type="int" Mode="In" />
+          <Parameter Name="NumeroBoletos" Type="int" Mode="In" />
+          <Parameter Name="IdActividad" Type="int" Mode="In" />
+          <Parameter Name="Referencia" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="DetalleActividadSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdActividad" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EditarActividadSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdActividad" Type="int" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Fecha" Type="datetime" Mode="In" />
+          <Parameter Name="PrecioBoleto" Type="decimal" Mode="In" />
+          <Parameter Name="TicketsDisponibles" Type="int" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Tipo" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="InsertarApadrinamientoSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MontoMensual" Type="decimal" Mode="In" />
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="IdMetodo" Type="int" Mode="In" />
+          <Parameter Name="Referencia" Type="nvarchar" Mode="In" />
+          <Parameter Name="IdAnimal" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InsertarDonacion_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Monto" Type="decimal" Mode="In" />
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="IdMetodo" Type="int" Mode="In" />
+          <Parameter Name="Referencia" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="InsertarDonacionSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Monto" Type="decimal" Mode="In" />
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="IdMetodo" Type="int" Mode="In" />
+          <Parameter Name="Referencia" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="LOGIN_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CORREO" Type="varchar" Mode="In" />
+          <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="LoginSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CORREO" Type="varchar" Mode="In" />
           <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
         </Function>
         <Function Name="ObtenerAnimalesActivos_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ObtenerAnimalesActivosSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ObtenerAnimalPorId_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID_ANIMAL" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ObtenerAnimalPorIdSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_ANIMAL" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ObtenerMisAnimalesSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_USUARIO" Type="int" Mode="In" />
         </Function>
         <Function Name="RecuperarAccesoSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
           <Parameter Name="CORREO" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="REGISTRO_SP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NOMBRE" Type="varchar" Mode="In" />
+          <Parameter Name="APELLIDO1" Type="varchar" Mode="In" />
+          <Parameter Name="APELLIDO2" Type="varchar" Mode="In" />
+          <Parameter Name="CORREO" Type="varchar" Mode="In" />
+          <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
+          <Parameter Name="IDENTIFICACION" Type="varchar" Mode="In" />
         </Function>
         <Function Name="RegistroSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="NOMBRE" Type="varchar" Mode="In" />
@@ -530,12 +630,15 @@
           <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
           <Parameter Name="IDENTIFICACION" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="VisualizarActividadesActivasSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="VisualizarActividadesSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="CASA_NATURAModelStoreContainer">
           <EntitySet Name="ACTIVIDADES_TB" EntityType="Self.ACTIVIDADES_TB" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ANIMAL_TB" EntityType="Self.ANIMAL_TB" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="APADRINAMIENTOS_TB" EntityType="Self.APADRINAMIENTOS_TB" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CANTONES_TB" EntityType="Self.CANTONES_TB" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CONSULTAS" EntityType="Self.CONSULTAS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CONSULTAS_TB" EntityType="Self.CONSULTAS_TB" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DIRECCIONES_TB" EntityType="Self.DIRECCIONES_TB" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DISTRITOS_TB" EntityType="Self.DISTRITOS_TB" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DONACIONES_TB" EntityType="Self.DONACIONES_TB" Schema="dbo" store:Type="Tables" />
@@ -564,15 +667,19 @@
             <End Role="ESTADOS_SALUD_TB" EntitySet="ESTADOS_SALUD_TB" />
             <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__APADRINAM__ID_AN__5AEE82B9" Association="Self.FK__APADRINAM__ID_AN__5AEE82B9">
+          <AssociationSet Name="FK__APADRINAM__ID_AN__1DB06A4F" Association="Self.FK__APADRINAM__ID_AN__1DB06A4F">
             <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
             <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__APADRINAM__ID_ES__5BE2A6F2" Association="Self.FK__APADRINAM__ID_ES__5BE2A6F2">
+          <AssociationSet Name="FK__APADRINAM__ID_ES__1CBC4616" Association="Self.FK__APADRINAM__ID_ES__1CBC4616">
             <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
             <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__APADRINAM__ID_US__5CD6CB2B" Association="Self.FK__APADRINAM__ID_US__5CD6CB2B">
+          <AssociationSet Name="FK__APADRINAM__ID_ME__1EA48E88" Association="Self.FK__APADRINAM__ID_ME__1EA48E88">
+            <End Role="METODO_PAGO_TB" EntitySet="METODO_PAGO_TB" />
+            <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__APADRINAM__ID_US__1BC821DD" Association="Self.FK__APADRINAM__ID_US__1BC821DD">
             <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
             <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
           </AssociationSet>
@@ -632,19 +739,19 @@
             <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
             <End Role="ROLES_TB" EntitySet="ROLES_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__USUARIO_A__ID_AC__6B24EA82" Association="Self.FK__USUARIO_A__ID_AC__6B24EA82">
+          <AssociationSet Name="FK__USUARIO_A__ID_AC__14270015" Association="Self.FK__USUARIO_A__ID_AC__14270015">
             <End Role="ACTIVIDADES_TB" EntitySet="ACTIVIDADES_TB" />
             <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__USUARIO_A__ID_ES__6C190EBB" Association="Self.FK__USUARIO_A__ID_ES__6C190EBB">
+          <AssociationSet Name="FK__USUARIO_A__ID_ES__151B244E" Association="Self.FK__USUARIO_A__ID_ES__151B244E">
             <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
             <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__USUARIO_A__ID_ME__6D0D32F4" Association="Self.FK__USUARIO_A__ID_ME__6D0D32F4">
+          <AssociationSet Name="FK__USUARIO_A__ID_ME__160F4887" Association="Self.FK__USUARIO_A__ID_ME__160F4887">
             <End Role="METODO_PAGO_TB" EntitySet="METODO_PAGO_TB" />
             <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__USUARIO_A__ID_US__6E01572D" Association="Self.FK__USUARIO_A__ID_US__6E01572D">
+          <AssociationSet Name="FK__USUARIO_A__ID_US__1332DBDC" Association="Self.FK__USUARIO_A__ID_US__1332DBDC">
             <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
             <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
           </AssociationSet>
@@ -674,8 +781,9 @@
           <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
           <Property Name="IMAGEN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TIPO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__ACTIVIDAD__ID_ES__571DF1D5" FromRole="ACTIVIDADES_TB" ToRole="ESTADOS_TB" />
-          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_AC__6B24EA82" FromRole="ACTIVIDADES_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
+          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_AC__14270015" FromRole="ACTIVIDADES_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
         </EntityType>
         <EntityType Name="ANIMAL_TB">
           <Key>
@@ -695,7 +803,7 @@
           <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__ANIMAL_TB__ID_ES__5812160E" FromRole="ANIMAL_TB" ToRole="ESTADOS_TB" />
           <NavigationProperty Name="RAZAS_TB" Relationship="Self.FK__ANIMAL_TB__ID_RA__59063A47" FromRole="ANIMAL_TB" ToRole="RAZAS_TB" />
           <NavigationProperty Name="ESTADOS_SALUD_TB" Relationship="Self.FK__ANIMAL_TB__ID_SA__59FA5E80" FromRole="ANIMAL_TB" ToRole="ESTADOS_SALUD_TB" />
-          <NavigationProperty Name="APADRINAMIENTOS_TB" Relationship="Self.FK__APADRINAM__ID_AN__5AEE82B9" FromRole="ANIMAL_TB" ToRole="APADRINAMIENTOS_TB" />
+          <NavigationProperty Name="APADRINAMIENTOS_TB" Relationship="Self.FK__APADRINAM__ID_AN__08B54D69" FromRole="ANIMAL_TB" ToRole="APADRINAMIENTOS_TB" />
         </EntityType>
         <EntityType Name="APADRINAMIENTOS_TB">
           <Key>
@@ -704,13 +812,16 @@
           <Property Name="ID_APADRINAMIENTO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MONTO_MENSUAL" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="FECHA" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="FECHA_BAJA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FECHA_BAJA" Type="DateTime" Precision="3" />
           <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
           <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
           <Property Name="ID_ANIMAL" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ANIMAL_TB" Relationship="Self.FK__APADRINAM__ID_AN__5AEE82B9" FromRole="APADRINAMIENTOS_TB" ToRole="ANIMAL_TB" />
-          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__APADRINAM__ID_ES__5BE2A6F2" FromRole="APADRINAMIENTOS_TB" ToRole="ESTADOS_TB" />
-          <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__APADRINAM__ID_US__5CD6CB2B" FromRole="APADRINAMIENTOS_TB" ToRole="USUARIOS_TB" />
+          <Property Name="ID_METODO" Type="Int32" Nullable="false" />
+          <Property Name="REFERENCIA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ANIMAL_TB" Relationship="Self.FK__APADRINAM__ID_AN__08B54D69" FromRole="APADRINAMIENTOS_TB" ToRole="ANIMAL_TB" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__APADRINAM__ID_ES__07C12930" FromRole="APADRINAMIENTOS_TB" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="METODO_PAGO_TB" Relationship="Self.FK__APADRINAM__ID_ME__09A971A2" FromRole="APADRINAMIENTOS_TB" ToRole="METODO_PAGO_TB" />
+          <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__APADRINAM__ID_US__06CD04F7" FromRole="APADRINAMIENTOS_TB" ToRole="USUARIOS_TB" />
         </EntityType>
         <EntityType Name="CANTONES_TB">
           <Key>
@@ -735,6 +846,19 @@
           <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__CONSULTAS__ID_ES__5EBF139D" FromRole="CONSULTAS" ToRole="ESTADOS_TB" />
           <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__CONSULTAS__ID_US__5FB337D6" FromRole="CONSULTAS" ToRole="USUARIOS_TB" />
+        </EntityType>
+        <EntityType Name="CONSULTAS_TB">
+          <Key>
+            <PropertyRef Name="ID_CONSULTA" />
+          </Key>
+          <Property Name="ID_CONSULTA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="APELLIDO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CORREO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MENSAJE" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ESTADO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_RESUELTA" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="DIRECCIONES_TB">
           <Key>
@@ -768,6 +892,7 @@
           <Property Name="FECHA" Type="DateTime" Precision="3" />
           <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
           <Property Name="ID_METODO" Type="Int32" Nullable="false" />
+          <Property Name="REFERENCIA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="METODO_PAGO_TB" Relationship="Self.FK__DONACIONE__ID_ME__6477ECF3" FromRole="DONACIONES_TB" ToRole="METODO_PAGO_TB" />
           <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__DONACIONE__ID_US__656C112C" FromRole="DONACIONES_TB" ToRole="USUARIOS_TB" />
         </EntityType>
@@ -797,14 +922,14 @@
           <Property Name="DESCRIPCION" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ACTIVIDADES_TB" Relationship="Self.FK__ACTIVIDAD__ID_ES__571DF1D5" FromRole="ESTADOS_TB" ToRole="ACTIVIDADES_TB" />
           <NavigationProperty Name="ANIMAL_TB" Relationship="Self.FK__ANIMAL_TB__ID_ES__5812160E" FromRole="ESTADOS_TB" ToRole="ANIMAL_TB" />
-          <NavigationProperty Name="APADRINAMIENTOS_TB" Relationship="Self.FK__APADRINAM__ID_ES__5BE2A6F2" FromRole="ESTADOS_TB" ToRole="APADRINAMIENTOS_TB" />
+          <NavigationProperty Name="APADRINAMIENTOS_TB" Relationship="Self.FK__APADRINAM__ID_ES__07C12930" FromRole="ESTADOS_TB" ToRole="APADRINAMIENTOS_TB" />
           <NavigationProperty Name="CONSULTAS" Relationship="Self.FK__CONSULTAS__ID_ES__5EBF139D" FromRole="ESTADOS_TB" ToRole="CONSULTAS" />
           <NavigationProperty Name="DIRECCIONES_TB" Relationship="Self.FK__DIRECCION__ID_ES__619B8048" FromRole="ESTADOS_TB" ToRole="DIRECCIONES_TB" />
           <NavigationProperty Name="ESPECIES_TB" Relationship="Self.FK__ESPECIES___ID_ES__66603565" FromRole="ESTADOS_TB" ToRole="ESPECIES_TB" />
           <NavigationProperty Name="METODO_PAGO_TB" Relationship="Self.FK__METODO_PA__ID_ES__6754599E" FromRole="ESTADOS_TB" ToRole="METODO_PAGO_TB" />
           <NavigationProperty Name="RAZAS_TB" Relationship="Self.FK__RAZAS_TB__ID_EST__693CA210" FromRole="ESTADOS_TB" ToRole="RAZAS_TB" />
           <NavigationProperty Name="ROLES_TB" Relationship="Self.FK__ROLES_TB__ID_EST__6A30C649" FromRole="ESTADOS_TB" ToRole="ROLES_TB" />
-          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_ES__6C190EBB" FromRole="ESTADOS_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
+          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_ES__151B244E" FromRole="ESTADOS_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
           <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__USUARIOS___ID_ES__6EF57B66" FromRole="ESTADOS_TB" ToRole="USUARIOS_TB" />
         </EntityType>
         <EntityType Name="METODO_PAGO_TB">
@@ -814,9 +939,10 @@
           <Property Name="ID_METODO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="METODO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="APADRINAMIENTOS_TB" Relationship="Self.FK__APADRINAM__ID_ME__09A971A2" FromRole="METODO_PAGO_TB" ToRole="APADRINAMIENTOS_TB" />
           <NavigationProperty Name="DONACIONES_TB" Relationship="Self.FK__DONACIONE__ID_ME__6477ECF3" FromRole="METODO_PAGO_TB" ToRole="DONACIONES_TB" />
           <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__METODO_PA__ID_ES__6754599E" FromRole="METODO_PAGO_TB" ToRole="ESTADOS_TB" />
-          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_ME__6D0D32F4" FromRole="METODO_PAGO_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
+          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_ME__160F4887" FromRole="METODO_PAGO_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
         </EntityType>
         <EntityType Name="PROVINCIAS_TB">
           <Key>
@@ -856,14 +982,15 @@
           <Property Name="TICKETS_ADQUIRIDOS" Type="Int32" />
           <Property Name="FECHA" Type="DateTime" Precision="3" />
           <Property Name="TOTAL" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="REFERENCIA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
           <Property Name="ID_ACTIVIDAD" Type="Int32" Nullable="false" />
           <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
           <Property Name="ID_METODO_PAGO" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ACTIVIDADES_TB" Relationship="Self.FK__USUARIO_A__ID_AC__6B24EA82" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="ACTIVIDADES_TB" />
-          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__USUARIO_A__ID_ES__6C190EBB" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="ESTADOS_TB" />
-          <NavigationProperty Name="METODO_PAGO_TB" Relationship="Self.FK__USUARIO_A__ID_ME__6D0D32F4" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="METODO_PAGO_TB" />
-          <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__USUARIO_A__ID_US__6E01572D" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="USUARIOS_TB" />
+          <NavigationProperty Name="ACTIVIDADES_TB" Relationship="Self.FK__USUARIO_A__ID_AC__14270015" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="ACTIVIDADES_TB" />
+          <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__USUARIO_A__ID_ES__151B244E" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="ESTADOS_TB" />
+          <NavigationProperty Name="METODO_PAGO_TB" Relationship="Self.FK__USUARIO_A__ID_ME__160F4887" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="METODO_PAGO_TB" />
+          <NavigationProperty Name="USUARIOS_TB" Relationship="Self.FK__USUARIO_A__ID_US__1332DBDC" FromRole="USUARIO_ACTIVIDAD_TB" ToRole="USUARIOS_TB" />
         </EntityType>
         <EntityType Name="USUARIOS_TB">
           <Key>
@@ -878,13 +1005,13 @@
           <Property Name="PASSWORD" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ID_ROL" Type="Int32" Nullable="false" />
           <Property Name="Identificacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="APADRINAMIENTOS_TB" Relationship="Self.FK__APADRINAM__ID_US__5CD6CB2B" FromRole="USUARIOS_TB" ToRole="APADRINAMIENTOS_TB" />
+          <NavigationProperty Name="APADRINAMIENTOS_TB" Relationship="Self.FK__APADRINAM__ID_US__06CD04F7" FromRole="USUARIOS_TB" ToRole="APADRINAMIENTOS_TB" />
           <NavigationProperty Name="CONSULTAS" Relationship="Self.FK__CONSULTAS__ID_US__5FB337D6" FromRole="USUARIOS_TB" ToRole="CONSULTAS" />
           <NavigationProperty Name="DIRECCIONES_TB" Relationship="Self.FK__DIRECCION__ID_US__628FA481" FromRole="USUARIOS_TB" ToRole="DIRECCIONES_TB" />
           <NavigationProperty Name="DONACIONES_TB" Relationship="Self.FK__DONACIONE__ID_US__656C112C" FromRole="USUARIOS_TB" ToRole="DONACIONES_TB" />
           <NavigationProperty Name="ESTADOS_TB" Relationship="Self.FK__USUARIOS___ID_ES__6EF57B66" FromRole="USUARIOS_TB" ToRole="ESTADOS_TB" />
           <NavigationProperty Name="ROLES_TB" Relationship="Self.FK__USUARIOS___ID_RO__6FE99F9F" FromRole="USUARIOS_TB" ToRole="ROLES_TB" />
-          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_US__6E01572D" FromRole="USUARIOS_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
+          <NavigationProperty Name="USUARIO_ACTIVIDAD_TB" Relationship="Self.FK__USUARIO_A__ID_US__1332DBDC" FromRole="USUARIOS_TB" ToRole="USUARIO_ACTIVIDAD_TB" />
         </EntityType>
         <Association Name="FK__ACTIVIDAD__ID_ES__571DF1D5">
           <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
@@ -898,7 +1025,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__USUARIO_A__ID_AC__6B24EA82">
+        <Association Name="FK__USUARIO_A__ID_AC__14270015">
           <End Role="ACTIVIDADES_TB" Type="Self.ACTIVIDADES_TB" Multiplicity="1" />
           <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -946,7 +1073,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__APADRINAM__ID_AN__5AEE82B9">
+        <Association Name="FK__APADRINAM__ID_AN__08B54D69">
           <End Role="ANIMAL_TB" Type="Self.ANIMAL_TB" Multiplicity="1" />
           <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -958,7 +1085,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__APADRINAM__ID_ES__5BE2A6F2">
+        <Association Name="FK__APADRINAM__ID_ES__07C12930">
           <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
           <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -970,7 +1097,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__APADRINAM__ID_US__5CD6CB2B">
+        <Association Name="FK__APADRINAM__ID_ME__09A971A2">
+          <End Role="METODO_PAGO_TB" Type="Self.METODO_PAGO_TB" Multiplicity="1" />
+          <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="METODO_PAGO_TB">
+              <PropertyRef Name="ID_METODO" />
+            </Principal>
+            <Dependent Role="APADRINAMIENTOS_TB">
+              <PropertyRef Name="ID_METODO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__APADRINAM__ID_US__06CD04F7">
           <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
           <End Role="APADRINAMIENTOS_TB" Type="Self.APADRINAMIENTOS_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1150,7 +1289,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__USUARIO_A__ID_ES__6C190EBB">
+        <Association Name="FK__USUARIO_A__ID_ES__151B244E">
           <End Role="ESTADOS_TB" Type="Self.ESTADOS_TB" Multiplicity="1" />
           <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1174,7 +1313,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__USUARIO_A__ID_ME__6D0D32F4">
+        <Association Name="FK__USUARIO_A__ID_ME__160F4887">
           <End Role="METODO_PAGO_TB" Type="Self.METODO_PAGO_TB" Multiplicity="1" />
           <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1198,7 +1337,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__USUARIO_A__ID_US__6E01572D">
+        <Association Name="FK__USUARIO_A__ID_US__1332DBDC">
           <End Role="USUARIOS_TB" Type="Self.USUARIOS_TB" Multiplicity="1" />
           <End Role="USUARIO_ACTIVIDAD_TB" Type="Self.USUARIO_ACTIVIDAD_TB" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1216,6 +1355,7 @@
           <EntitySet Name="APADRINAMIENTOS_TB" EntityType="Self.APADRINAMIENTOS_TB" />
           <EntitySet Name="CANTONES_TB" EntityType="Self.CANTONES_TB" />
           <EntitySet Name="CONSULTAS" EntityType="Self.CONSULTAS" />
+          <EntitySet Name="CONSULTAS_TB" EntityType="Self.CONSULTAS_TB" />
           <EntitySet Name="DIRECCIONES_TB" EntityType="Self.DIRECCIONES_TB" />
           <EntitySet Name="DISTRITOS_TB" EntityType="Self.DISTRITOS_TB" />
           <EntitySet Name="DONACIONES_TB" EntityType="Self.DONACIONES_TB" />
@@ -1232,7 +1372,7 @@
             <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
             <End Role="ACTIVIDADES_TB" EntitySet="ACTIVIDADES_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__USUARIO_A__ID_AC__6B24EA82" Association="Self.FK__USUARIO_A__ID_AC__6B24EA82">
+          <AssociationSet Name="FK__USUARIO_A__ID_AC__14270015" Association="Self.FK__USUARIO_A__ID_AC__14270015">
             <End Role="ACTIVIDADES_TB" EntitySet="ACTIVIDADES_TB" />
             <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
           </AssociationSet>
@@ -1248,15 +1388,19 @@
             <End Role="ESTADOS_SALUD_TB" EntitySet="ESTADOS_SALUD_TB" />
             <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__APADRINAM__ID_AN__5AEE82B9" Association="Self.FK__APADRINAM__ID_AN__5AEE82B9">
+          <AssociationSet Name="FK__APADRINAM__ID_AN__08B54D69" Association="Self.FK__APADRINAM__ID_AN__08B54D69">
             <End Role="ANIMAL_TB" EntitySet="ANIMAL_TB" />
             <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__APADRINAM__ID_ES__5BE2A6F2" Association="Self.FK__APADRINAM__ID_ES__5BE2A6F2">
+          <AssociationSet Name="FK__APADRINAM__ID_ES__07C12930" Association="Self.FK__APADRINAM__ID_ES__07C12930">
             <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
             <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__APADRINAM__ID_US__5CD6CB2B" Association="Self.FK__APADRINAM__ID_US__5CD6CB2B">
+          <AssociationSet Name="FK__APADRINAM__ID_ME__09A971A2" Association="Self.FK__APADRINAM__ID_ME__09A971A2">
+            <End Role="METODO_PAGO_TB" EntitySet="METODO_PAGO_TB" />
+            <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
+          </AssociationSet>
+          <AssociationSet Name="FK__APADRINAM__ID_US__06CD04F7" Association="Self.FK__APADRINAM__ID_US__06CD04F7">
             <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
             <End Role="APADRINAMIENTOS_TB" EntitySet="APADRINAMIENTOS_TB" />
           </AssociationSet>
@@ -1316,7 +1460,7 @@
             <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
             <End Role="ROLES_TB" EntitySet="ROLES_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__USUARIO_A__ID_ES__6C190EBB" Association="Self.FK__USUARIO_A__ID_ES__6C190EBB">
+          <AssociationSet Name="FK__USUARIO_A__ID_ES__151B244E" Association="Self.FK__USUARIO_A__ID_ES__151B244E">
             <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
             <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
           </AssociationSet>
@@ -1324,7 +1468,7 @@
             <End Role="ESTADOS_TB" EntitySet="ESTADOS_TB" />
             <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__USUARIO_A__ID_ME__6D0D32F4" Association="Self.FK__USUARIO_A__ID_ME__6D0D32F4">
+          <AssociationSet Name="FK__USUARIO_A__ID_ME__160F4887" Association="Self.FK__USUARIO_A__ID_ME__160F4887">
             <End Role="METODO_PAGO_TB" EntitySet="METODO_PAGO_TB" />
             <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
           </AssociationSet>
@@ -1332,42 +1476,10 @@
             <End Role="ROLES_TB" EntitySet="ROLES_TB" />
             <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
           </AssociationSet>
-          <AssociationSet Name="FK__USUARIO_A__ID_US__6E01572D" Association="Self.FK__USUARIO_A__ID_US__6E01572D">
+          <AssociationSet Name="FK__USUARIO_A__ID_US__1332DBDC" Association="Self.FK__USUARIO_A__ID_US__1332DBDC">
             <End Role="USUARIOS_TB" EntitySet="USUARIOS_TB" />
             <End Role="USUARIO_ACTIVIDAD_TB" EntitySet="USUARIO_ACTIVIDAD_TB" />
           </AssociationSet>
-          <FunctionImport Name="LOGIN_SP" ReturnType="Collection(CASA_NATURAModel.LOGIN_SP_Result)">
-            <Parameter Name="CORREO" Mode="In" Type="String" />
-            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="ObtenerAnimalesActivos_SP" ReturnType="Collection(CASA_NATURAModel.ObtenerAnimalesActivos_SP_Result)" />
-          <FunctionImport Name="ObtenerAnimalPorId_SP" ReturnType="Collection(CASA_NATURAModel.ObtenerAnimalPorId_SP_Result)">
-          <Parameter Name="ID_ANIMAL" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="REGISTRO_SP">
-            <Parameter Name="NOMBRE" Mode="In" Type="String" />
-            <Parameter Name="APELLIDO1" Mode="In" Type="String" />
-            <Parameter Name="APELLIDO2" Mode="In" Type="String" />
-            <Parameter Name="CORREO" Mode="In" Type="String" />
-            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
-            <Parameter Name="IDENTIFICACION" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="LoginSP" ReturnType="Collection(CASA_NATURAModel.LoginSP_Result)">
-            <Parameter Name="CORREO" Mode="In" Type="String" />
-            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="RecuperarAccesoSP">
-            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
-            <Parameter Name="CORREO" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="RegistroSP">
-            <Parameter Name="NOMBRE" Mode="In" Type="String" />
-            <Parameter Name="APELLIDO1" Mode="In" Type="String" />
-            <Parameter Name="APELLIDO2" Mode="In" Type="String" />
-            <Parameter Name="CORREO" Mode="In" Type="String" />
-            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
-            <Parameter Name="IDENTIFICACION" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="AgregarActividadSP">
             <Parameter Name="Descripcion" Mode="In" Type="String" />
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
@@ -1377,7 +1489,112 @@
             <Parameter Name="Tipo" Mode="In" Type="String" />
             <Parameter Name="Nombre" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="CambiarContrasennaSP">
+            <Parameter Name="CORREO" Mode="In" Type="String" />
+            <Parameter Name="NUEVA_CONTRASENNA" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CambioEstadoActividadSP">
+            <Parameter Name="IdEstado" Mode="In" Type="Int32" />
+            <Parameter Name="IdActividad" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CompraActividadSP">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="IdMetodoPago" Mode="In" Type="Int32" />
+            <Parameter Name="NumeroBoletos" Mode="In" Type="Int32" />
+            <Parameter Name="IdActividad" Mode="In" Type="Int32" />
+            <Parameter Name="Referencia" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DetalleActividadSP" ReturnType="Collection(CASA_NATURAModel.DetalleActividadSP_Result)">
+          <Parameter Name="IdActividad" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EditarActividadSP">
+            <Parameter Name="IdActividad" Mode="In" Type="Int32" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="PrecioBoleto" Mode="In" Type="Decimal" />
+            <Parameter Name="TicketsDisponibles" Mode="In" Type="Int32" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="Tipo" Mode="In" Type="String" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InsertarApadrinamientoSP">
+            <Parameter Name="MontoMensual" Mode="In" Type="Decimal" />
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="IdMetodo" Mode="In" Type="Int32" />
+            <Parameter Name="Referencia" Mode="In" Type="String" />
+            <Parameter Name="IdAnimal" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertarDonacion_SP">
+            <Parameter Name="Monto" Mode="In" Type="Decimal" />
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="IdMetodo" Mode="In" Type="Int32" />
+            <Parameter Name="Referencia" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InsertarDonacionSP">
+            <Parameter Name="Monto" Mode="In" Type="Decimal" />
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="IdMetodo" Mode="In" Type="Int32" />
+            <Parameter Name="Referencia" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="LOGIN_SP" ReturnType="Collection(CASA_NATURAModel.LOGIN_SP_Result)">
+            <Parameter Name="CORREO" Mode="In" Type="String" />
+            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="LoginSP" ReturnType="Collection(CASA_NATURAModel.LoginSP_Result)">
+            <Parameter Name="CORREO" Mode="In" Type="String" />
+            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerAnimalesActivos_SP" ReturnType="Collection(CASA_NATURAModel.ObtenerAnimalesActivos_SP_Result)" />
+          <FunctionImport Name="ObtenerAnimalesActivosSP" ReturnType="Collection(CASA_NATURAModel.ObtenerAnimalesActivosSP_Result)" />
+          <FunctionImport Name="ObtenerAnimalPorId_SP" ReturnType="Collection(CASA_NATURAModel.ObtenerAnimalPorId_SP_Result)">
+          <Parameter Name="ID_ANIMAL" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerAnimalPorIdSP" ReturnType="Collection(CASA_NATURAModel.ObtenerAnimalPorIdSP_Result)">
+          <Parameter Name="ID_ANIMAL" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RecuperarAccesoSP">
+            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
+            <Parameter Name="CORREO" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="REGISTRO_SP">
+            <Parameter Name="NOMBRE" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO1" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO2" Mode="In" Type="String" />
+            <Parameter Name="CORREO" Mode="In" Type="String" />
+            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
+            <Parameter Name="IDENTIFICACION" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RegistroSP">
+            <Parameter Name="NOMBRE" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO1" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO2" Mode="In" Type="String" />
+            <Parameter Name="CORREO" Mode="In" Type="String" />
+            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
+            <Parameter Name="IDENTIFICACION" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="VisualizarActividadesActivasSP" ReturnType="Collection(CASA_NATURAModel.VisualizarActividadesActivasSP_Result)" />
+          <FunctionImport Name="VisualizarActividadesSP" ReturnType="Collection(CASA_NATURAModel.VisualizarActividadesSP_Result)" />
+          <FunctionImport Name="CambiarContrasenna2SP">
+            <Parameter Name="IDENTIFICACION" Mode="In" Type="String" />
+            <Parameter Name="ACTUAL_CONTRASENNA" Mode="In" Type="String" />
+            <Parameter Name="NUEVA_CONTRASENNA" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerMisAnimalesSP" ReturnType="Collection(CASA_NATURAModel.ObtenerMisAnimalesSP_Result)">
+          <Parameter Name="ID_USUARIO" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="DetalleActividadSP_Result">
+          <Property Type="Int32" Name="ID_ACTIVIDAD" Nullable="false" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="false" MaxLength="4000" />
+          <Property Type="DateTime" Name="FECHA" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="PRECIO_BOLETO" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="TICKETS_DISPONIBLES" Nullable="true" />
+          <Property Type="Int32" Name="TICKETS_VENDIDOS" Nullable="true" />
+          <Property Type="Int32" Name="ID_ESTADO" Nullable="false" />
+          <Property Type="String" Name="IMAGEN" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="TIPO" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NOMBRE" Nullable="true" MaxLength="255" />
+        </ComplexType>
         <ComplexType Name="LOGIN_SP_Result">
           <Property Type="Int32" Name="ID_USUARIO" Nullable="false" />
           <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="50" />
@@ -1388,7 +1605,30 @@
           <Property Type="Int32" Name="ID_ROL" Nullable="false" />
           <Property Type="Int32" Name="ID_ESTADO" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="LoginSP_Result">
+          <Property Type="Int32" Name="ID_USUARIO" Nullable="false" />
+          <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="APELLIDO2" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="APELLIDO1" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="IDENTIFICACION" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CORREO" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ID_ROL" Nullable="false" />
+          <Property Type="Int32" Name="ID_ESTADO" Nullable="false" />
+        </ComplexType>
         <ComplexType Name="ObtenerAnimalesActivos_SP_Result">
+          <Property Type="Int32" Name="ID_ANIMAL" Nullable="false" />
+          <Property Type="String" Name="NOMBRE" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="ID_RAZA" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_INGRESO" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FECHA_BAJA" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="FECHA_NACIMIENTO" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="ID_ESTADO" Nullable="false" />
+          <Property Type="Int32" Name="ID_SALUD" Nullable="false" />
+          <Property Type="String" Name="IMAGEN" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="HISTORIA" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NECESIDAD" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="ObtenerAnimalesActivosSP_Result">
           <Property Type="Int32" Name="ID_ANIMAL" Nullable="false" />
           <Property Type="String" Name="NOMBRE" Nullable="true" MaxLength="30" />
           <Property Type="Int32" Name="ID_RAZA" Nullable="false" />
@@ -1414,15 +1654,56 @@
           <Property Type="String" Name="HISTORIA" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="NECESIDAD" Nullable="true" MaxLength="255" />
         </ComplexType>
-        <ComplexType Name="LoginSP_Result">
-          <Property Type="Int32" Name="ID_USUARIO" Nullable="false" />
-          <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="APELLIDO2" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="APELLIDO1" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="IDENTIFICACION" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="CORREO" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="ID_ROL" Nullable="false" />
+        <ComplexType Name="ObtenerAnimalPorIdSP_Result">
+          <Property Type="Int32" Name="ID_ANIMAL" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_ANIMAL" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="ID_RAZA" Nullable="false" />
+          <Property Type="String" Name="NOMBRE_RAZA" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FECHA_INGRESO" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FECHA_BAJA" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="FECHA_NACIMIENTO" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="ID_ESTADO" Nullable="false" />
+          <Property Type="Int32" Name="ID_SALUD" Nullable="false" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="IMAGEN" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="HISTORIA" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NECESIDAD" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="VisualizarActividadesActivasSP_Result">
+          <Property Type="Int32" Name="ID_ACTIVIDAD" Nullable="false" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="false" MaxLength="4000" />
+          <Property Type="DateTime" Name="FECHA" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="PRECIO_BOLETO" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="TICKETS_DISPONIBLES" Nullable="true" />
+          <Property Type="Int32" Name="TICKETS_VENDIDOS" Nullable="true" />
+          <Property Type="String" Name="IMAGEN" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="TIPO" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NOMBRE" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="VisualizarActividadesSP_Result">
+          <Property Type="Int32" Name="ID_ACTIVIDAD" Nullable="false" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="false" MaxLength="4000" />
+          <Property Type="DateTime" Name="FECHA" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="PRECIO_BOLETO" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="TICKETS_DISPONIBLES" Nullable="true" />
+          <Property Type="Int32" Name="TICKETS_VENDIDOS" Nullable="true" />
+          <Property Type="Int32" Name="ID_ESTADO" Nullable="false" />
+          <Property Type="String" Name="IMAGEN" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="TIPO" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NOMBRE" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="ObtenerMisAnimalesSP_Result">
+          <Property Type="Int32" Name="ID_ANIMAL" Nullable="false" />
+          <Property Type="String" Name="NOMBRE" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="ID_RAZA" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_INGRESO" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FECHA_BAJA" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="FECHA_NACIMIENTO" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="ID_ESTADO" Nullable="false" />
+          <Property Type="Int32" Name="ID_SALUD" Nullable="false" />
+          <Property Type="String" Name="IMAGEN" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="HISTORIA" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NECESIDAD" Nullable="true" MaxLength="255" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1433,7 +1714,6 @@
           <EntitySetMapping Name="ACTIVIDADES_TB">
             <EntityTypeMapping TypeName="CASA_NATURAModel.ACTIVIDADES_TB">
               <MappingFragment StoreEntitySet="ACTIVIDADES_TB">
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="ID_ACTIVIDAD" ColumnName="ID_ACTIVIDAD" />
                 <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
                 <ScalarProperty Name="FECHA" ColumnName="FECHA" />
@@ -1443,6 +1723,7 @@
                 <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
                 <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
                 <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1473,6 +1754,8 @@
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
                 <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
                 <ScalarProperty Name="ID_ANIMAL" ColumnName="ID_ANIMAL" />
+                <ScalarProperty Name="ID_METODO" ColumnName="ID_METODO" />
+                <ScalarProperty Name="REFERENCIA" ColumnName="REFERENCIA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1495,6 +1778,20 @@
                 <ScalarProperty Name="MENSAJE" ColumnName="MENSAJE" />
                 <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CONSULTAS_TB">
+            <EntityTypeMapping TypeName="CASA_NATURAModel.CONSULTAS_TB">
+              <MappingFragment StoreEntitySet="CONSULTAS_TB">
+                <ScalarProperty Name="ID_CONSULTA" ColumnName="ID_CONSULTA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="MENSAJE" ColumnName="MENSAJE" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="FECHA_RESUELTA" ColumnName="FECHA_RESUELTA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1526,6 +1823,7 @@
                 <ScalarProperty Name="FECHA" ColumnName="FECHA" />
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
                 <ScalarProperty Name="ID_METODO" ColumnName="ID_METODO" />
+                <ScalarProperty Name="REFERENCIA" ColumnName="REFERENCIA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1597,6 +1895,7 @@
                 <ScalarProperty Name="TICKETS_ADQUIRIDOS" ColumnName="TICKETS_ADQUIRIDOS" />
                 <ScalarProperty Name="FECHA" ColumnName="FECHA" />
                 <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+                <ScalarProperty Name="REFERENCIA" ColumnName="REFERENCIA" />
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
                 <ScalarProperty Name="ID_ACTIVIDAD" ColumnName="ID_ACTIVIDAD" />
                 <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
@@ -1619,9 +1918,78 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AgregarActividadSP" FunctionName="CASA_NATURAModel.Store.AgregarActividadSP" />
+          <FunctionImportMapping FunctionImportName="CambiarContrasennaSP" FunctionName="CASA_NATURAModel.Store.CambiarContrasennaSP" />
+          <FunctionImportMapping FunctionImportName="CambioEstadoActividadSP" FunctionName="CASA_NATURAModel.Store.CambioEstadoActividadSP" />
+          <FunctionImportMapping FunctionImportName="CompraActividadSP" FunctionName="CASA_NATURAModel.Store.CompraActividadSP" />
+          <FunctionImportMapping FunctionImportName="DetalleActividadSP" FunctionName="CASA_NATURAModel.Store.DetalleActividadSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CASA_NATURAModel.DetalleActividadSP_Result">
+                <ScalarProperty Name="ID_ACTIVIDAD" ColumnName="ID_ACTIVIDAD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="PRECIO_BOLETO" ColumnName="PRECIO_BOLETO" />
+                <ScalarProperty Name="TICKETS_DISPONIBLES" ColumnName="TICKETS_DISPONIBLES" />
+                <ScalarProperty Name="TICKETS_VENDIDOS" ColumnName="TICKETS_VENDIDOS" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EditarActividadSP" FunctionName="CASA_NATURAModel.Store.EditarActividadSP" />
+          <FunctionImportMapping FunctionImportName="InsertarApadrinamientoSP" FunctionName="CASA_NATURAModel.Store.InsertarApadrinamientoSP" />
+          <FunctionImportMapping FunctionImportName="InsertarDonacion_SP" FunctionName="CASA_NATURAModel.Store.InsertarDonacion_SP" />
+          <FunctionImportMapping FunctionImportName="InsertarDonacionSP" FunctionName="CASA_NATURAModel.Store.InsertarDonacionSP" />
+          <FunctionImportMapping FunctionImportName="LOGIN_SP" FunctionName="CASA_NATURAModel.Store.LOGIN_SP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CASA_NATURAModel.LOGIN_SP_Result">
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
+                <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />
+                <ScalarProperty Name="IDENTIFICACION" ColumnName="IDENTIFICACION" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="LoginSP" FunctionName="CASA_NATURAModel.Store.LoginSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CASA_NATURAModel.LoginSP_Result">
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
+                <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />
+                <ScalarProperty Name="IDENTIFICACION" ColumnName="IDENTIFICACION" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ObtenerAnimalesActivos_SP" FunctionName="CASA_NATURAModel.Store.ObtenerAnimalesActivos_SP">
             <ResultMapping>
               <ComplexTypeMapping TypeName="CASA_NATURAModel.ObtenerAnimalesActivos_SP_Result">
+                <ScalarProperty Name="ID_ANIMAL" ColumnName="ID_ANIMAL" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ID_RAZA" ColumnName="ID_RAZA" />
+                <ScalarProperty Name="FECHA_INGRESO" ColumnName="FECHA_INGRESO" />
+                <ScalarProperty Name="FECHA_BAJA" ColumnName="FECHA_BAJA" />
+                <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="ID_SALUD" ColumnName="ID_SALUD" />
+                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
+                <ScalarProperty Name="HISTORIA" ColumnName="HISTORIA" />
+                <ScalarProperty Name="NECESIDAD" ColumnName="NECESIDAD" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerAnimalesActivosSP" FunctionName="CASA_NATURAModel.Store.ObtenerAnimalesActivosSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CASA_NATURAModel.ObtenerAnimalesActivosSP_Result">
                 <ScalarProperty Name="ID_ANIMAL" ColumnName="ID_ANIMAL" />
                 <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="ID_RAZA" ColumnName="ID_RAZA" />
@@ -1653,23 +2021,77 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="LoginSP" FunctionName="CASA_NATURAModel.Store.LoginSP">
+          <FunctionImportMapping FunctionImportName="ObtenerAnimalPorIdSP" FunctionName="CASA_NATURAModel.Store.ObtenerAnimalPorIdSP">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="CASA_NATURAModel.LoginSP_Result">
-                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
-                <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />
-                <ScalarProperty Name="IDENTIFICACION" ColumnName="IDENTIFICACION" />
-                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
-                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+              <ComplexTypeMapping TypeName="CASA_NATURAModel.ObtenerAnimalPorIdSP_Result">
+                <ScalarProperty Name="ID_ANIMAL" ColumnName="ID_ANIMAL" />
+                <ScalarProperty Name="NOMBRE_ANIMAL" ColumnName="NOMBRE_ANIMAL" />
+                <ScalarProperty Name="ID_RAZA" ColumnName="ID_RAZA" />
+                <ScalarProperty Name="NOMBRE_RAZA" ColumnName="NOMBRE_RAZA" />
+                <ScalarProperty Name="FECHA_INGRESO" ColumnName="FECHA_INGRESO" />
+                <ScalarProperty Name="FECHA_BAJA" ColumnName="FECHA_BAJA" />
+                <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
                 <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="ID_SALUD" ColumnName="ID_SALUD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
+                <ScalarProperty Name="HISTORIA" ColumnName="HISTORIA" />
+                <ScalarProperty Name="NECESIDAD" ColumnName="NECESIDAD" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="RecuperarAccesoSP" FunctionName="CASA_NATURAModel.Store.RecuperarAccesoSP" />
+          <FunctionImportMapping FunctionImportName="REGISTRO_SP" FunctionName="CASA_NATURAModel.Store.REGISTRO_SP" />
           <FunctionImportMapping FunctionImportName="RegistroSP" FunctionName="CASA_NATURAModel.Store.RegistroSP" />
-          <FunctionImportMapping FunctionImportName="AgregarActividadSP" FunctionName="CASA_NATURAModel.Store.AgregarActividadSP" />
+          <FunctionImportMapping FunctionImportName="VisualizarActividadesActivasSP" FunctionName="CASA_NATURAModel.Store.VisualizarActividadesActivasSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CASA_NATURAModel.VisualizarActividadesActivasSP_Result">
+                <ScalarProperty Name="ID_ACTIVIDAD" ColumnName="ID_ACTIVIDAD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="PRECIO_BOLETO" ColumnName="PRECIO_BOLETO" />
+                <ScalarProperty Name="TICKETS_DISPONIBLES" ColumnName="TICKETS_DISPONIBLES" />
+                <ScalarProperty Name="TICKETS_VENDIDOS" ColumnName="TICKETS_VENDIDOS" />
+                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="VisualizarActividadesSP" FunctionName="CASA_NATURAModel.Store.VisualizarActividadesSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CASA_NATURAModel.VisualizarActividadesSP_Result">
+                <ScalarProperty Name="ID_ACTIVIDAD" ColumnName="ID_ACTIVIDAD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="PRECIO_BOLETO" ColumnName="PRECIO_BOLETO" />
+                <ScalarProperty Name="TICKETS_DISPONIBLES" ColumnName="TICKETS_DISPONIBLES" />
+                <ScalarProperty Name="TICKETS_VENDIDOS" ColumnName="TICKETS_VENDIDOS" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CambiarContrasenna2SP" FunctionName="CASA_NATURAModel.Store.CambiarContrasenna2SP" />
+          <FunctionImportMapping FunctionImportName="ObtenerMisAnimalesSP" FunctionName="CASA_NATURAModel.Store.ObtenerMisAnimalesSP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CASA_NATURAModel.ObtenerMisAnimalesSP_Result">
+                <ScalarProperty Name="ID_ANIMAL" ColumnName="ID_ANIMAL" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ID_RAZA" ColumnName="ID_RAZA" />
+                <ScalarProperty Name="FECHA_INGRESO" ColumnName="FECHA_INGRESO" />
+                <ScalarProperty Name="FECHA_BAJA" ColumnName="FECHA_BAJA" />
+                <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="ID_SALUD" ColumnName="ID_SALUD" />
+                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
+                <ScalarProperty Name="HISTORIA" ColumnName="HISTORIA" />
+                <ScalarProperty Name="NECESIDAD" ColumnName="NECESIDAD" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

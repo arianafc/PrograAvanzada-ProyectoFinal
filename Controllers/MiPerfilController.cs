@@ -2,6 +2,7 @@
 using ProyectoFinal.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,7 +17,7 @@ namespace ProyectoFinal.Controllers
             return Session["idUsuario"] != null;
         }
 
-        public ActionResult editarPerfil()
+        public ActionResult MiPerfil()
         {
             if (Session["idUsuario"] == null)
             {
@@ -35,7 +36,6 @@ namespace ProyectoFinal.Controllers
                     })
                     .FirstOrDefault();
 
-                // Si necesitas enviar la dirección como string:
                 if (direccion != null)
                 {
                     ViewBag.Direccion = direccion.Direccion;
@@ -49,6 +49,37 @@ namespace ProyectoFinal.Controllers
             }
         }
 
+        public ActionResult EditarInfoPerfil()
+        {
+            if (Session["idUsuario"] == null)
+            {
+                return RedirectToAction("IniciarSesion", "Home");
+            }
+
+            int idUsuario = Convert.ToInt32(Session["idUsuario"]);
+
+            using (var db = new CASA_NATURAEntities())
+            {
+                var direccion = db.DIRECCIONES_TB
+                    .Where(d => d.ID_USUARIO == idUsuario)
+                    .Select(d => new
+                    {
+                        Direccion = d.DIRECCION_EXACTA
+                    })
+                    .FirstOrDefault();
+
+                if (direccion != null)
+                {
+                    ViewBag.Direccion = direccion.Direccion;
+                }
+                else
+                {
+                    ViewBag.Direccion = "No registrada";
+                }
+
+                return View();
+            }
+        }
 
         public ActionResult MisDonaciones()
         {
@@ -77,9 +108,23 @@ namespace ProyectoFinal.Controllers
 
         public ActionResult MisAnimales()
         {
-            if (!EsUsuarioAutenticado()) return RedirectToAction("IniciarSesion", "Home");
-            return View();
+            if (Session["idUsuario"] == null)
+            {
+                return RedirectToAction("IniciarSesion", "Home");
+            }
+
+            int ID_USUARIO = Convert.ToInt32(Session["idUsuario"]);
+
+            using (var db = new CASA_NATURAEntities())
+            {
+                // Llamada al SP a través del método generado por EF
+                var animales = db.ObtenerMisAnimalesSP(ID_USUARIO).ToList();
+
+                return View(animales);
+            }
         }
+
+
 
         public ActionResult MisTours()
         {
@@ -87,16 +132,6 @@ namespace ProyectoFinal.Controllers
             return View();
         }
 
-        public ActionResult MisEventos()
-        {
-            if (!EsUsuarioAutenticado()) return RedirectToAction("IniciarSesion", "Home");
-            return View();
-        }
 
-        public ActionResult Editar()
-        {
-            if (!EsUsuarioAutenticado()) return RedirectToAction("IniciarSesion", "Home");
-            return View();
-        }
     }
 }

@@ -10,17 +10,17 @@
 namespace ProyectoFinal.EF
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class VisualizarActividadesActivasSP_Result
+    public partial class CONSULTAS_TB
     {
-        public int ID_ACTIVIDAD { get; set; }
-        public string DESCRIPCION { get; set; }
-        public System.DateTime FECHA { get; set; }
-        public decimal PRECIO_BOLETO { get; set; }
-        public Nullable<int> TICKETS_DISPONIBLES { get; set; }
-        public Nullable<int> TICKETS_VENDIDOS { get; set; }
-        public string IMAGEN { get; set; }
-        public string TIPO { get; set; }
+        public int ID_CONSULTA { get; set; }
         public string NOMBRE { get; set; }
+        public string APELLIDO { get; set; }
+        public string CORREO { get; set; }
+        public string MENSAJE { get; set; }
+        public System.DateTime FECHA { get; set; }
+        public string ESTADO { get; set; }
+        public Nullable<System.DateTime> FECHA_RESUELTA { get; set; }
     }
 }

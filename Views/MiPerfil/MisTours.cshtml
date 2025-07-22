@@ -33,12 +33,11 @@
 
 <main class="container py-5">
 
-    <!-- Menú rápido tipo dashboard minimalista con borde y sombra hover -->
     <div class="row justify-content-center mb-5 text-center">
         <div class="col-6 col-md-4 col-lg-2 mb-3">
-            <a href="@Url.Action("editarPerfil", "MiPerfil")" class="btn-minimal">
-                <span>🏠</span>
-                DASHBOARD
+            <a href="@Url.Action("MiPerfil", "MiPerfil")" class="btn-minimal">
+                <span>✏️</span>
+                MI INFORMACIÓN
             </a>
         </div>
 
@@ -59,23 +58,10 @@
         <div class="col-6 col-md-4 col-lg-2 mb-3">
             <a href="@Url.Action("MisTours", "MiPerfil")" class="btn-minimal">
                 <span>🎟️</span>
-                MIS TOURS
+                MIS ACTIVIDADES
             </a>
         </div>
 
-        <div class="col-6 col-md-4 col-lg-2 mb-3">
-            <a href="@Url.Action("MisEventos", "MiPerfil")" class="btn-minimal">
-                <span>💛</span>
-                MIS EVENTOS
-            </a>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-2 mb-3">
-            <a href="@Url.Action("Editar", "MiPerfil")" class="btn-minimal">
-                <span>✏️</span>
-                EDITAR
-            </a>
-        </div>
     </div>
 
     <div class="text-center mb-4">

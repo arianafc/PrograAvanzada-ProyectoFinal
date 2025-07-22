@@ -18,6 +18,7 @@ namespace ProyectoFinal.EF
         public Nullable<int> TICKETS_ADQUIRIDOS { get; set; }
         public Nullable<System.DateTime> FECHA { get; set; }
         public Nullable<decimal> TOTAL { get; set; }
+        public string REFERENCIA { get; set; }
         public int ID_USUARIO { get; set; }
         public int ID_ACTIVIDAD { get; set; }
         public int ID_ESTADO { get; set; }

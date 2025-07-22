@@ -135,6 +135,9 @@
     <Compile Include="EF\CANTONES_TB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\CONSULTAS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\CONSULTAS_TB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -162,6 +165,9 @@
     <Compile Include="EF\LoginSP_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\LOGIN_SP_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\METODO_PAGO_TB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -183,7 +189,16 @@
     <Compile Include="EF\ObtenerAnimalesActivosSP_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\ObtenerAnimalesActivos_SP_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\ObtenerAnimalPorIdSP_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\ObtenerAnimalPorId_SP_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\ObtenerMisAnimalesSP_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\PROVINCIAS_TB.cs">
@@ -330,13 +345,13 @@
     <Content Include="Views\Animal\ApadrinarAnimal.cshtml" />
     <Content Include="Views\Actividades\GestionActividades.cshtml" />
     <Content Include="Views\Donacion\AdminDonaciones.cshtml" />
-    <Content Include="Views\MiPerfil\editarPerfil.cshtml" />
+    <Content Include="Views\MiPerfil\MiPerfil.cshtml" />
     <Content Include="Views\MiPerfil\MisDonaciones.cshtml" />
     <Content Include="Views\MiPerfil\MisAnimales.cshtml" />
     <Content Include="Views\MiPerfil\MisTours.cshtml" />
-    <Content Include="Views\MiPerfil\MisEventos.cshtml" />
     <Content Include="Views\Actividades\DetalleActividad.cshtml" />
     <Content Include="Views\Actividades\ActividadesDisponibles.cshtml" />
+    <Content Include="Views\MiPerfil\EditarInfoPerfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

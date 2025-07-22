@@ -17,6 +17,7 @@ namespace ProyectoFinal.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public METODO_PAGO_TB()
         {
+            this.APADRINAMIENTOS_TB = new HashSet<APADRINAMIENTOS_TB>();
             this.DONACIONES_TB = new HashSet<DONACIONES_TB>();
             this.USUARIO_ACTIVIDAD_TB = new HashSet<USUARIO_ACTIVIDAD_TB>();
         }
@@ -25,6 +26,8 @@ namespace ProyectoFinal.EF
         public string METODO { get; set; }
         public int ID_ESTADO { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DONACIONES_TB> DONACIONES_TB { get; set; }
         public virtual ESTADOS_TB ESTADOS_TB { get; set; }

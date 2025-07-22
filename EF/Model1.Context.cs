@@ -32,6 +32,7 @@ namespace ProyectoFinal.EF
         public virtual DbSet<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB { get; set; }
         public virtual DbSet<CANTONES_TB> CANTONES_TB { get; set; }
         public virtual DbSet<CONSULTAS> CONSULTAS { get; set; }
+        public virtual DbSet<CONSULTAS_TB> CONSULTAS_TB { get; set; }
         public virtual DbSet<DIRECCIONES_TB> DIRECCIONES_TB { get; set; }
         public virtual DbSet<DISTRITOS_TB> DISTRITOS_TB { get; set; }
         public virtual DbSet<DONACIONES_TB> DONACIONES_TB { get; set; }
@@ -44,117 +45,6 @@ namespace ProyectoFinal.EF
         public virtual DbSet<ROLES_TB> ROLES_TB { get; set; }
         public virtual DbSet<USUARIO_ACTIVIDAD_TB> USUARIO_ACTIVIDAD_TB { get; set; }
         public virtual DbSet<USUARIOS_TB> USUARIOS_TB { get; set; }
-    
-        public virtual ObjectResult<LOGIN_SP_Result> LOGIN_SP(string cORREO, string cONTRASENNA)
-        {
-            var cORREOParameter = cORREO != null ?
-                new ObjectParameter("CORREO", cORREO) :
-                new ObjectParameter("CORREO", typeof(string));
-    
-            var cONTRASENNAParameter = cONTRASENNA != null ?
-                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
-                new ObjectParameter("CONTRASENNA", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LOGIN_SP_Result>("LOGIN_SP", cORREOParameter, cONTRASENNAParameter);
-        }
-    
-        public virtual ObjectResult<ObtenerAnimalesActivos_SP_Result> ObtenerAnimalesActivos_SP()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerAnimalesActivos_SP_Result>("ObtenerAnimalesActivos_SP");
-        }
-    
-        public virtual ObjectResult<ObtenerAnimalPorId_SP_Result> ObtenerAnimalPorId_SP(Nullable<int> iD_ANIMAL)
-        {
-            var iD_ANIMALParameter = iD_ANIMAL.HasValue ?
-                new ObjectParameter("ID_ANIMAL", iD_ANIMAL) :
-                new ObjectParameter("ID_ANIMAL", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerAnimalPorId_SP_Result>("ObtenerAnimalPorId_SP", iD_ANIMALParameter);
-        }
-    
-        public virtual int REGISTRO_SP(string nOMBRE, string aPELLIDO1, string aPELLIDO2, string cORREO, string cONTRASENNA, string iDENTIFICACION)
-        {
-            var nOMBREParameter = nOMBRE != null ?
-                new ObjectParameter("NOMBRE", nOMBRE) :
-                new ObjectParameter("NOMBRE", typeof(string));
-    
-            var aPELLIDO1Parameter = aPELLIDO1 != null ?
-                new ObjectParameter("APELLIDO1", aPELLIDO1) :
-                new ObjectParameter("APELLIDO1", typeof(string));
-    
-            var aPELLIDO2Parameter = aPELLIDO2 != null ?
-                new ObjectParameter("APELLIDO2", aPELLIDO2) :
-                new ObjectParameter("APELLIDO2", typeof(string));
-    
-            var cORREOParameter = cORREO != null ?
-                new ObjectParameter("CORREO", cORREO) :
-                new ObjectParameter("CORREO", typeof(string));
-    
-            var cONTRASENNAParameter = cONTRASENNA != null ?
-                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
-                new ObjectParameter("CONTRASENNA", typeof(string));
-    
-            var iDENTIFICACIONParameter = iDENTIFICACION != null ?
-                new ObjectParameter("IDENTIFICACION", iDENTIFICACION) :
-                new ObjectParameter("IDENTIFICACION", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("REGISTRO_SP", nOMBREParameter, aPELLIDO1Parameter, aPELLIDO2Parameter, cORREOParameter, cONTRASENNAParameter, iDENTIFICACIONParameter);
-        }
-    
-        public virtual ObjectResult<LoginSP_Result> LoginSP(string cORREO, string cONTRASENNA)
-        {
-            var cORREOParameter = cORREO != null ?
-                new ObjectParameter("CORREO", cORREO) :
-                new ObjectParameter("CORREO", typeof(string));
-    
-            var cONTRASENNAParameter = cONTRASENNA != null ?
-                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
-                new ObjectParameter("CONTRASENNA", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginSP_Result>("LoginSP", cORREOParameter, cONTRASENNAParameter);
-        }
-    
-        public virtual int RecuperarAccesoSP(string cONTRASENNA, string cORREO)
-        {
-            var cONTRASENNAParameter = cONTRASENNA != null ?
-                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
-                new ObjectParameter("CONTRASENNA", typeof(string));
-    
-            var cORREOParameter = cORREO != null ?
-                new ObjectParameter("CORREO", cORREO) :
-                new ObjectParameter("CORREO", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RecuperarAccesoSP", cONTRASENNAParameter, cORREOParameter);
-        }
-    
-        public virtual int RegistroSP(string nOMBRE, string aPELLIDO1, string aPELLIDO2, string cORREO, string cONTRASENNA, string iDENTIFICACION)
-        {
-            var nOMBREParameter = nOMBRE != null ?
-                new ObjectParameter("NOMBRE", nOMBRE) :
-                new ObjectParameter("NOMBRE", typeof(string));
-    
-            var aPELLIDO1Parameter = aPELLIDO1 != null ?
-                new ObjectParameter("APELLIDO1", aPELLIDO1) :
-                new ObjectParameter("APELLIDO1", typeof(string));
-    
-            var aPELLIDO2Parameter = aPELLIDO2 != null ?
-                new ObjectParameter("APELLIDO2", aPELLIDO2) :
-                new ObjectParameter("APELLIDO2", typeof(string));
-    
-            var cORREOParameter = cORREO != null ?
-                new ObjectParameter("CORREO", cORREO) :
-                new ObjectParameter("CORREO", typeof(string));
-    
-            var cONTRASENNAParameter = cONTRASENNA != null ?
-                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
-                new ObjectParameter("CONTRASENNA", typeof(string));
-    
-            var iDENTIFICACIONParameter = iDENTIFICACION != null ?
-                new ObjectParameter("IDENTIFICACION", iDENTIFICACION) :
-                new ObjectParameter("IDENTIFICACION", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistroSP", nOMBREParameter, aPELLIDO1Parameter, aPELLIDO2Parameter, cORREOParameter, cONTRASENNAParameter, iDENTIFICACIONParameter);
-        }
     
         public virtual int AgregarActividadSP(string descripcion, Nullable<System.DateTime> fecha, Nullable<decimal> precioBoleto, Nullable<int> ticketsDisponibles, string imagen, string tipo, string nombre)
         {
@@ -187,6 +77,331 @@ namespace ProyectoFinal.EF
                 new ObjectParameter("Nombre", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AgregarActividadSP", descripcionParameter, fechaParameter, precioBoletoParameter, ticketsDisponiblesParameter, imagenParameter, tipoParameter, nombreParameter);
+        }
+    
+        public virtual int CambiarContrasennaSP(string cORREO, string nUEVA_CONTRASENNA)
+        {
+            var cORREOParameter = cORREO != null ?
+                new ObjectParameter("CORREO", cORREO) :
+                new ObjectParameter("CORREO", typeof(string));
+    
+            var nUEVA_CONTRASENNAParameter = nUEVA_CONTRASENNA != null ?
+                new ObjectParameter("NUEVA_CONTRASENNA", nUEVA_CONTRASENNA) :
+                new ObjectParameter("NUEVA_CONTRASENNA", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarContrasennaSP", cORREOParameter, nUEVA_CONTRASENNAParameter);
+        }
+    
+        public virtual int CambioEstadoActividadSP(Nullable<int> idEstado, Nullable<int> idActividad)
+        {
+            var idEstadoParameter = idEstado.HasValue ?
+                new ObjectParameter("IdEstado", idEstado) :
+                new ObjectParameter("IdEstado", typeof(int));
+    
+            var idActividadParameter = idActividad.HasValue ?
+                new ObjectParameter("IdActividad", idActividad) :
+                new ObjectParameter("IdActividad", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambioEstadoActividadSP", idEstadoParameter, idActividadParameter);
+        }
+    
+        public virtual int CompraActividadSP(Nullable<int> idUsuario, Nullable<int> idMetodoPago, Nullable<int> numeroBoletos, Nullable<int> idActividad, string referencia)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            var idMetodoPagoParameter = idMetodoPago.HasValue ?
+                new ObjectParameter("IdMetodoPago", idMetodoPago) :
+                new ObjectParameter("IdMetodoPago", typeof(int));
+    
+            var numeroBoletosParameter = numeroBoletos.HasValue ?
+                new ObjectParameter("NumeroBoletos", numeroBoletos) :
+                new ObjectParameter("NumeroBoletos", typeof(int));
+    
+            var idActividadParameter = idActividad.HasValue ?
+                new ObjectParameter("IdActividad", idActividad) :
+                new ObjectParameter("IdActividad", typeof(int));
+    
+            var referenciaParameter = referencia != null ?
+                new ObjectParameter("Referencia", referencia) :
+                new ObjectParameter("Referencia", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CompraActividadSP", idUsuarioParameter, idMetodoPagoParameter, numeroBoletosParameter, idActividadParameter, referenciaParameter);
+        }
+    
+        public virtual ObjectResult<DetalleActividadSP_Result> DetalleActividadSP(Nullable<int> idActividad)
+        {
+            var idActividadParameter = idActividad.HasValue ?
+                new ObjectParameter("IdActividad", idActividad) :
+                new ObjectParameter("IdActividad", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DetalleActividadSP_Result>("DetalleActividadSP", idActividadParameter);
+        }
+    
+        public virtual int EditarActividadSP(Nullable<int> idActividad, string descripcion, Nullable<System.DateTime> fecha, Nullable<decimal> precioBoleto, Nullable<int> ticketsDisponibles, string imagen, string tipo, string nombre)
+        {
+            var idActividadParameter = idActividad.HasValue ?
+                new ObjectParameter("IdActividad", idActividad) :
+                new ObjectParameter("IdActividad", typeof(int));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("Descripcion", descripcion) :
+                new ObjectParameter("Descripcion", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var precioBoletoParameter = precioBoleto.HasValue ?
+                new ObjectParameter("PrecioBoleto", precioBoleto) :
+                new ObjectParameter("PrecioBoleto", typeof(decimal));
+    
+            var ticketsDisponiblesParameter = ticketsDisponibles.HasValue ?
+                new ObjectParameter("TicketsDisponibles", ticketsDisponibles) :
+                new ObjectParameter("TicketsDisponibles", typeof(int));
+    
+            var imagenParameter = imagen != null ?
+                new ObjectParameter("Imagen", imagen) :
+                new ObjectParameter("Imagen", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("Tipo", tipo) :
+                new ObjectParameter("Tipo", typeof(string));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EditarActividadSP", idActividadParameter, descripcionParameter, fechaParameter, precioBoletoParameter, ticketsDisponiblesParameter, imagenParameter, tipoParameter, nombreParameter);
+        }
+    
+        public virtual int InsertarApadrinamientoSP(Nullable<decimal> montoMensual, Nullable<int> idUsuario, Nullable<int> idMetodo, string referencia, Nullable<int> idAnimal)
+        {
+            var montoMensualParameter = montoMensual.HasValue ?
+                new ObjectParameter("MontoMensual", montoMensual) :
+                new ObjectParameter("MontoMensual", typeof(decimal));
+    
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            var idMetodoParameter = idMetodo.HasValue ?
+                new ObjectParameter("IdMetodo", idMetodo) :
+                new ObjectParameter("IdMetodo", typeof(int));
+    
+            var referenciaParameter = referencia != null ?
+                new ObjectParameter("Referencia", referencia) :
+                new ObjectParameter("Referencia", typeof(string));
+    
+            var idAnimalParameter = idAnimal.HasValue ?
+                new ObjectParameter("IdAnimal", idAnimal) :
+                new ObjectParameter("IdAnimal", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertarApadrinamientoSP", montoMensualParameter, idUsuarioParameter, idMetodoParameter, referenciaParameter, idAnimalParameter);
+        }
+    
+        public virtual int InsertarDonacion_SP(Nullable<decimal> monto, Nullable<int> idUsuario, Nullable<int> idMetodo, string referencia)
+        {
+            var montoParameter = monto.HasValue ?
+                new ObjectParameter("Monto", monto) :
+                new ObjectParameter("Monto", typeof(decimal));
+    
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            var idMetodoParameter = idMetodo.HasValue ?
+                new ObjectParameter("IdMetodo", idMetodo) :
+                new ObjectParameter("IdMetodo", typeof(int));
+    
+            var referenciaParameter = referencia != null ?
+                new ObjectParameter("Referencia", referencia) :
+                new ObjectParameter("Referencia", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertarDonacion_SP", montoParameter, idUsuarioParameter, idMetodoParameter, referenciaParameter);
+        }
+    
+        public virtual int InsertarDonacionSP(Nullable<decimal> monto, Nullable<int> idUsuario, Nullable<int> idMetodo, string referencia)
+        {
+            var montoParameter = monto.HasValue ?
+                new ObjectParameter("Monto", monto) :
+                new ObjectParameter("Monto", typeof(decimal));
+    
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            var idMetodoParameter = idMetodo.HasValue ?
+                new ObjectParameter("IdMetodo", idMetodo) :
+                new ObjectParameter("IdMetodo", typeof(int));
+    
+            var referenciaParameter = referencia != null ?
+                new ObjectParameter("Referencia", referencia) :
+                new ObjectParameter("Referencia", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertarDonacionSP", montoParameter, idUsuarioParameter, idMetodoParameter, referenciaParameter);
+        }
+    
+        public virtual ObjectResult<LOGIN_SP_Result> LOGIN_SP(string cORREO, string cONTRASENNA)
+        {
+            var cORREOParameter = cORREO != null ?
+                new ObjectParameter("CORREO", cORREO) :
+                new ObjectParameter("CORREO", typeof(string));
+    
+            var cONTRASENNAParameter = cONTRASENNA != null ?
+                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
+                new ObjectParameter("CONTRASENNA", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LOGIN_SP_Result>("LOGIN_SP", cORREOParameter, cONTRASENNAParameter);
+        }
+    
+        public virtual ObjectResult<LoginSP_Result> LoginSP(string cORREO, string cONTRASENNA)
+        {
+            var cORREOParameter = cORREO != null ?
+                new ObjectParameter("CORREO", cORREO) :
+                new ObjectParameter("CORREO", typeof(string));
+    
+            var cONTRASENNAParameter = cONTRASENNA != null ?
+                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
+                new ObjectParameter("CONTRASENNA", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginSP_Result>("LoginSP", cORREOParameter, cONTRASENNAParameter);
+        }
+    
+        public virtual ObjectResult<ObtenerAnimalesActivos_SP_Result> ObtenerAnimalesActivos_SP()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerAnimalesActivos_SP_Result>("ObtenerAnimalesActivos_SP");
+        }
+    
+        public virtual ObjectResult<ObtenerAnimalesActivosSP_Result> ObtenerAnimalesActivosSP()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerAnimalesActivosSP_Result>("ObtenerAnimalesActivosSP");
+        }
+    
+        public virtual ObjectResult<ObtenerAnimalPorId_SP_Result> ObtenerAnimalPorId_SP(Nullable<int> iD_ANIMAL)
+        {
+            var iD_ANIMALParameter = iD_ANIMAL.HasValue ?
+                new ObjectParameter("ID_ANIMAL", iD_ANIMAL) :
+                new ObjectParameter("ID_ANIMAL", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerAnimalPorId_SP_Result>("ObtenerAnimalPorId_SP", iD_ANIMALParameter);
+        }
+    
+        public virtual ObjectResult<ObtenerAnimalPorIdSP_Result> ObtenerAnimalPorIdSP(Nullable<int> iD_ANIMAL)
+        {
+            var iD_ANIMALParameter = iD_ANIMAL.HasValue ?
+                new ObjectParameter("ID_ANIMAL", iD_ANIMAL) :
+                new ObjectParameter("ID_ANIMAL", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerAnimalPorIdSP_Result>("ObtenerAnimalPorIdSP", iD_ANIMALParameter);
+        }
+    
+        public virtual int RecuperarAccesoSP(string cONTRASENNA, string cORREO)
+        {
+            var cONTRASENNAParameter = cONTRASENNA != null ?
+                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
+                new ObjectParameter("CONTRASENNA", typeof(string));
+    
+            var cORREOParameter = cORREO != null ?
+                new ObjectParameter("CORREO", cORREO) :
+                new ObjectParameter("CORREO", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RecuperarAccesoSP", cONTRASENNAParameter, cORREOParameter);
+        }
+    
+        public virtual int REGISTRO_SP(string nOMBRE, string aPELLIDO1, string aPELLIDO2, string cORREO, string cONTRASENNA, string iDENTIFICACION)
+        {
+            var nOMBREParameter = nOMBRE != null ?
+                new ObjectParameter("NOMBRE", nOMBRE) :
+                new ObjectParameter("NOMBRE", typeof(string));
+    
+            var aPELLIDO1Parameter = aPELLIDO1 != null ?
+                new ObjectParameter("APELLIDO1", aPELLIDO1) :
+                new ObjectParameter("APELLIDO1", typeof(string));
+    
+            var aPELLIDO2Parameter = aPELLIDO2 != null ?
+                new ObjectParameter("APELLIDO2", aPELLIDO2) :
+                new ObjectParameter("APELLIDO2", typeof(string));
+    
+            var cORREOParameter = cORREO != null ?
+                new ObjectParameter("CORREO", cORREO) :
+                new ObjectParameter("CORREO", typeof(string));
+    
+            var cONTRASENNAParameter = cONTRASENNA != null ?
+                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
+                new ObjectParameter("CONTRASENNA", typeof(string));
+    
+            var iDENTIFICACIONParameter = iDENTIFICACION != null ?
+                new ObjectParameter("IDENTIFICACION", iDENTIFICACION) :
+                new ObjectParameter("IDENTIFICACION", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("REGISTRO_SP", nOMBREParameter, aPELLIDO1Parameter, aPELLIDO2Parameter, cORREOParameter, cONTRASENNAParameter, iDENTIFICACIONParameter);
+        }
+    
+        public virtual int RegistroSP(string nOMBRE, string aPELLIDO1, string aPELLIDO2, string cORREO, string cONTRASENNA, string iDENTIFICACION)
+        {
+            var nOMBREParameter = nOMBRE != null ?
+                new ObjectParameter("NOMBRE", nOMBRE) :
+                new ObjectParameter("NOMBRE", typeof(string));
+    
+            var aPELLIDO1Parameter = aPELLIDO1 != null ?
+                new ObjectParameter("APELLIDO1", aPELLIDO1) :
+                new ObjectParameter("APELLIDO1", typeof(string));
+    
+            var aPELLIDO2Parameter = aPELLIDO2 != null ?
+                new ObjectParameter("APELLIDO2", aPELLIDO2) :
+                new ObjectParameter("APELLIDO2", typeof(string));
+    
+            var cORREOParameter = cORREO != null ?
+                new ObjectParameter("CORREO", cORREO) :
+                new ObjectParameter("CORREO", typeof(string));
+    
+            var cONTRASENNAParameter = cONTRASENNA != null ?
+                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
+                new ObjectParameter("CONTRASENNA", typeof(string));
+    
+            var iDENTIFICACIONParameter = iDENTIFICACION != null ?
+                new ObjectParameter("IDENTIFICACION", iDENTIFICACION) :
+                new ObjectParameter("IDENTIFICACION", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistroSP", nOMBREParameter, aPELLIDO1Parameter, aPELLIDO2Parameter, cORREOParameter, cONTRASENNAParameter, iDENTIFICACIONParameter);
+        }
+    
+        public virtual ObjectResult<VisualizarActividadesActivasSP_Result> VisualizarActividadesActivasSP()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VisualizarActividadesActivasSP_Result>("VisualizarActividadesActivasSP");
+        }
+    
+        public virtual ObjectResult<VisualizarActividadesSP_Result> VisualizarActividadesSP()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VisualizarActividadesSP_Result>("VisualizarActividadesSP");
+        }
+    
+        public virtual int CambiarContrasenna2SP(string iDENTIFICACION, string aCTUAL_CONTRASENNA, string nUEVA_CONTRASENNA)
+        {
+            var iDENTIFICACIONParameter = iDENTIFICACION != null ?
+                new ObjectParameter("IDENTIFICACION", iDENTIFICACION) :
+                new ObjectParameter("IDENTIFICACION", typeof(string));
+    
+            var aCTUAL_CONTRASENNAParameter = aCTUAL_CONTRASENNA != null ?
+                new ObjectParameter("ACTUAL_CONTRASENNA", aCTUAL_CONTRASENNA) :
+                new ObjectParameter("ACTUAL_CONTRASENNA", typeof(string));
+    
+            var nUEVA_CONTRASENNAParameter = nUEVA_CONTRASENNA != null ?
+                new ObjectParameter("NUEVA_CONTRASENNA", nUEVA_CONTRASENNA) :
+                new ObjectParameter("NUEVA_CONTRASENNA", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarContrasenna2SP", iDENTIFICACIONParameter, aCTUAL_CONTRASENNAParameter, nUEVA_CONTRASENNAParameter);
+        }
+    
+        public virtual ObjectResult<ObtenerMisAnimalesSP_Result> ObtenerMisAnimalesSP(Nullable<int> iD_USUARIO)
+        {
+            var iD_USUARIOParameter = iD_USUARIO.HasValue ?
+                new ObjectParameter("ID_USUARIO", iD_USUARIO) :
+                new ObjectParameter("ID_USUARIO", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerMisAnimalesSP_Result>("ObtenerMisAnimalesSP", iD_USUARIOParameter);
         }
     }
 }

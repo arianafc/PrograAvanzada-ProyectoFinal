@@ -17,13 +17,16 @@ namespace ProyectoFinal.EF
         public int ID_APADRINAMIENTO { get; set; }
         public decimal MONTO_MENSUAL { get; set; }
         public System.DateTime FECHA { get; set; }
-        public System.DateTime FECHA_BAJA { get; set; }
+        public Nullable<System.DateTime> FECHA_BAJA { get; set; }
         public int ID_USUARIO { get; set; }
         public int ID_ESTADO { get; set; }
         public int ID_ANIMAL { get; set; }
+        public int ID_METODO { get; set; }
+        public string REFERENCIA { get; set; }
     
         public virtual ANIMAL_TB ANIMAL_TB { get; set; }
         public virtual ESTADOS_TB ESTADOS_TB { get; set; }
+        public virtual METODO_PAGO_TB METODO_PAGO_TB { get; set; }
         public virtual USUARIOS_TB USUARIOS_TB { get; set; }
     }
 }

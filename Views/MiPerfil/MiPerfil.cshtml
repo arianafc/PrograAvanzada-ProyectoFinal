@@ -1,0 +1,188 @@
+﻿@{
+    ViewBag.Title = "Mi Perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .btn-minimal {
+        border: 1px solid transparent;
+        border-radius: 6px;
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: block;
+        color: #212529;
+        font-weight: 600;
+        text-decoration: none;
+        border-color: #dedede;
+        text-align: center;
+    }
+
+        .btn-minimal:hover,
+        .btn-minimal:focus {
+            border-color: #808080;
+            box-shadow: 0 4px 8px #808080;
+            text-decoration: none;
+        }
+
+        .btn-minimal span {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+    .submit-btn {
+        width: 100%;
+        padding: 10px;
+        font-weight: 600;
+        border: 1px solid #0b132b;
+        border-radius: 6px;
+        background-color: #0b132b;
+        color: white;
+        transition: background-color 0.3s;
+    }
+
+        .submit-btn:hover {
+            background-color: #1c2541;
+        }
+
+    .btn-huevo {
+        background-color: #f1c40f;
+        color: #000;
+        font-weight: 600;
+        border: 1px solid #d4ac0d;
+        border-radius: 6px;
+        transition: background-color 0.3s;
+    }
+
+        .btn-huevo:hover {
+            background-color: #d4ac0d;
+        }
+</style>
+
+
+<main class="container py-5">
+
+
+    <div class="row justify-content-center mb-5 text-center">
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+            <a href="@Url.Action("MiPerfil", "MiPerfil")" class="btn-minimal">
+                <span>✏️</span>
+                MI INFORMACIÓN
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+            <a href="@Url.Action("MisDonaciones", "MiPerfil")" class="btn-minimal">
+                <span>💰</span>
+                MIS DONACIONES
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+            <a href="@Url.Action("MisAnimales", "MiPerfil")" class="btn-minimal">
+                <span>🐾</span>
+                MIS ANIMALES
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+            <a href="@Url.Action("MisTours", "MiPerfil")" class="btn-minimal">
+                <span>🎟️</span>
+                MIS ACTIVIDADES
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Perfil -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-5 mb-4">
+            <div class="border p-4 rounded shadow-sm h-100">
+                <h4 class="fw-bold text-center mb-3">TU CUENTA</h4>
+                <p><strong>Nombre:</strong> @Session["Nombre"] @Session["Apellido1"] @Session["Apellido2"]</p>
+                <p><strong>Email:</strong> @Session["email"]</p>
+                <p><strong>Dirección:</strong> @ViewBag.Direccion</p>
+                <button class="btn btn-huevo w-100 mt-3" data-bs-toggle="collapse" data-bs-target="#editarPerfil">
+                    Editar Información Personal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapse" id="editarPerfil">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <form id="formAdminActualizar" method="POST" class="row g-3 border p-4 rounded shadow-sm">
+                    <h5 class="col-12 text-center fw-bold">DATOS PERSONALES</h5>
+
+                    <div class="col-md-4">
+                        <label for="nombreAdmin">Nombre</label>
+                        <input type="text" class="form-control" id="nombreAdmin" name="nombre" value="@Session["Nombre"]" required>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="apellido1Admin">Primer Apellido</label>
+                        <input type="text" class="form-control" id="apellido1Admin" name="apellido1" value="@Session["Apellido1"]" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="apellido2Admin">Segundo Apellido</label>
+                        <input type="text" class="form-control" id="apellido2Admin" name="apellido2" value="@Session["Apellido2"]" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="identificacionAdmin">Identificación</label>
+                        <input type="text" class="form-control" id="identificacionAdmin" name="identificacion" value="@Session["Cedula"]" readonly required>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <label for="emailAdmin">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="emailAdmin" name="email" value="@Session["email"]" required>
+                    </div>
+
+                    <h5 class="col-12 text-center fw-bold pt-3">DIRECCIÓN</h5>
+
+                    <div class="col-md-3">
+                        <label for="provinciaAdmin">Provincia</label>
+                        <input type="text" class="form-control" id="provinciaAdmin" name="provincia" required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="cantonAdmin">Cantón</label>
+                        <input type="text" class="form-control" id="cantonAdmin" name="canton" required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="distritoAdmin">Distrito</label>
+                        <input type="text" class="form-control" id="distritoAdmin" name="distrito" required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="exactaAdmin">Dirección Exacta</label>
+                        <input type="text" class="form-control" id="exactaAdmin" name="exacta" value="@ViewBag.Direccion" required>
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="submit-btn mt-3" name="guardar_perfil">Guardar Cambios</button>
+                    </div>
+                </form>
+
+                @using (Html.BeginForm("RecuperarAcceso", "Home", FormMethod.Post, new { id = "changePassword", @class = "border p-4 rounded shadow-sm mt-5" }))
+                {
+                    <h5 class="fw-bold text-center">Cambio de Contraseña</h5>
+
+                    <input type="hidden" name="Identificacion" value="@Session["Cedula"]" />
+                    <input type="hidden" name="Correo" value="@Session["email"]" />
+
+                    <button type="submit" class="submit-btn">Solicitar Link</button>
+                }
+
+            </div>
+        </div>
+    </div>
+</main>
+
