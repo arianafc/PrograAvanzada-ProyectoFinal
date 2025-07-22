@@ -101,16 +101,119 @@
         return;
             }
         });
- 
-
-
-
-
-
-
-
-
-
-
-
 });
+
+function mostrarModal() {
+    const metodo = document.getElementById('metodo').value;
+    const campoReferencia = document.getElementById('campoReferencia');
+
+    // Ocultar campo de referencia por defecto
+    if (campoReferencia) {
+        campoReferencia.classList.add('d-none');
+    }
+
+    switch (metodo) {
+        case 'tarjeta':
+            const modalTarjeta = new bootstrap.Modal(document.getElementById('modalTarjeta'));
+            modalTarjeta.show();
+            break;
+        case 'sinpe':
+            const modalSinpe = new bootstrap.Modal(document.getElementById('modalSinpe'));
+            modalSinpe.show();
+            if (campoReferencia) {
+                campoReferencia.classList.remove('d-none');
+            }
+            break;
+        case 'paypal':
+            const modalPaypal = new bootstrap.Modal(document.getElementById('modalPaypal'));
+            modalPaypal.show();
+            break;
+    }
+}
+
+function validarTarjeta() {
+    const numeroTarjeta = document.getElementById('numeroTarjeta').value;
+    const titularTarjeta = document.getElementById('titularTarjeta').value;
+    const codigoSeguridad = document.getElementById('codigoSeguridad').value;
+
+    if (numeroTarjeta && titularTarjeta && codigoSeguridad) {
+        const modalTarjeta = bootstrap.Modal.getInstance(document.getElementById('modalTarjeta'));
+        if (modalTarjeta) {
+            modalTarjeta.hide();
+        }
+
+        const submitButton = document.getElementById('submit-button');
+        if (submitButton) {
+            submitButton.disabled = false;
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Datos de tarjeta validados correctamente'
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Campos incompletos',
+            text: 'Por favor complete todos los campos'
+        });
+    }
+}
+
+function validarSinpe() {
+    const referencia = document.getElementById('referencia').value;
+
+    if (referencia && referencia.length >= 6) {
+        const modalSinpe = bootstrap.Modal.getInstance(document.getElementById('modalSinpe'));
+        if (modalSinpe) {
+            modalSinpe.hide();
+        }
+
+        const submitButton = document.getElementById('submit-button');
+        if (submitButton) {
+            submitButton.disabled = false;
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Transferencia Sinpe confirmada'
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Referencia inválida',
+            text: 'Por favor ingrese un número de referencia válido (mínimo 6 dígitos)'
+        });
+    }
+}
+
+function validarPaypal() {
+    const usuarioPaypal = document.getElementById('usuarioPaypal').value;
+    const contrasenaPaypal = document.getElementById('contrasenaPaypal').value;
+
+    if (usuarioPaypal && contrasenaPaypal) {
+        const modalPaypal = bootstrap.Modal.getInstance(document.getElementById('modalPaypal'));
+        if (modalPaypal) {
+            modalPaypal.hide();
+        }
+
+        const submitButton = document.getElementById('submit-button');
+        if (submitButton) {
+            submitButton.disabled = false;
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Pago con PayPal procesado correctamente'
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Campos incompletos',
+            text: 'Por favor complete todos los campos de PayPal'
+        });
+    }
+}

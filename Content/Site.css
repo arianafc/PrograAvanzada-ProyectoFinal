@@ -94,6 +94,20 @@ main {
     width: 100%;
 }
 
+.volver-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+    width: 100%;
+}
+
 .about-btn {
     margin-top: 20px;
     padding: 10px 20px;
@@ -1030,7 +1044,6 @@ img {
     margin-bottom: 20px;
 
 }
-
 
 .AgregarBtn {
     background-color: #062D3E !important;

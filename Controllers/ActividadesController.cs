@@ -197,31 +197,31 @@ namespace ProyectoFinal.Controllers
 
         [HttpGet]
 
-        public ActionResult DetalleActividad(int IdActividad)
-        {
+        //public ActionResult DetalleActividad(int IdActividad)
+        //{
 
-            try
-            {
-                using (var dbcontext = new CASA_NATURAEntities())
-                {
+        //    try
+        //    {
+        //        using (var dbcontext = new CASA_NATURAEntities())
+        //        {
 
-                    var result = dbcontext.DetalleActividadSP(IdActividad).FirstOrDefault();
+        //            var result = dbcontext.DetalleActividadSP(IdActividad).FirstOrDefault();
 
-                    if (result == null)
-                    {
-                        ViewBag.Error = "Actividad no encontrada";
-                        return RedirectToAction("Index");
-                    }
+        //            if (result == null)
+        //            {
+        //                ViewBag.Error = "Actividad no encontrada";
+        //                return RedirectToAction("Index");
+        //            }
 
-                    return View(result);
-                }
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = "Error: " + ex.Message;
-                return RedirectToAction("Index");
-            }
-        }
+        //            return View(result);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ViewBag.Error = "Error: " + ex.Message;
+        //        return RedirectToAction("Index");
+        //    }
+        //}
 
 
         [HttpPost]

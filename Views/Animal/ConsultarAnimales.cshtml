@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProyectoFinal.EF.ObtenerAnimalesActivos_SP_Result>
+﻿@model IEnumerable<ProyectoFinal.EF.ObtenerAnimalesActivosSP_Result>
 @{
     ViewBag.Title = "ConsultarAnimales";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -27,7 +27,6 @@
                         <img src="@Url.Content("~/" + animal.IMAGEN)" alt="@animal.NOMBRE" class="img-animal" />
                         <div class="card-body">
                             <h5 class="card-title">@animal.NOMBRE</h5>
-
                             
                             @if (animal.FECHA_INGRESO != default(DateTime))
                             {

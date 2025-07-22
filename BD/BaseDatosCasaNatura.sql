@@ -138,9 +138,12 @@ CREATE TABLE APADRINAMIENTOS_TB (
     ID_USUARIO INT NOT NULL,
     ID_ESTADO INT NOT NULL,
     ID_ANIMAL INT NOT NULL,
+	ID_METODO INT NOT NULL,
+	REFERENCIA VARCHAR(100),
     FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS_TB(ID_USUARIO),
     FOREIGN KEY (ID_ESTADO) REFERENCES ESTADOS_TB(ID_ESTADO),
-    FOREIGN KEY (ID_ANIMAL) REFERENCES ANIMAL_TB(ID_ANIMAL)
+    FOREIGN KEY (ID_ANIMAL) REFERENCES ANIMAL_TB(ID_ANIMAL),
+    FOREIGN KEY (ID_METODO) REFERENCES METODO_PAGO_TB(ID_METODO)
 );
 
 ALTER TABLE ACTIVIDADES_TB
@@ -348,19 +351,72 @@ CREATE OR ALTER PROCEDURE ObtenerAnimalPorIdSP
 AS
 BEGIN
     SELECT 
-        ID_ANIMAL,
-        NOMBRE,
-        ID_RAZA,
-        FECHA_INGRESO,
-        FECHA_BAJA,
-        FECHA_NACIMIENTO,
-        ID_ESTADO,
-        ID_SALUD,
-        IMAGEN,
-        HISTORIA,
-        NECESIDAD
-    FROM dbo.ANIMAL_TB
-    WHERE ID_ANIMAL = @ID_ANIMAL;
+        a.ID_ANIMAL,
+        a.NOMBRE 'NOMBRE_ANIMAL',
+        a.ID_RAZA,
+        r.NOMBRE 'NOMBRE_RAZA',
+        a.FECHA_INGRESO,
+        a.FECHA_BAJA,
+        a.FECHA_NACIMIENTO,
+        a.ID_ESTADO,
+        a.ID_SALUD,
+        s.DESCRIPCION,
+        a.IMAGEN,
+        a.HISTORIA,
+        a.NECESIDAD
+    FROM ANIMAL_TB a
+    JOIN RAZAS_TB r ON a.ID_RAZA = r.ID_RAZA
+    JOIN ESTADOS_SALUD_TB s ON a.ID_SALUD = s.ID_SALUD
+    WHERE a.ID_ANIMAL = @ID_ANIMAL;
+END
+GO
+
+-- =============================================
+-- SP: InsertarApadrinamientoSP
+-- =============================================
+CREATE OR ALTER PROCEDURE InsertarApadrinamientoSP
+    @MontoMensual DECIMAL(10,2),
+    @IdUsuario INT,
+    @IdMetodo INT,
+    @Referencia NVARCHAR(50) = NULL,
+    @IdAnimal INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRY
+		BEGIN TRANSACTION;
+
+        INSERT INTO dbo.APADRINAMIENTOS_TB 
+        (
+            MONTO_MENSUAL, 
+            FECHA, 
+            FECHA_BAJA, 
+            ID_USUARIO, 
+            ID_ESTADO, 
+            ID_ANIMAL,
+            ID_METODO,
+            REFERENCIA
+        )
+        VALUES 
+        (
+            @MontoMensual, GETDATE(), NULL, @IdUsuario, 1, @IdAnimal, @IdMetodo, @Referencia
+        );
+
+		UPDATE ANIMAL_TB 
+        SET ID_ESTADO = 3
+        WHERE ID_ANIMAL = @IdAnimal;
+
+        COMMIT TRANSACTION;
+        RETURN 0; 
+
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION;
+			DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+			RAISERROR(@ErrorMessage, 16, 1);
+			RETURN -99;
+		END CATCH;
 END;
 GO
 
@@ -507,7 +563,8 @@ END;
 -- =============================================
 INSERT INTO ESTADOS_TB (DESCRIPCION) VALUES
 ('Activo'),
-('Inactivo');
+('Inactivo'),
+('Apadrinado');
 
 -- =============================================
 -- INSERTS PARA ESTADOS_SALUD_TB

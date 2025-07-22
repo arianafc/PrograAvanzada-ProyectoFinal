@@ -1,4 +1,4 @@
-﻿@model ProyectoFinal.EF.ObtenerAnimalPorId_SP_Result
+﻿@model ProyectoFinal.EF.ObtenerAnimalPorIdSP_Result
 
 @{
     ViewBag.Title = "Detalles de " + Model.NOMBRE_ANIMAL;
@@ -41,7 +41,7 @@
                             <p><strong>Raza:</strong> @Model.NOMBRE_RAZA</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Estado:</strong> @Model.DESCRIPCION</p>
+                            <p><strong>Estado de salud:</strong> @Model.DESCRIPCION</p>
                         </div>
                     </div>
 
@@ -85,7 +85,7 @@
                 <div class="card-footer">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         @Html.ActionLink("Volver", "ConsultarAnimales", "Animal", null,
-                                        new { @class = "btn btn-secondary me-2" })
+                                        new { @class = "volver-btn" })
 
                         @Html.ActionLink("Apadrinar a " + Model.NOMBRE_ANIMAL, "ApadrinarAnimal", "Animal",
                                         new { id = Model.ID_ANIMAL },
