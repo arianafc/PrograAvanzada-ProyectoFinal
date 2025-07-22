@@ -77,30 +77,57 @@
     $("#cedula").on("keyup", ConsultarPersonaApi);
     $(".ValidacionLoginBtn").on("click", MostrarAlertaLogin)
 
-    document.getElementById("formRegistro").addEventListener("submit", function (e) {
-        let contrasena = document.getElementsByClassName("contrasenna").value;
-        let confirmar = document.getElementsByClassName("confirmarContrasenna").value;
+    $(document).ready(function () {
+        $("#formRegistro").on("submit", function (e) {
+            let contrasena = $(".contrasenna").val();
+            let confirmar = $(".confirmarContrasenna").val();
 
-        if (contrasena.length < 8) {
-            e.preventDefault();
-        Swal.fire({
-            icon: 'error',
-        title: 'Contraseña inválida',
-        text: 'La contraseña debe tener al menos 8 caracteres.'
+            if (contrasena.length < 8) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Contraseña inválida',
+                    text: 'La contraseña debe tener al menos 8 caracteres.'
                 });
-        return;
+                return;
             }
 
-        if (contrasena !== confirmar) {
-            e.preventDefault();
-        Swal.fire({
-            icon: 'error',
-        title: 'Contraseñas no coinciden',
-        text: 'Por favor, asegúrate de que ambas contraseñas coincidan.'
+            if (contrasena !== confirmar) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Contraseñas no coinciden',
+                    text: 'Por favor, asegúrate de que ambas contraseñas coincidan.'
                 });
-        return;
+                return;
             }
         });
+    });
+
+    //document.getElementById("formRegistro").addEventListener("submit", function (e) {
+    //    let contrasena = document.getElementsByClassName("contrasenna").value;
+    //    let confirmar = document.getElementsByClassName("confirmarContrasenna").value;
+
+    //    if (contrasena.length < 8) {
+    //        e.preventDefault();
+    //    Swal.fire({
+    //        icon: 'error',
+    //    title: 'Contraseña inválida',
+    //    text: 'La contraseña debe tener al menos 8 caracteres.'
+    //            });
+    //    return;
+    //        }
+
+    //    if (contrasena !== confirmar) {
+    //        e.preventDefault();
+    //    Swal.fire({
+    //        icon: 'error',
+    //    title: 'Contraseñas no coinciden',
+    //    text: 'Por favor, asegúrate de que ambas contraseñas coincidan.'
+    //            });
+    //    return;
+    //        }
+    //    });
 });
 
 function mostrarModal() {

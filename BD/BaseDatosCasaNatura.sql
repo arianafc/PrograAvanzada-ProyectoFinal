@@ -207,20 +207,6 @@ END;
 GO
 
 -- =============================================
--- SP: RecuperarAccesoSP
--- =============================================
-CREATE OR ALTER PROCEDURE RecuperarAccesoSP 
-    @CONTRASENNA VARCHAR(100), 
-    @CORREO VARCHAR(255)
-AS
-BEGIN
-    UPDATE USUARIOS_TB 
-    SET PASSWORD = CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', @CONTRASENNA), 2)
-    WHERE CORREO = @CORREO;
-END;
-GO
-
--- =============================================
 -- SP: RegistrarUsuarioSP
 -- =============================================
 CREATE OR ALTER PROCEDURE RegistrarUsuarioSP 
@@ -453,6 +439,29 @@ BEGIN
 		NOMBRE
     FROM dbo.ACTIVIDADES_TB 
     WHERE ID_ESTADO = 1;
+END;
+GO
+
+-- =============================================
+-- SP: DetalleActividadSP
+-- =============================================
+CREATE PROCEDURE dbo.DetalleActividadSP
+@IdActividad int
+AS
+BEGIN
+    SELECT ID_ACTIVIDAD
+      ,DESCRIPCION
+      ,FECHA
+      ,PRECIO_BOLETO
+      ,TICKETS_DISPONIBLES
+      ,TICKETS_VENDIDOS
+      ,ID_ESTADO
+      ,IMAGEN
+      ,TIPO
+      ,NOMBRE
+  FROM dbo.ACTIVIDADES_TB
+  WHERE ID_ACTIVIDAD = @IdActividad;
+ 
 END;
 GO
 

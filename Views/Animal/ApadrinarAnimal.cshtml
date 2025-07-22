@@ -74,8 +74,7 @@
                                     <button type="submit" class="btn btn-warning fw-bold text-dark" id="submit-button">Apadrinar</button>
                                 </div>
                                 <div class="d-grid">
-                                    @Html.ActionLink("Volver", "ConsultarAnimales", "Animal", null,
-                    new { @class = "volver-btn" })
+                                    @Html.ActionLink("Volver", "ConsultarAnimales", "Animal", null, new { @class = "volver-btn" })
                                 </div>
                             </form>
 
@@ -132,7 +131,7 @@
                 <p>Nombre del titular: <strong>Casa Natura</strong></p>
                 <div class="mb-3">
                     <label>Referencia</label>
-                    <input type="number" id="referencia" class="form-control" required />
+                    <input type="text" id="referencia" class="form-control" required />
                 </div>
                 <button type="button" class="btn btn-success" onclick="validarSinpe()">Hecho</button>
             </div>
@@ -165,4 +164,4 @@
     </div>
 </div>
 
-<script src="@Url.Content("~/Scripts/apadrinamiento.js")"></script>
+<script src="@Url.Content("~/Scripts/CasaNatura.js")"></script>

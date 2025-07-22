@@ -138,6 +138,9 @@
     <Compile Include="EF\CONSULTAS_TB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\DetalleActividadSP_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\DIRECCIONES_TB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -332,6 +335,8 @@
     <Content Include="Views\MiPerfil\MisAnimales.cshtml" />
     <Content Include="Views\MiPerfil\MisTours.cshtml" />
     <Content Include="Views\MiPerfil\MisEventos.cshtml" />
+    <Content Include="Views\Actividades\DetalleActividad.cshtml" />
+    <Content Include="Views\Actividades\ActividadesDisponibles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
