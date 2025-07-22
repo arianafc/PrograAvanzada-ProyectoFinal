@@ -1,25 +1,8 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
-
-    const swalSuccess = document.getElementById("swal-success");
-    const swalError = document.getElementById("swal-error");
-
-    if (swalSuccess) {
-        Swal.fire({
-            icon: 'success',
-            title: 'Éxito',
-            text: swalSuccess.value
-        });
-    }
-
-    if (swalError) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: swalError.value
-        });
-    }
+﻿$(document).ready(function () {
 
 
+ 
+   
     function MostrarAlertaLogin() {
         Swal.fire({
             title: 'Debes iniciar sesión',
@@ -104,31 +87,114 @@
         });
     });
 
-    //document.getElementById("formRegistro").addEventListener("submit", function (e) {
-    //    let contrasena = document.getElementsByClassName("contrasenna").value;
-    //    let confirmar = document.getElementsByClassName("confirmarContrasenna").value;
 
-    //    if (contrasena.length < 8) {
-    //        e.preventDefault();
-    //    Swal.fire({
-    //        icon: 'error',
-    //    title: 'Contraseña inválida',
-    //    text: 'La contraseña debe tener al menos 8 caracteres.'
-    //            });
-    //    return;
-    //        }
+   
+    const subtotalSpan = document.getElementById("subtotal");
 
-    //    if (contrasena !== confirmar) {
-    //        e.preventDefault();
-    //    Swal.fire({
-    //        icon: 'error',
-    //    title: 'Contraseñas no coinciden',
-    //    text: 'Por favor, asegúrate de que ambas contraseñas coincidan.'
-    //            });
-    //    return;
-    //        }
-    //    });
+    $('#cantidadBoletos').on('input', function () {
+        let cantidad = parseInt(this.value);
+        if (cantidad > maxDisponibles) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Cantidad no válida',
+                text: 'La cantidad no puede ser mayor a los boletos disponibles.',
+                confirmButtonColor: '#dc3545'
+            });
+            this.value = maxDisponibles;
+            cantidad = maxDisponibles;
+        }
+        const subtotal = cantidad * precioUnitario;
+        subtotalSpan.textContent = subtotal.toLocaleString('es-CR');
+    });
+
 });
+
+
+function mostrarModal(idActividad) {
+    const metodo = document.getElementById("metodo").value;
+    if (!metodo) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Selecciona un método de pago',
+            confirmButtonColor: '#3085d6'
+        });
+        return;
+    }
+
+    switch (metodo) {
+        case "tarjeta":
+            new bootstrap.Modal(document.getElementById("modalTarjeta")).show();
+            break;
+        case "sinpe":
+            new bootstrap.Modal(document.getElementById("modalSinpe")).show();
+            break;
+        case "paypal":
+            new bootstrap.Modal(document.getElementById("modalPaypal")).show();
+            break;
+    }
+}
+
+function enviarFormularioCompra(metodoPagoId) {
+    const cantidad = parseInt(document.getElementById("cantidadBoletos").value);
+
+    if (!cantidad || cantidad <= 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Cantidad inválida',
+            text: 'La cantidad debe ser mayor a cero.'
+        });
+        return;
+    }
+
+
+    if (metodoPagoId === 1) {
+        const numero = document.getElementById("numeroTarjeta").value;
+        const titular = document.getElementById("titularTarjeta").value;
+        const codigo = document.getElementById("codigoSeguridad").value;
+        if (!numero || !titular || !codigo) {
+            alert("Completa todos los campos de tarjeta.");
+            return;
+        }
+        bootstrap.Modal.getInstance(document.getElementById("modalTarjeta")).hide();
+    }
+
+    if (metodoPagoId === 2) {
+        const ref = document.getElementById("referenciaActividad").value;
+
+        if (!/^\d{6,30}$/.test(ref)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Referencia SINPE inválida',
+                text: 'Debe ser numérica y tener al menos 6 dígitos.',
+            });
+            return;
+        }
+
+        document.getElementById("inputReferencia").value = ref;
+        bootstrap.Modal.getInstance(document.getElementById("modalSinpe")).hide();
+    }
+
+    if (metodoPagoId === 3) {
+        const u = document.getElementById("usuarioPaypal").value;
+        const p = document.getElementById("contrasenaPaypal").value;
+        if (!u || !p) {
+            alert("Completa los datos de PayPal.");
+            return;
+        }
+        bootstrap.Modal.getInstance(document.getElementById("modalPaypal")).hide();
+    }
+
+    document.getElementById("inputMetodoPago").value = metodoPagoId;
+    document.getElementById("inputNumBoletos").value = cantidad;
+
+    document.forms[0].submit();
+}
+
+
+
+
+
+
 
 function mostrarModal() {
     const metodo = document.getElementById('metodo').value;

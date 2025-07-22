@@ -1187,3 +1187,8 @@ img {
 .cardActividades {
    color: #0a3c52 !important;
 }
+
+.badge-agotado {
+    background-color: #dc3545; 
+    color: #fff;
+}

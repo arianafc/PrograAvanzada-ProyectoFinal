@@ -15,80 +15,110 @@
         </div>
     }
 
-    <div class="row">
-        @if (Model != null && Model.Any())
+<div class="row">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var actividad in Model)
         {
-            foreach (var actividad in Model)
-            {
-                var badgeColor = actividad.TIPO.ToLower() == "evento" ? "badge-evento" :
-                                 actividad.TIPO.ToLower() == "tour" ? "badge-tour" : "badge-default";
+            var badgeColor = actividad.TIPO.ToLower() == "evento" ? "badge-evento" :
+                             actividad.TIPO.ToLower() == "tour" ? "badge-tour" : "badge-default";
 
-                <div class="col-md-4 mb-4">
-                    <div class="card cardActividades custom-card h-100 shadow-sm transition-card">
-                        <img src="@Url.Content("~/" + actividad.IMAGEN)" alt="@actividad.NOMBRE" class="card-img-top img-fluid rounded-top" />
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h5 class="card-title mb-0">@actividad.NOMBRE</h5>
-                                <span class="badge @badgeColor text-uppercase">@actividad.TIPO</span>
+            var agotado = actividad.TICKETS_DISPONIBLES == 0;
+            var badgeAgotado = agotado ? "badge-agotado" : badgeColor;
+
+            <div class="col-md-4 mb-4">
+                <div class="card cardActividades custom-card h-100 shadow-sm transition-card">
+                    <img src="@Url.Content("~/" + actividad.IMAGEN)" alt="@actividad.NOMBRE" class="card-img-top img-fluid rounded-top" />
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="card-title mb-0">@actividad.NOMBRE</h5>
+                            <span class="badge @badgeAgotado text-uppercase">
+                                @(agotado ? "AGOTADO" : actividad.TIPO)
+                            </span>
+                        </div>
+                        <p class="card-text mb-1"><strong>Descripción:</strong> @actividad.DESCRIPCION</p>
+                        <p class="card-text mb-1"><strong>Fecha:</strong> @actividad.FECHA.ToShortDateString()</p>
+                        <p class="card-text mb-1"><strong>Hora:</strong> @actividad.FECHA.ToShortTimeString()</p>
+                        <p class="card-text mb-1"><strong>Costo:</strong> ₡@actividad.PRECIO_BOLETO</p>
+                        <p class="card-text mb-1 text-@(agotado ? "danger" : "")">
+                            <strong>Tickets disponibles:</strong> @actividad.TICKETS_DISPONIBLES
+                        </p>
+
+                        @if (agotado)
+                        {
+                            <div class="alert alert-danger text-center p-1 mt-2 mb-0">
+                                Ya no hay más boletos disponibles
                             </div>
-                            <p class="card-text mb-1"><strong>Descripción:</strong> @actividad.DESCRIPCION</p>
-                            <p class="card-text mb-1"><strong>Fecha:</strong> @actividad.FECHA.ToShortDateString()</p>
-                            <p class="card-text mb-1"><strong>Hora:</strong> @actividad.FECHA.ToShortTimeString()</p>
-                            <p class="card-text mb-1"><strong>Costo:</strong> ₡@actividad.PRECIO_BOLETO</p>
-                            <p class="card-text mb-1"><strong>Tickets disponibles:</strong> @actividad.TICKETS_DISPONIBLES</p>
-
-                            @if (Session["Nombre"] == null)
+                            <button type="button" class="btn btn-secondary w-100 mt-2" disabled>ENTRADAS AGOTADAS</button>
+                        }
+                        else
+                        {
+                            if (Session["Nombre"] == null)
                             {
                                 <button type="button" class="btn btn-participar w-100 mt-3 ValidacionLoginBtn">QUIERO PARTICIPAR</button>
                             }
                             else
                             {
                                 @Html.ActionLink("QUIERO PARTICIPAR", "DetalleActividad", "Actividades", new { IdActividad = actividad.ID_ACTIVIDAD }, new { @class = "btn btn-participar w-100 mt-3" })
-
                             }
-                        </div>
+                        }
                     </div>
-                </div>
-            }
-        }
-        else
-        {
-            <div class="col-12">
-                <div class="alert alert-info text-center">
-                    <h4>No hay actividades disponibles</h4>
-                    <p>En este momento no hay actividades disponibles.</p>
                 </div>
             </div>
         }
-    </div>
+    }
+    else
+    {
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <h4>No hay actividades disponibles</h4>
+                <p>En este momento no hay actividades disponibles.</p>
+            </div>
+        </div>
+    }
+</div>
+
 
 </div>
 
 <script>
 
     var LoginUrl = '@Url.Action("IniciarSesion", "Home")';
+    $(document).ready(function () {
+        @if (TempData["SwalSuccess"] != null) {
+            <text>
+                Swal.fire({
+                    title: 'Completando pago...',
+                html: 'Por favor espere <br><div class="spinner-border text-primary mt-3" role="status"><span class="visually-hidden">Cargando...</span></div>',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
 
-             @if (TempData["SwalSuccess"] != null)
-            {
-                <text>
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Éxito!',
-                        text: '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalSuccess"].ToString()))',
-                        confirmButtonColor: '#3085d6'
-                    });
-                </text>
-            }
+          
+                setTimeout(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Éxito!',
+                            text: '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalSuccess"].ToString()))',
+                            confirmButtonColor: '#3085d6'
+                        });
+                }, 2500);
+            </text>
+        }
 
-            @if (TempData["SwalError"] != null)
-            {
-                <text>
-                    Swal.fire({
-                        icon: 'error',
-                        title: '¡Error!',
-                         text: '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalError"].ToString()))',
-                        confirmButtonColor: '#d33'
-                    });
-                </text>
-            }
+        @if (TempData["SwalError"] != null) {
+            <text>
+                Swal.fire({
+                    icon: 'error',
+                title: '¡Error!',
+                text: '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalError"].ToString()))',
+                confirmButtonColor: '#d33'
+                });
+            </text>
+        }
+    });
+           
 </script>
