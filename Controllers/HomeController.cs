@@ -106,7 +106,7 @@ namespace ProyectoFinal.Controllers
                 {
                 
                     TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
-                    return RedirectToAction("Registro");
+                    return View();
                 }
             }
         }

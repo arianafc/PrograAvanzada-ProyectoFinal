@@ -13,21 +13,23 @@
 
 <div class="dudas-container">
     <h2 class="titulo-dudas">Mis Ventas</h2>
-    <h4 class="justify-content-center card p-3 col-sm-4 text-center shadow-sm ">
+    @*<h4 class="justify-content-center card p-3 col-sm-4 text-center shadow-sm ">
         <b>$@ViewBag.TotalVentas</b><span class="col-md-12">Total Recaudado</span></h4>
-    <hr />
+    <hr />*@
 
 
 
-    <table class="tabla-donaciones display responsive nowrap w-90" style="font-family: 'Montserrat', sans-serif !important;" id="TablaVentas">
-        <thead>
+    <table class="tabla-donaciones text-center display responsive nowrap w-90" style="font-family: 'Montserrat', sans-serif !important;" id="TablaVentas">
+        <thead class="text-center">
             <tr>
+                <th># FACTURA</th>
                 <th>USUARIO</th>
                 <th>FECHA DE COMPRA</th>
+                <th>TICKETS ADQUIRIDOS</th>
                 <th>ACTIVIDAD</th>
-                <th>TOTAL ADQUIRIDO</th>
-                <th>FECHA</th>
+                <th>TOTAL PAGADO</th>
                 <th>ESTADO DE LA COMPRA</th>
+                <th>MÉTODO DE PAGO</th>
             </tr>
         </thead>
         <tbody>
@@ -36,12 +38,14 @@
                 foreach (var item in Model)
                 {
                     <tr>
+                        <td>@item.NUMERO_FACTURA</td>
                         <td>@item.NOMBRE_COMPLETO</td>
                         <td>@item.FECHA</td>
+                        <td>@item.TICKETS_ADQUIRIDOS</td>
                         <td>@item.NOMBRE_ACTIVIDAD</td>
-                        <td>@item.TOTAL</td>
-                        <td>@item.FECHA_ACTIVIDAD.ToString("dd/MM/yyyy")</td>
+                        <td>$@item.TOTAL</td>
                         <td>@item.ESTADO_COMPRA</td>
+                        <td>@item.METODO</td>
                     </tr>
                 }
             }
