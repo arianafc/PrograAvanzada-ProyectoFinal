@@ -18,6 +18,8 @@ namespace ProyectoFinal.EF
         public ESTADOS_SALUD_TB()
         {
             this.ANIMAL_TB = new HashSet<ANIMAL_TB>();
+            this.ANIMAL_TB1 = new HashSet<ANIMAL_TB>();
+            this.ANIMAL_TB2 = new HashSet<ANIMAL_TB>();
         }
     
         public int ID_SALUD { get; set; }
@@ -25,5 +27,9 @@ namespace ProyectoFinal.EF
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ANIMAL_TB> ANIMAL_TB { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ANIMAL_TB> ANIMAL_TB1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ANIMAL_TB> ANIMAL_TB2 { get; set; }
     }
 }

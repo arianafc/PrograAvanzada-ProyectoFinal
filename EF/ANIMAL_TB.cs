@@ -18,6 +18,8 @@ namespace ProyectoFinal.EF
         public ANIMAL_TB()
         {
             this.APADRINAMIENTOS_TB = new HashSet<APADRINAMIENTOS_TB>();
+            this.APADRINAMIENTOS_TB1 = new HashSet<APADRINAMIENTOS_TB>();
+            this.APADRINAMIENTOS_TB2 = new HashSet<APADRINAMIENTOS_TB>();
         }
     
         public int ID_ANIMAL { get; set; }
@@ -33,9 +35,19 @@ namespace ProyectoFinal.EF
         public string NECESIDAD { get; set; }
     
         public virtual ESTADOS_TB ESTADOS_TB { get; set; }
+        public virtual ESTADOS_TB ESTADOS_TB1 { get; set; }
+        public virtual ESTADOS_TB ESTADOS_TB2 { get; set; }
         public virtual RAZAS_TB RAZAS_TB { get; set; }
+        public virtual RAZAS_TB RAZAS_TB1 { get; set; }
+        public virtual RAZAS_TB RAZAS_TB2 { get; set; }
         public virtual ESTADOS_SALUD_TB ESTADOS_SALUD_TB { get; set; }
+        public virtual ESTADOS_SALUD_TB ESTADOS_SALUD_TB1 { get; set; }
+        public virtual ESTADOS_SALUD_TB ESTADOS_SALUD_TB2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB2 { get; set; }
     }
 }

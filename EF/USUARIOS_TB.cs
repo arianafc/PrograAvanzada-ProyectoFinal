@@ -18,10 +18,17 @@ namespace ProyectoFinal.EF
         public USUARIOS_TB()
         {
             this.APADRINAMIENTOS_TB = new HashSet<APADRINAMIENTOS_TB>();
-            this.CONSULTAS = new HashSet<CONSULTAS>();
+            this.APADRINAMIENTOS_TB1 = new HashSet<APADRINAMIENTOS_TB>();
+            this.APADRINAMIENTOS_TB2 = new HashSet<APADRINAMIENTOS_TB>();
             this.DIRECCIONES_TB = new HashSet<DIRECCIONES_TB>();
+            this.DIRECCIONES_TB1 = new HashSet<DIRECCIONES_TB>();
+            this.DIRECCIONES_TB2 = new HashSet<DIRECCIONES_TB>();
             this.DONACIONES_TB = new HashSet<DONACIONES_TB>();
+            this.DONACIONES_TB1 = new HashSet<DONACIONES_TB>();
+            this.DONACIONES_TB2 = new HashSet<DONACIONES_TB>();
             this.USUARIO_ACTIVIDAD_TB = new HashSet<USUARIO_ACTIVIDAD_TB>();
+            this.USUARIO_ACTIVIDAD_TB1 = new HashSet<USUARIO_ACTIVIDAD_TB>();
+            this.USUARIO_ACTIVIDAD_TB2 = new HashSet<USUARIO_ACTIVIDAD_TB>();
         }
     
         public int ID_USUARIO { get; set; }
@@ -37,14 +44,32 @@ namespace ProyectoFinal.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CONSULTAS> CONSULTAS { get; set; }
+        public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DIRECCIONES_TB> DIRECCIONES_TB { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DIRECCIONES_TB> DIRECCIONES_TB1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DIRECCIONES_TB> DIRECCIONES_TB2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DONACIONES_TB> DONACIONES_TB { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DONACIONES_TB> DONACIONES_TB1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DONACIONES_TB> DONACIONES_TB2 { get; set; }
         public virtual ESTADOS_TB ESTADOS_TB { get; set; }
+        public virtual ESTADOS_TB ESTADOS_TB1 { get; set; }
+        public virtual ESTADOS_TB ESTADOS_TB2 { get; set; }
         public virtual ROLES_TB ROLES_TB { get; set; }
+        public virtual ROLES_TB ROLES_TB1 { get; set; }
+        public virtual ROLES_TB ROLES_TB2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USUARIO_ACTIVIDAD_TB> USUARIO_ACTIVIDAD_TB { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<USUARIO_ACTIVIDAD_TB> USUARIO_ACTIVIDAD_TB1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<USUARIO_ACTIVIDAD_TB> USUARIO_ACTIVIDAD_TB2 { get; set; }
     }
 }

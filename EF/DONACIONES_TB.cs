@@ -22,6 +22,10 @@ namespace ProyectoFinal.EF
         public string REFERENCIA { get; set; }
     
         public virtual METODO_PAGO_TB METODO_PAGO_TB { get; set; }
+        public virtual METODO_PAGO_TB METODO_PAGO_TB1 { get; set; }
+        public virtual METODO_PAGO_TB METODO_PAGO_TB2 { get; set; }
         public virtual USUARIOS_TB USUARIOS_TB { get; set; }
+        public virtual USUARIOS_TB USUARIOS_TB1 { get; set; }
+        public virtual USUARIOS_TB USUARIOS_TB2 { get; set; }
     }
 }
