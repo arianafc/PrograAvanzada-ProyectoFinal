@@ -299,7 +299,28 @@ namespace ProyectoFinal.Controllers
             }
         }
 
+        [HttpGet]
 
+        public ActionResult GestionVentas()
+        {
+            try
+            {
+                using (var dbcontext = new CASA_NATURAEntities())
+                {
+                    
+                    var result = dbcontext.VisualizacionVentasSP().ToList();
+                    var SumaTotalVentas = result.Sum(x => x.TOTAL);
+                    ViewBag.TotalVentas = SumaTotalVentas;
+                    return View(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Error al cargar las actividades: " + ex.Message;
+                return View(new List<VisualizacionVentasSP_Result>());
+            }
+            
+        }
     }
 
 }

@@ -1,7 +1,26 @@
 ﻿$(document).ready(function () {
 
 
- 
+    $('#TablaVentas').DataTable({
+        responsive: true,
+        autoWidth: false,
+        language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json",
+
+            "search": "Buscar:",
+            "lengthMenu": "Número de Registros _MENU_",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ ventas",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+            "zeroRecords": "No se encontraron resultados",
+            "infoEmpty": "No hay actividades para mostrar",
+            "infoFiltered": "(filtrado de _MAX_ actividades totales)"
+        }
+    });
    
     function MostrarAlertaLogin() {
         Swal.fire({
