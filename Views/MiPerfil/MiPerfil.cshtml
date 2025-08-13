@@ -3,7 +3,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <style>
     .btn-minimal {
         border: 1px solid transparent;
@@ -61,9 +60,7 @@
         }
 </style>
 
-
 <main class="container py-5">
-
 
     <div class="row justify-content-center mb-5 text-center">
         <div class="col-6 col-md-4 col-lg-2 mb-3">
@@ -93,7 +90,6 @@
                 MIS ACTIVIDADES
             </a>
         </div>
-
     </div>
 
     <!-- Perfil -->
@@ -114,13 +110,13 @@
     <div class="collapse" id="editarPerfil">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <form id="formAdminActualizar" method="POST" class="row g-3 border p-4 rounded shadow-sm">
+                @using (Html.BeginForm("ActualizarPerfil", "MiPerfil", FormMethod.Post, new { id = "formAdminActualizar", @class = "row g-3 border p-4 rounded shadow-sm" }))
+                {
                     <h5 class="col-12 text-center fw-bold">DATOS PERSONALES</h5>
 
                     <div class="col-md-4">
                         <label for="nombreAdmin">Nombre</label>
                         <input type="text" class="form-control" id="nombreAdmin" name="nombre" value="@Session["Nombre"]" required>
-
                     </div>
 
                     <div class="col-md-4">
@@ -138,7 +134,6 @@
                         <input type="text" class="form-control" id="identificacionAdmin" name="identificacion" value="@Session["Cedula"]" readonly required>
                     </div>
 
-
                     <div class="col-md-6">
                         <label for="emailAdmin">Correo Electrónico</label>
                         <input type="email" class="form-control" id="emailAdmin" name="email" value="@Session["email"]" required>
@@ -148,17 +143,35 @@
 
                     <div class="col-md-3">
                         <label for="provinciaAdmin">Provincia</label>
-                        <input type="text" class="form-control" id="provinciaAdmin" name="provincia" required>
+                        <select class="form-control" id="provinciaAdmin" name="provincia" required>
+                            <option value="">Seleccione Provincia</option>
+                            @foreach (var provincia in ViewBag.Provincias)
+                            {
+                                <option value="@provincia.ID_PROVINCIA" @(provincia.ID_PROVINCIA == (int?)ViewBag.ProvinciaId ? "selected" : "")>@provincia.NOMBRE</option>
+                            }
+                        </select>
                     </div>
 
                     <div class="col-md-3">
                         <label for="cantonAdmin">Cantón</label>
-                        <input type="text" class="form-control" id="cantonAdmin" name="canton" required>
+                        <select class="form-control" id="cantonAdmin" name="canton" required>
+                            <option value="">Seleccione Cantón</option>
+                            @foreach (var canton in ViewBag.Cantones)
+                            {
+                                <option value="@canton.ID_CANTON" @(canton.ID_CANTON == (int?)ViewBag.CantonId ? "selected" : "")>@canton.NOMBRE</option>
+                            }
+                        </select>
                     </div>
 
                     <div class="col-md-3">
                         <label for="distritoAdmin">Distrito</label>
-                        <input type="text" class="form-control" id="distritoAdmin" name="distrito" required>
+                        <select class="form-control" id="distritoAdmin" name="distrito" required>
+                            <option value="">Seleccione Distrito</option>
+                            @foreach (var distrito in ViewBag.Distritos)
+                            {
+                                <option value="@distrito.ID_DISTRITO" @(distrito.ID_DISTRITO == (int?)ViewBag.DistritoId ? "selected" : "")>@distrito.NOMBRE</option>
+                            }
+                        </select>
                     </div>
 
                     <div class="col-md-3">
@@ -169,20 +182,53 @@
                     <div class="col-12">
                         <button type="submit" class="submit-btn mt-3" name="guardar_perfil">Guardar Cambios</button>
                     </div>
-                </form>
-
-                @using (Html.BeginForm("RecuperarAcceso", "Home", FormMethod.Post, new { id = "changePassword", @class = "border p-4 rounded shadow-sm mt-5" }))
-                {
-                    <h5 class="fw-bold text-center">Cambio de Contraseña</h5>
-
-                    <input type="hidden" name="Identificacion" value="@Session["Cedula"]" />
-                    <input type="hidden" name="Correo" value="@Session["email"]" />
-
-                    <button type="submit" class="submit-btn">Solicitar Link</button>
                 }
 
-            </div>
+                    @using (Html.BeginForm("RecuperarAcceso", "Home", FormMethod.Post, new { id = "changePassword", @class = "border p-4 rounded shadow-sm mt-5" }))
+                    {
+                        <h5 class="fw-bold text-center">Cambio de Contraseña</h5>
+
+                        <input type="hidden" name="Identificacion" value="@Session["Cedula"]" />
+                        <input type="hidden" name="Correo" value="@Session["email"]" />
+
+                        <button type="submit" class="submit-btn">Solicitar Link</button>
+                    }
+                </div>
         </div>
     </div>
+
 </main>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function () {
+    $('#provinciaAdmin').change(function () {
+        var provinciaId = $(this).val();
+
+        $('#cantonAdmin').empty().append('<option value="">Seleccione Cantón</option>');
+        $('#distritoAdmin').empty().append('<option value="">Seleccione Distrito</option>');
+
+        if (provinciaId) {
+            $.getJSON('@Url.Action("ObtenerCantones", "MiPerfil")', { provinciaId: provinciaId }, function (cantones) {
+                $.each(cantones, function (index, canton) {
+                    $('#cantonAdmin').append('<option value="' + canton.ID_CANTON + '">' + canton.NOMBRE + '</option>');
+                });
+            });
+        }
+    });
+
+    $('#cantonAdmin').change(function () {
+        var cantonId = $(this).val();
+
+        $('#distritoAdmin').empty().append('<option value="">Seleccione Distrito</option>');
+
+        if (cantonId) {
+            $.getJSON('@Url.Action("ObtenerDistritos", "MiPerfil")', { cantonId: cantonId }, function (distritos) {
+                $.each(distritos, function (index, distrito) {
+                    $('#distritoAdmin').append('<option value="' + distrito.ID_DISTRITO + '">' + distrito.NOMBRE + '</option>');
+                });
+            });
+        }
+    });
+});
+</script>

@@ -18,6 +18,8 @@ namespace ProyectoFinal.EF
         public CANTONES_TB()
         {
             this.DISTRITOS_TB = new HashSet<DISTRITOS_TB>();
+            this.DISTRITOS_TB1 = new HashSet<DISTRITOS_TB>();
+            this.DISTRITOS_TB2 = new HashSet<DISTRITOS_TB>();
         }
     
         public int ID_CANTON { get; set; }
@@ -25,7 +27,13 @@ namespace ProyectoFinal.EF
         public int PROVINCIA { get; set; }
     
         public virtual PROVINCIAS_TB PROVINCIAS_TB { get; set; }
+        public virtual PROVINCIAS_TB PROVINCIAS_TB1 { get; set; }
+        public virtual PROVINCIAS_TB PROVINCIAS_TB2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DISTRITOS_TB> DISTRITOS_TB { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DISTRITOS_TB> DISTRITOS_TB1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DISTRITOS_TB> DISTRITOS_TB2 { get; set; }
     }
 }

@@ -10,19 +10,16 @@
 namespace ProyectoFinal.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class CONSULTAS
+    public partial class VisualizacionVentasSP_Result
     {
-        public int ID_CONSULTA { get; set; }
-        public string NOMBRE { get; set; }
-        public string APELLIDO { get; set; }
-        public string EMAIL { get; set; }
-        public string MENSAJE { get; set; }
-        public int ID_ESTADO { get; set; }
-        public int ID_USUARIO { get; set; }
-    
-        public virtual ESTADOS_TB ESTADOS_TB { get; set; }
-        public virtual USUARIOS_TB USUARIOS_TB { get; set; }
+        public Nullable<int> TICKETS_ADQUIRIDOS { get; set; }
+        public Nullable<System.DateTime> FECHA { get; set; }
+        public Nullable<decimal> TOTAL { get; set; }
+        public string NOMBRE_COMPLETO { get; set; }
+        public string NOMBRE_ACTIVIDAD { get; set; }
+        public System.DateTime FECHA_ACTIVIDAD { get; set; }
+        public string ESTADO_COMPRA { get; set; }
+        public string METODO { get; set; }
     }
 }

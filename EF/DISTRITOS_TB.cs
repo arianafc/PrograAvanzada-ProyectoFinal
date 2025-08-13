@@ -18,6 +18,8 @@ namespace ProyectoFinal.EF
         public DISTRITOS_TB()
         {
             this.DIRECCIONES_TB = new HashSet<DIRECCIONES_TB>();
+            this.DIRECCIONES_TB1 = new HashSet<DIRECCIONES_TB>();
+            this.DIRECCIONES_TB2 = new HashSet<DIRECCIONES_TB>();
         }
     
         public int ID_DISTRITO { get; set; }
@@ -25,7 +27,13 @@ namespace ProyectoFinal.EF
         public int CANTON { get; set; }
     
         public virtual CANTONES_TB CANTONES_TB { get; set; }
+        public virtual CANTONES_TB CANTONES_TB1 { get; set; }
+        public virtual CANTONES_TB CANTONES_TB2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DIRECCIONES_TB> DIRECCIONES_TB { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DIRECCIONES_TB> DIRECCIONES_TB1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DIRECCIONES_TB> DIRECCIONES_TB2 { get; set; }
     }
 }
