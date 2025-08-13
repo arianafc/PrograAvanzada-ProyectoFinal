@@ -105,7 +105,7 @@ namespace ProyectoFinal.Controllers
                 return View(donaciones);
             }
         }
-
+        [HttpGet]
         public ActionResult MisAnimales()
         {
             if (Session["idUsuario"] == null)
