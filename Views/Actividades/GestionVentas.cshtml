@@ -12,7 +12,7 @@
 
 
 <div class="dudas-container">
-    <h2 class="titulo-dudas">Mis Ventas</h2>
+    <h2 class="TituloSeccion">Mis Ventas <i style="color: #17a2b8" class="fas fa-receipt"></i> </h2>
     @*<h4 class="justify-content-center card p-3 col-sm-4 text-center shadow-sm ">
         <b>$@ViewBag.TotalVentas</b><span class="col-md-12">Total Recaudado</span></h4>
     <hr />*@
@@ -43,8 +43,17 @@
                         <td>@item.FECHA</td>
                         <td>@item.TICKETS_ADQUIRIDOS</td>
                         <td>@item.NOMBRE_ACTIVIDAD</td>
-                        <td>$@item.TOTAL</td>
-                        <td>@item.ESTADO_COMPRA</td>
+                        <td>₡@item.TOTAL</td>
+                        <td>
+                            @if (item.ESTADO_COMPRA == "Confirmada")
+                            {
+                            <span class="badge-confirmada">@item.ESTADO_COMPRA</span>
+                            }
+                            else
+                            {
+                            <span class="badge-agotado">@item.ESTADO_COMPRA</span>
+                            }
+                        </td>
                         <td>@item.METODO</td>
                     </tr>
                 }

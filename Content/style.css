@@ -13740,7 +13740,7 @@ body, html {
 }
 
 /* Título */
-.titulo-dudas {
+.TituloSeccion {
     font-family: 'Montserrat', sans-serif;
     font-size: 26px;
     font-weight: 700;
@@ -13750,13 +13750,6 @@ body, html {
     position: relative;
 }
 
-    .titulo-dudas::before {
-        content: "\f086"; /* icono de comentario */
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        margin-right: 10px;
-        color: #ffc107;
-    }
 
 /* Tarjetas de consultas */
 .card-consulta {

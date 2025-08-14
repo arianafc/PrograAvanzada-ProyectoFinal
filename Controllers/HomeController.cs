@@ -138,12 +138,12 @@ namespace ProyectoFinal.Controllers
 
                 if (result != null)
                 {
-                    string link = Url.Action(
-               "CambioContrasenna",
-               "Home",
-               new { correo = user.Correo.ToLower() },
-               protocol: Request.Url.Scheme
-           );
+                         string link = Url.Action(
+                            "CambioContrasenna",
+                                "Home",
+                             new { correo = user.Correo.ToLower() },
+                            protocol: Request.Url.Scheme
+                            );
                     StringBuilder mensaje = new StringBuilder();
 
                     mensaje.Append("<p>Estimado <strong>" + result.NOMBRE + "</strong>,</p>");
@@ -157,8 +157,8 @@ namespace ProyectoFinal.Controllers
                     if (service.EnviarCorreo(result.CORREO, mensaje.ToString(), "Solicitud de acceso"))
                     {
                         TempData["SwalSuccess"] = "Hemos enviado un link de recuperación de acceso al correo" +
-                            "electrónico registrado. \nGracias.\n-Equipo de Casa Natura";
-                        return RedirectToAction("Index", "Home");
+                            "electrónico registrado.";
+                        return RedirectToAction("IniciarSesion", "Home");
                     }
 
 
@@ -166,7 +166,7 @@ namespace ProyectoFinal.Controllers
                     return View();
                 }
 
-                TempData["SwalError"] = "No se pudo recuperar su contraseña"; 
+                TempData["SwalError"] = "Lo sentimos, la cédula o correo indicados no se encuentran registrados o son incorrectos."; 
                 return View(); 
 
             }

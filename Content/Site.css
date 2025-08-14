@@ -171,10 +171,6 @@ main {
     height: 100%;
     object-fit: cover;
 }
-/* --- FORMS --- */
- select, textarea {
-    max-width: 280px;
-}
 
 /* --- BOOTSTRAP OVERRIDES --- */
 
@@ -1191,4 +1187,12 @@ img {
 .badge-agotado {
     background-color: #dc3545; 
     color: #fff;
+}
+
+.badge-confirmada {
+    background-color: #062D3E;
+    color: white;
+    padding: 0.5em 0.8em;
+    border-radius: 0.5em;
+    font-size: 0.9rem;
 }
