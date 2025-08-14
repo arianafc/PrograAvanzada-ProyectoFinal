@@ -20,7 +20,6 @@ namespace ProyectoFinal.EF
             this.ACTIVIDADES_TB = new HashSet<ACTIVIDADES_TB>();
             this.ANIMAL_TB = new HashSet<ANIMAL_TB>();
             this.APADRINAMIENTOS_TB = new HashSet<APADRINAMIENTOS_TB>();
-            this.CONSULTAS = new HashSet<CONSULTAS>();
             this.DIRECCIONES_TB = new HashSet<DIRECCIONES_TB>();
             this.ESPECIES_TB = new HashSet<ESPECIES_TB>();
             this.METODO_PAGO_TB = new HashSet<METODO_PAGO_TB>();
@@ -39,8 +38,6 @@ namespace ProyectoFinal.EF
         public virtual ICollection<ANIMAL_TB> ANIMAL_TB { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CONSULTAS> CONSULTAS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DIRECCIONES_TB> DIRECCIONES_TB { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

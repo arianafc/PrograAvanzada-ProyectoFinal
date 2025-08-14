@@ -1,8 +1,4 @@
 ﻿$(document).ready(function () {
-
-
- 
-   
     function MostrarAlertaLogin() {
         Swal.fire({
             title: 'Debes iniciar sesión',
@@ -108,32 +104,6 @@
     });
 
 });
-
-
-function mostrarModal(idActividad) {
-    const metodo = document.getElementById("metodo").value;
-    if (!metodo) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Selecciona un método de pago',
-            confirmButtonColor: '#3085d6'
-        });
-        return;
-    }
-
-    switch (metodo) {
-        case "tarjeta":
-            new bootstrap.Modal(document.getElementById("modalTarjeta")).show();
-            break;
-        case "sinpe":
-            new bootstrap.Modal(document.getElementById("modalSinpe")).show();
-            break;
-        case "paypal":
-            new bootstrap.Modal(document.getElementById("modalPaypal")).show();
-            break;
-    }
-}
-
 function enviarFormularioCompra(metodoPagoId) {
     const cantidad = parseInt(document.getElementById("cantidadBoletos").value);
 
@@ -189,12 +159,6 @@ function enviarFormularioCompra(metodoPagoId) {
 
     document.forms[0].submit();
 }
-
-
-
-
-
-
 
 function mostrarModal() {
     const metodo = document.getElementById('metodo').value;

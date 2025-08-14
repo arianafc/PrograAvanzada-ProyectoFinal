@@ -1,13 +1,15 @@
-﻿using System;
+﻿using ProyectoFinal.EF;
+using ProyectoFinal.Models;
+using ProyectoFinal.Services;
+using System;
 using System.Linq;
 using System.Web.Mvc;
-using ProyectoFinal.EF;
-using ProyectoFinal.Models;
 
 namespace ProyectoFinal.Controllers
 {
     public class DonacionController : Controller
     {
+        readonly Utilitarios service = new Utilitarios();
         [HttpGet]
         public ActionResult Donaciones()
         {
@@ -51,7 +53,7 @@ namespace ProyectoFinal.Controllers
                 }
 
                 int idUsuario = Convert.ToInt32(Session["IdUsuario"]);
-                int idMetodo = ObtenerIdMetodo(metodo);
+                int idMetodo = service.ObtenerIdMetodo(metodo);
 
                 if (idMetodo == 0)
                 {
@@ -83,17 +85,6 @@ namespace ProyectoFinal.Controllers
         {
             bool logueado = Session["IdUsuario"] != null;
             return Json(new { logueado = logueado }, JsonRequestBehavior.AllowGet);
-        }
-
-        private int ObtenerIdMetodo(string metodo)
-        {
-            switch (metodo?.ToLower())
-            {
-                case "tarjeta": return 1;
-                case "sinpe": return 2;
-                case "paypal": return 3;
-                default: return 0;
-            }
         }
     }
 }

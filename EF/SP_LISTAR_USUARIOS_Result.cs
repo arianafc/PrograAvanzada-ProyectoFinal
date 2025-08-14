@@ -10,19 +10,10 @@
 namespace ProyectoFinal.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class CONSULTAS
+    public partial class SP_LISTAR_USUARIOS_Result
     {
-        public int ID_CONSULTA { get; set; }
-        public string NOMBRE { get; set; }
-        public string APELLIDO { get; set; }
-        public string EMAIL { get; set; }
-        public string MENSAJE { get; set; }
-        public int ID_ESTADO { get; set; }
         public int ID_USUARIO { get; set; }
-    
-        public virtual ESTADOS_TB ESTADOS_TB { get; set; }
-        public virtual USUARIOS_TB USUARIOS_TB { get; set; }
+        public string NOMBRE_COMPLETO { get; set; }
     }
 }

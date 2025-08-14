@@ -18,7 +18,6 @@ namespace ProyectoFinal.EF
         public USUARIOS_TB()
         {
             this.APADRINAMIENTOS_TB = new HashSet<APADRINAMIENTOS_TB>();
-            this.CONSULTAS = new HashSet<CONSULTAS>();
             this.DIRECCIONES_TB = new HashSet<DIRECCIONES_TB>();
             this.DONACIONES_TB = new HashSet<DONACIONES_TB>();
             this.USUARIO_ACTIVIDAD_TB = new HashSet<USUARIO_ACTIVIDAD_TB>();
@@ -36,8 +35,6 @@ namespace ProyectoFinal.EF
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CONSULTAS> CONSULTAS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DIRECCIONES_TB> DIRECCIONES_TB { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
