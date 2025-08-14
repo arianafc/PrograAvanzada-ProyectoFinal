@@ -59,6 +59,16 @@ namespace ProyectoFinal.Services
             }
         }
 
+        public int ObtenerIdMetodo(string metodo)
+        {
+            switch (metodo?.ToLower())
+            {
+                case "tarjeta": return 1;
+                case "sinpe": return 2;
+                case "paypal": return 3;
+                default: return 0;
+            }
+        }
 
 
     }

@@ -330,6 +330,58 @@ END;
 GO
 
 -- =============================================
+-- SP: VisualizarApadrinamientosSP
+-- =============================================
+CREATE OR ALTER PROCEDURE VisualizarApadrinamientosSP
+AS
+BEGIN
+    SELECT 
+        A.ID_APADRINAMIENTO,
+        A.MONTO_MENSUAL,
+        A.FECHA,
+        A.FECHA_BAJA,
+        A.ID_USUARIO,
+        U.NOMBRE AS NOMBRE_USUARIO,
+        U.APELLIDO1 AS APELLIDO1_USUARIO,
+        U.APELLIDO2 AS APELLIDO2_USUARIO,
+        A.ID_ESTADO,
+        E.DESCRIPCION AS ESTADO,
+        A.ID_ANIMAL,
+        AN.NOMBRE AS NOMBRE_ANIMAL,
+        A.ID_METODO,
+        M.METODO AS METODO_PAGO,
+        A.REFERENCIA
+    FROM APADRINAMIENTOS_TB A
+    INNER JOIN USUARIOS_TB U ON A.ID_USUARIO = U.ID_USUARIO
+    INNER JOIN ESTADOS_TB E ON A.ID_ESTADO = E.ID_ESTADO
+    INNER JOIN ANIMAL_TB AN ON A.ID_ANIMAL = AN.ID_ANIMAL
+    INNER JOIN METODO_PAGO_TB M ON A.ID_METODO = M.ID_METODO
+END;
+GO
+
+-- =============================================
+-- SP: CambiarEstadoApadrinamientoSP
+-- =============================================
+CREATE OR ALTER PROCEDURE CambiarEstadoApadrinamientoSP
+    @IdApadrinamiento INT
+AS
+BEGIN
+    DECLARE @IdAnimal INT;
+
+    SELECT @IdAnimal = ID_ANIMAL 
+    FROM APADRINAMIENTOS_TB
+    WHERE ID_APADRINAMIENTO = @IdApadrinamiento;
+
+    UPDATE APADRINAMIENTOS_TB
+    SET ID_ESTADO = 2
+    WHERE ID_APADRINAMIENTO = @IdApadrinamiento;
+
+    UPDATE ANIMAL_TB
+    SET ID_ESTADO = 1
+    WHERE ID_ANIMAL = @IdAnimal;
+END;
+
+-- =============================================
 -- SP: ObtenerAnimalPorIdSP
 -- =============================================
 CREATE OR ALTER PROCEDURE ObtenerAnimalPorIdSP

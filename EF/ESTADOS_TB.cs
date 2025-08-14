@@ -23,8 +23,6 @@ namespace ProyectoFinal.EF
             this.ANIMAL_TB1 = new HashSet<ANIMAL_TB>();
             this.ANIMAL_TB2 = new HashSet<ANIMAL_TB>();
             this.APADRINAMIENTOS_TB = new HashSet<APADRINAMIENTOS_TB>();
-            this.APADRINAMIENTOS_TB1 = new HashSet<APADRINAMIENTOS_TB>();
-            this.APADRINAMIENTOS_TB2 = new HashSet<APADRINAMIENTOS_TB>();
             this.DIRECCIONES_TB = new HashSet<DIRECCIONES_TB>();
             this.DIRECCIONES_TB1 = new HashSet<DIRECCIONES_TB>();
             this.DIRECCIONES_TB2 = new HashSet<DIRECCIONES_TB>();
@@ -63,10 +61,6 @@ namespace ProyectoFinal.EF
         public virtual ICollection<ANIMAL_TB> ANIMAL_TB2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DIRECCIONES_TB> DIRECCIONES_TB { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
