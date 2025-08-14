@@ -7270,7 +7270,7 @@ html[dir="ltr"] body .p-l-0 {
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin4"], #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin4"] ul, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin4"], #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin4"] ul {
     background: #6659f7; }
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin5"], #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin5"] ul, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin5"], #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin5"] ul {
-    background: #fff; }
+    background: #fff !important; }
   #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin6"], #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin6"] {
     background: #fff; }
     #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin6"] .sidebar-nav ul, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin6"] .sidebar-nav ul {
@@ -7969,7 +7969,7 @@ Notify
   .topbar .user-dd, .topbar .mailbox {
     min-width: 280px; }
   .topbar .nav-toggler, .topbar .topbartoggler {
-    color: #fff;
+    color: #212529;
     padding: 0 15px; }
 
 .search-box .app-search {

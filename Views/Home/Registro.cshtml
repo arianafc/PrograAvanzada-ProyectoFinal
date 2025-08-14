@@ -22,7 +22,7 @@
                     </div>
                     <div class="mb-3">
 
-                        @Html.TextBoxFor(x => x.Nombre, new { @type = "text", @class = "form-control form-control-lg InputLogin SoloVista", @placeholder = "Nombre", @id = "nombre", @readonly = "readonly" })
+                        @Html.TextBoxFor(x => x.Nombre, new { @type = "text", @class = "form-control form-control-lg InputLogin SoloVista", @placeholder = "Nombre", @id = "nombre"})
                     </div>
                     <div class="mb-3">
 
@@ -56,30 +56,6 @@
     </div>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
+<script src="~/Scripts/Autenticacion.js"></script>
 
-
-     @if (TempData["SwalError"] != null)
- {
-     <text>
-         Swal.fire({
-             icon: 'error',
-             title: 'Error',
-              text: '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalError"].ToString()))'
-         });
-     </text>
- }
-
- @if (TempData["SwalSuccess"] != null)
- {
-     <text>
-         Swal.fire({
-             icon: 'success',
-             title: 'Éxito',
-             text: '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalSuccess"].ToString()))'
-         });
-     </text>
- }
-</script>

@@ -106,7 +106,7 @@ namespace ProyectoFinal.Controllers
                 {
                 
                     TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
-                    return RedirectToAction("Registro");
+                    return View();
                 }
             }
         }
@@ -155,18 +155,24 @@ namespace ProyectoFinal.Controllers
 
 
                     if (service.EnviarCorreo(result.CORREO, mensaje.ToString(), "Solicitud de acceso"))
+                    {
+                        TempData["SwalSuccess"] = "Hemos enviado un link de recuperación de acceso al correo" +
+                            "electrónico registrado. \nGracias.\n-Equipo de Casa Natura";
                         return RedirectToAction("Index", "Home");
+                    }
 
-                    ViewBag.Mensaje = "No se pudo realizar la notificación de su acceso al sistema";
+
+                    TempData["SwalError"] = "No se pudo realizar la notificación de su acceso al sistema";
                     return View();
                 }
 
-                ViewBag.Mensaje = "No se pudo recuperar su contraseña"; 
+                TempData["SwalError"] = "No se pudo recuperar su contraseña"; 
                 return View(); 
 
             }
         }
 
+        
 
         [HttpGet]
         public ActionResult CambioContrasenna(string correo)

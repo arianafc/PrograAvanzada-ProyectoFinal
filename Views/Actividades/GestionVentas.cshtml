@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ProyectoFinal.EF.VisualizacionVentasSP_Result>
+
+@{
+    ViewBag.Title = "Mis Ventas";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+
+
+<div class="dudas-container">
+    <h2 class="titulo-dudas">Mis Ventas</h2>
+    @*<h4 class="justify-content-center card p-3 col-sm-4 text-center shadow-sm ">
+        <b>$@ViewBag.TotalVentas</b><span class="col-md-12">Total Recaudado</span></h4>
+    <hr />*@
+
+
+
+    <table class="tabla-donaciones text-center display responsive nowrap w-90" style="font-family: 'Montserrat', sans-serif !important;" id="TablaVentas">
+        <thead class="text-center">
+            <tr>
+                <th># FACTURA</th>
+                <th>USUARIO</th>
+                <th>FECHA DE COMPRA</th>
+                <th>TICKETS ADQUIRIDOS</th>
+                <th>ACTIVIDAD</th>
+                <th>TOTAL PAGADO</th>
+                <th>ESTADO DE LA COMPRA</th>
+                <th>MÉTODO DE PAGO</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.NUMERO_FACTURA</td>
+                        <td>@item.NOMBRE_COMPLETO</td>
+                        <td>@item.FECHA</td>
+                        <td>@item.TICKETS_ADQUIRIDOS</td>
+                        <td>@item.NOMBRE_ACTIVIDAD</td>
+                        <td>$@item.TOTAL</td>
+                        <td>@item.ESTADO_COMPRA</td>
+                        <td>@item.METODO</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="sin-datos">No se encontraron donaciones registradas.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+

@@ -31,7 +31,6 @@ namespace ProyectoFinal.EF
         public virtual DbSet<ANIMAL_TB> ANIMAL_TB { get; set; }
         public virtual DbSet<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB { get; set; }
         public virtual DbSet<CANTONES_TB> CANTONES_TB { get; set; }
-        public virtual DbSet<CONSULTAS> CONSULTAS { get; set; }
         public virtual DbSet<CONSULTAS_TB> CONSULTAS_TB { get; set; }
         public virtual DbSet<DIRECCIONES_TB> DIRECCIONES_TB { get; set; }
         public virtual DbSet<DISTRITOS_TB> DISTRITOS_TB { get; set; }
@@ -201,27 +200,6 @@ namespace ProyectoFinal.EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertarApadrinamientoSP", montoMensualParameter, idUsuarioParameter, idMetodoParameter, referenciaParameter, idAnimalParameter);
         }
     
-        public virtual int InsertarDonacion_SP(Nullable<decimal> monto, Nullable<int> idUsuario, Nullable<int> idMetodo, string referencia)
-        {
-            var montoParameter = monto.HasValue ?
-                new ObjectParameter("Monto", monto) :
-                new ObjectParameter("Monto", typeof(decimal));
-    
-            var idUsuarioParameter = idUsuario.HasValue ?
-                new ObjectParameter("IdUsuario", idUsuario) :
-                new ObjectParameter("IdUsuario", typeof(int));
-    
-            var idMetodoParameter = idMetodo.HasValue ?
-                new ObjectParameter("IdMetodo", idMetodo) :
-                new ObjectParameter("IdMetodo", typeof(int));
-    
-            var referenciaParameter = referencia != null ?
-                new ObjectParameter("Referencia", referencia) :
-                new ObjectParameter("Referencia", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertarDonacion_SP", montoParameter, idUsuarioParameter, idMetodoParameter, referenciaParameter);
-        }
-    
         public virtual int InsertarDonacionSP(Nullable<decimal> monto, Nullable<int> idUsuario, Nullable<int> idMetodo, string referencia)
         {
             var montoParameter = monto.HasValue ?
@@ -243,19 +221,6 @@ namespace ProyectoFinal.EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertarDonacionSP", montoParameter, idUsuarioParameter, idMetodoParameter, referenciaParameter);
         }
     
-        public virtual ObjectResult<LOGIN_SP_Result> LOGIN_SP(string cORREO, string cONTRASENNA)
-        {
-            var cORREOParameter = cORREO != null ?
-                new ObjectParameter("CORREO", cORREO) :
-                new ObjectParameter("CORREO", typeof(string));
-    
-            var cONTRASENNAParameter = cONTRASENNA != null ?
-                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
-                new ObjectParameter("CONTRASENNA", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LOGIN_SP_Result>("LOGIN_SP", cORREOParameter, cONTRASENNAParameter);
-        }
-    
         public virtual ObjectResult<LoginSP_Result> LoginSP(string cORREO, string cONTRASENNA)
         {
             var cORREOParameter = cORREO != null ?
@@ -269,23 +234,9 @@ namespace ProyectoFinal.EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginSP_Result>("LoginSP", cORREOParameter, cONTRASENNAParameter);
         }
     
-        public virtual ObjectResult<ObtenerAnimalesActivos_SP_Result> ObtenerAnimalesActivos_SP()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerAnimalesActivos_SP_Result>("ObtenerAnimalesActivos_SP");
-        }
-    
         public virtual ObjectResult<ObtenerAnimalesActivosSP_Result> ObtenerAnimalesActivosSP()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerAnimalesActivosSP_Result>("ObtenerAnimalesActivosSP");
-        }
-    
-        public virtual ObjectResult<ObtenerAnimalPorId_SP_Result> ObtenerAnimalPorId_SP(Nullable<int> iD_ANIMAL)
-        {
-            var iD_ANIMALParameter = iD_ANIMAL.HasValue ?
-                new ObjectParameter("ID_ANIMAL", iD_ANIMAL) :
-                new ObjectParameter("ID_ANIMAL", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerAnimalPorId_SP_Result>("ObtenerAnimalPorId_SP", iD_ANIMALParameter);
         }
     
         public virtual ObjectResult<ObtenerAnimalPorIdSP_Result> ObtenerAnimalPorIdSP(Nullable<int> iD_ANIMAL)
@@ -297,46 +248,13 @@ namespace ProyectoFinal.EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerAnimalPorIdSP_Result>("ObtenerAnimalPorIdSP", iD_ANIMALParameter);
         }
     
-        public virtual int RecuperarAccesoSP(string cONTRASENNA, string cORREO)
+        public virtual ObjectResult<ObtenerMisAnimalesSP_Result> ObtenerMisAnimalesSP(Nullable<int> iD_USUARIO)
         {
-            var cONTRASENNAParameter = cONTRASENNA != null ?
-                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
-                new ObjectParameter("CONTRASENNA", typeof(string));
+            var iD_USUARIOParameter = iD_USUARIO.HasValue ?
+                new ObjectParameter("ID_USUARIO", iD_USUARIO) :
+                new ObjectParameter("ID_USUARIO", typeof(int));
     
-            var cORREOParameter = cORREO != null ?
-                new ObjectParameter("CORREO", cORREO) :
-                new ObjectParameter("CORREO", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RecuperarAccesoSP", cONTRASENNAParameter, cORREOParameter);
-        }
-    
-        public virtual int REGISTRO_SP(string nOMBRE, string aPELLIDO1, string aPELLIDO2, string cORREO, string cONTRASENNA, string iDENTIFICACION)
-        {
-            var nOMBREParameter = nOMBRE != null ?
-                new ObjectParameter("NOMBRE", nOMBRE) :
-                new ObjectParameter("NOMBRE", typeof(string));
-    
-            var aPELLIDO1Parameter = aPELLIDO1 != null ?
-                new ObjectParameter("APELLIDO1", aPELLIDO1) :
-                new ObjectParameter("APELLIDO1", typeof(string));
-    
-            var aPELLIDO2Parameter = aPELLIDO2 != null ?
-                new ObjectParameter("APELLIDO2", aPELLIDO2) :
-                new ObjectParameter("APELLIDO2", typeof(string));
-    
-            var cORREOParameter = cORREO != null ?
-                new ObjectParameter("CORREO", cORREO) :
-                new ObjectParameter("CORREO", typeof(string));
-    
-            var cONTRASENNAParameter = cONTRASENNA != null ?
-                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
-                new ObjectParameter("CONTRASENNA", typeof(string));
-    
-            var iDENTIFICACIONParameter = iDENTIFICACION != null ?
-                new ObjectParameter("IDENTIFICACION", iDENTIFICACION) :
-                new ObjectParameter("IDENTIFICACION", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("REGISTRO_SP", nOMBREParameter, aPELLIDO1Parameter, aPELLIDO2Parameter, cORREOParameter, cONTRASENNAParameter, iDENTIFICACIONParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerMisAnimalesSP_Result>("ObtenerMisAnimalesSP", iD_USUARIOParameter);
         }
     
         public virtual int RegistroSP(string nOMBRE, string aPELLIDO1, string aPELLIDO2, string cORREO, string cONTRASENNA, string iDENTIFICACION)
@@ -368,6 +286,11 @@ namespace ProyectoFinal.EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistroSP", nOMBREParameter, aPELLIDO1Parameter, aPELLIDO2Parameter, cORREOParameter, cONTRASENNAParameter, iDENTIFICACIONParameter);
         }
     
+        public virtual ObjectResult<VisualizacionVentasSP_Result> VisualizacionVentasSP()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VisualizacionVentasSP_Result>("VisualizacionVentasSP");
+        }
+    
         public virtual ObjectResult<VisualizarActividadesActivasSP_Result> VisualizarActividadesActivasSP()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VisualizarActividadesActivasSP_Result>("VisualizarActividadesActivasSP");
@@ -376,32 +299,6 @@ namespace ProyectoFinal.EF
         public virtual ObjectResult<VisualizarActividadesSP_Result> VisualizarActividadesSP()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VisualizarActividadesSP_Result>("VisualizarActividadesSP");
-        }
-    
-        public virtual int CambiarContrasenna2SP(string iDENTIFICACION, string aCTUAL_CONTRASENNA, string nUEVA_CONTRASENNA)
-        {
-            var iDENTIFICACIONParameter = iDENTIFICACION != null ?
-                new ObjectParameter("IDENTIFICACION", iDENTIFICACION) :
-                new ObjectParameter("IDENTIFICACION", typeof(string));
-    
-            var aCTUAL_CONTRASENNAParameter = aCTUAL_CONTRASENNA != null ?
-                new ObjectParameter("ACTUAL_CONTRASENNA", aCTUAL_CONTRASENNA) :
-                new ObjectParameter("ACTUAL_CONTRASENNA", typeof(string));
-    
-            var nUEVA_CONTRASENNAParameter = nUEVA_CONTRASENNA != null ?
-                new ObjectParameter("NUEVA_CONTRASENNA", nUEVA_CONTRASENNA) :
-                new ObjectParameter("NUEVA_CONTRASENNA", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarContrasenna2SP", iDENTIFICACIONParameter, aCTUAL_CONTRASENNAParameter, nUEVA_CONTRASENNAParameter);
-        }
-    
-        public virtual ObjectResult<ObtenerMisAnimalesSP_Result> ObtenerMisAnimalesSP(Nullable<int> iD_USUARIO)
-        {
-            var iD_USUARIOParameter = iD_USUARIO.HasValue ?
-                new ObjectParameter("ID_USUARIO", iD_USUARIO) :
-                new ObjectParameter("ID_USUARIO", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerMisAnimalesSP_Result>("ObtenerMisAnimalesSP", iD_USUARIOParameter);
         }
     }
 }
