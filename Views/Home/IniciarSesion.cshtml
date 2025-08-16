@@ -12,16 +12,6 @@
                 @using (Html.BeginForm("IniciarSesion", "Home", FormMethod.Post, new { @class = "form-horizontal m-t-20" }))
                 {
 
-                    if (TempData["SwalSuccess"] != null)
-                    {
-                        <input type="hidden" id="swal-success" value="@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalSuccess"].ToString()))" />
-                    }
-
-                    if (TempData["SwalError"] != null)
-                    {
-                        <input type="hidden" id="swal-error" value="@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalError"].ToString()))" />
-                    }
-
 
                     <div class="mb-3">
 

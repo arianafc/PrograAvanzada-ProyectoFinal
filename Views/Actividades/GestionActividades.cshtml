@@ -6,107 +6,108 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<main class="container py-5">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+
+
+<div class="dudas-container">
+    <h2 class="TituloSeccion">Gestión de Actividades <i class="fas fa-calendar-check" style="color: #17a2b8"></i></h2>
+
     <div class="row">
-        <div>
-            <div class="bg-white p-3 rounded shadow">
-                <div class="row">
-                    <div class="col-md-12">       <h3 class="w-bold mb-3 text-center"><b>GESTIÓN DE ACTIVIDADES</b></h3></div>
-                    <div class="col-sm-12">
-                        <button class="AgregarBtn w-100 justify-content-center d-flex text-white"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalActividad">
-                            Nueva Actividad
-                        </button>
+        
+        <div class="col-sm-2">
+            <button class="AgregarBtn w-100 justify-content-center d-flex text-white"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalActividad">
+                Nueva Actividad +
+            </button>
 
-                    </div>
-
-
-                </div>
-
-                <hr />
-                <div class="table-responsive">
-                    <table id="tablaActividades" class="tabla-donaciones p-5 table-bordered text-center align-middle">
-
-                        <thead class="HeadTablaActividades">
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Fecha</th>
-                                <th>Precio</th>
-                                <th>Disponibles</th>
-                                <th>Vendidos</th>
-                                <th>Tipo</th>
-                                <th>Estado</th>
-                                <th>Imagen</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            @foreach (var act in Model.ListaActividades)
-                            {
-                                <tr>
-                                    <td>@act.NOMBRE</td>
-                                    <td>@act.FECHA</td>
-                                    <td>₡@act.PRECIO_BOLETO</td>
-                                    <td>@act.TICKETS_DISPONIBLES</td>
-                                    <td>@act.TICKETS_VENDIDOS</td>
-                                    <td>@act.TIPO</td>
-
-                                    <td>
-                                        <span class="badge @(act.ID_ESTADO == 1 ? "badge-activo" : "badge-inactivo")">
-                                            @(act.ID_ESTADO == 1 ? "Activo" : "Inactivo")
-                                        </span>
-                                    </td>
-
-                                    <td>
-                                        @if (act.IMAGEN != null)
-                                        {
-                                            <img src="@act.IMAGEN" alt="Actividad" class="img-actividad" />
-                                        }
-                                        else
-                                        {
-                                            <span>Sin imagen</span>
-                                        }
-                                    </td>
-
-                                    <td>
-                                        <form action="@Url.Action("CambioEstadoActividad", "Actividades")" class="FormCambiarEstado" method="post" style="display:inline;">
-                                            <input type="hidden" name="IdActividad" value="@act.ID_ACTIVIDAD" />
-                                            <input type="hidden" name="IdEstado" value="@(act.ID_ESTADO == 1 ? 2 : 1)" />
-                                            <button type="submit" class="btn btn-cambiar-estado btn-sm" title="Cambiar estado">
-                                                <i class="fa @(act.ID_ESTADO == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
-                                            </button>
-                                        </form>
-                                        <button class="btn btn-cambiar-estado btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalEditarActividad"
-                                                data-id="@act.ID_ACTIVIDAD"
-                                                data-nombre="@act.NOMBRE"
-                                                data-fecha="@act.FECHA.ToString("yyyy-MM-dd")"
-                                                data-hora="@act.FECHA.ToString("HH:mm")"
-                                                data-descripcion="@act.DESCRIPCION"
-                                                data-precio="@act.PRECIO_BOLETO"
-                                                data-tickets="@act.TICKETS_DISPONIBLES"
-                                                data-tipo="@act.TIPO"
-                                                data-estado="@act.ID_ESTADO"
-                                                data-imagen="@act.IMAGEN">
-                                            <i class="fas fa-edit me-2"></i>
-                                        </button>
-
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-                </div>
-
-            </div>
         </div>
 
-        <div class="modal fade" id="modalActividad" tabindex="-1" aria-labelledby="modalActividadLabel" aria-hidden="true">
+
+    </div>
+     <hr />
+
+    <table class="tabla-donaciones text-center display responsive nowrap w-90" style="font-family: 'Montserrat', sans-serif !important;" id="TablaVentas">
+        <thead class="text-center">
+            <tr>
+                <th>NOMBRE</th>
+                <th>FECHA</th>
+                <th>PRECIO</th>
+                <th>DISPONIBLES</th>
+                <th>VENDIDOS</th>
+                <th>TIPO</th>
+                <th>ESTADO</th>
+                <th>IMAGEN</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var act in Model.ListaActividades)
+            {
+                <tr>
+                    <td>@act.NOMBRE</td>
+                    <td>@act.FECHA</td>
+                    <td>₡@act.PRECIO_BOLETO</td>
+                    <td>@act.TICKETS_DISPONIBLES</td>
+                    <td>@act.TICKETS_VENDIDOS</td>
+                    <td>@act.TIPO</td>
+
+                    <td>
+                        <span class="badge @(act.ID_ESTADO == 1 ? "badge-activo" : "badge-inactivo")">
+                            @(act.ID_ESTADO == 1 ? "Activo" : "Inactivo")
+                        </span>
+                    </td>
+
+                    <td>
+                        @if (act.IMAGEN != null)
+                        {
+                            <img src="@act.IMAGEN" alt="Actividad" class="img-actividad" />
+                        }
+                        else
+                        {
+                            <span>Sin imagen</span>
+                        }
+                    </td>
+
+                    <td>
+                        <form action="@Url.Action("CambioEstadoActividad", "Actividades")" class="FormCambiarEstado" method="post" style="display:inline;">
+                            <input type="hidden" name="IdActividad" value="@act.ID_ACTIVIDAD" />
+                            <input type="hidden" name="IdEstado" value="@(act.ID_ESTADO == 1 ? 2 : 1)" />
+                            <button type="submit" class="btn btn-cambiar-estado btn-sm" title="Cambiar estado">
+                                <i class="fa @(act.ID_ESTADO == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
+                            </button>
+                        </form>
+                        <button class="btn btn-cambiar-estado btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEditarActividad"
+                                data-id="@act.ID_ACTIVIDAD"
+                                data-nombre="@act.NOMBRE"
+                                data-fecha="@act.FECHA.ToString("yyyy-MM-dd")"
+                                data-hora="@act.FECHA.ToString("HH:mm")"
+                                data-descripcion="@act.DESCRIPCION"
+                                data-precio="@act.PRECIO_BOLETO"
+                                data-tickets="@act.TICKETS_DISPONIBLES"
+                                data-tipo="@act.TIPO"
+                                data-estado="@act.ID_ESTADO"
+                                data-imagen="@act.IMAGEN">
+                            <i class="fas fa-edit me-2"></i>
+                        </button>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+<div class="modal fade" id="modalActividad" tabindex="-1" aria-labelledby="modalActividadLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -184,7 +185,7 @@
                                     <input type="file" name="ImagenActividad" class="form-control" accept="image/*" />
                                 </div>
 
-                                <div class="col-12 mb-3">
+                                <div class="col-md-6 mb-3">
                                     @Html.LabelFor(m => m.NuevaActividad.Descripcion)
                                     @Html.TextAreaFor(m => m.NuevaActividad.Descripcion, new
                                     {
@@ -206,8 +207,7 @@
         </div>
 
 
-
-        <div class="modal fade" id="modalEditarActividad" tabindex="-1" aria-labelledby="modalEditarActividadLabel" aria-hidden="true">
+<div class="modal fade" id="modalEditarActividad" tabindex="-1" aria-labelledby="modalEditarActividadLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
 
@@ -225,12 +225,12 @@
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.Nombre)
+                                    <label>Nombre de la Actividad</label>
                                     @Html.TextBoxFor(m => m.NuevaActividad.Nombre, new { @class = "form-control", required = "required" })
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.Tipo)
+                                    <label>Tipo de Actividad</label>
                                     @Html.DropDownListFor(m => m.NuevaActividad.Tipo,
                                         new SelectList(new[] {
                                             new { Value = "Tour", Text = "Tour" },
@@ -241,7 +241,7 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.Fecha)
+                                    <label>Fecha de la Actividad</label>
                                     @Html.TextBoxFor(m => m.NuevaActividad.Fecha, "{0:yyyy-MM-dd}", new
                                     {
                                         @type = "date",
@@ -252,7 +252,7 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.Label("Hora")
+                                    <label>Hora de la Actividad</label>
                                     @Html.TextBox("Hora", Model.NuevaActividad.Fecha.ToString("HH:mm"), new
                                     {
                                         @type = "time",
@@ -263,7 +263,7 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.PrecioBoleto)
+                                    <label>Precio del Boleto</label>
                                     @Html.TextBoxFor(m => m.NuevaActividad.PrecioBoleto, new
                                     {
                                         @type = "number",
@@ -275,7 +275,7 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.TicketsDisponibles)
+                                    <label>Tickets Disponibles</label>
                                     @Html.TextBoxFor(m => m.NuevaActividad.TicketsDisponibles, new
                                     {
                                         @type = "number",
@@ -286,12 +286,14 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.Label("Imagen (opcional)")
+                                    <label>Imagen (Opcional) </label>
                                     <input type="file" name="ImagenActividad" class="form-control" accept="image/*" />
+                                    <br />
+                                    <img id="ImagenExistente" src="" alt="Imagen" style="display:none; max-width:100px;">
                                 </div>
 
-                                <div class="col-12 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.Descripcion)
+                                <div class="col-md-6 mb-3">
+                                    <label>Descripción</label>
                                     @Html.TextAreaFor(m => m.NuevaActividad.Descripcion, new
                                     {
                                         @class = "form-control",
@@ -304,6 +306,8 @@
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-warning text-dark">Actualizar Actividad</button>
                             </div>
+
+
                         }
                     </div>
                 </div>
@@ -311,116 +315,6 @@
         </div>
 
 
-    </div>
-</main>
-
-<script src="@Url.Content("~/Scripts/CasaNatura.js")"></script>
-
-<script>
-    //pendiente mover el script 
-
-    $(document).ready(function () {
-
-        const today = new Date().toISOString().split('T')[0];
-
-       
-        $('#FechaCrear, #Fecha').attr('min', today);
-
-      
-        $('#formCrearActividad, #formEditarActividad').on('submit', function (e) {
-            const formId = $(this).attr('id');
-            const fechaInput = formId === 'formCrearActividad' ? '#FechaCrear' : '#Fecha';
-            const fechaSeleccionada = $(fechaInput).val();
-
-            if (fechaSeleccionada < today) {
-                e.preventDefault();
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Fecha no válida',
-                    text: 'La fecha seleccionada no puede ser anterior a hoy.',
-                    confirmButtonColor: '#dc3545'
-                });
-            }
-        });
 
 
-    @if (TempData["SwalSuccess"] != null) {
-        <text>
-            Swal.fire({
-                icon: 'success',
-            title: '¡Éxito!',
-            text: '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalSuccess"].ToString()))',
-            confirmButtonColor: '#3085d6'
-                    });
-        </text>
-    }
-
-    @if (TempData["SwalError"] != null) {
-        <text>
-            Swal.fire({
-                icon: 'error',
-            title: '¡Error!',
-            text: '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalError"].ToString()))',
-            confirmButtonColor: '#d33'
-                    });
-        </text>
-    }
-
-
-        $('#tablaActividades').DataTable({
-            language: {
-                "search": "Buscar:",
-                "lengthMenu": "Mostrar _MENU_ registros",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ actividades",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Último",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                },
-                "zeroRecords": "No se encontraron resultados",
-                "infoEmpty": "No hay actividades para mostrar",
-                "infoFiltered": "(filtrado de _MAX_ actividades totales)"
-            }
-        });
-
-
-        $('#modalEditarActividad').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var modal = $(this);
-
-            modal.find('input[name="NuevaActividad.IdActividad"]').val(button.data('id'));
-            modal.find('input[name="NuevaActividad.Imagen"]').val(button.data('imagen'));
-            modal.find('input[name="NuevaActividad.IdEstado"]').val(button.data('estado'));
-            modal.find('input[name="NuevaActividad.Nombre"]').val(button.data('nombre'));
-            modal.find('input[name="NuevaActividad.Fecha"]').val(button.data('fecha'));
-            modal.find('input[name="Hora"]').val(button.data('hora'));
-            modal.find('textarea[name="NuevaActividad.Descripcion"]').val(button.data('descripcion'));
-            modal.find('input[name="NuevaActividad.PrecioBoleto"]').val(button.data('precio'));
-            modal.find('input[name="NuevaActividad.TicketsDisponibles"]').val(button.data('tickets'));
-            modal.find('select[name="NuevaActividad.Tipo"]').val(button.data('tipo'));
-        });
-        $(".FormCambiarEstado").submit(function (e) {
-            e.preventDefault();
-
-            const form = this;
-
-            Swal.fire({
-                title: '¿Está seguro?',
-                text: "¿Desea cambiar el estado de esta actividad?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, cambiar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit(); // Se envía el formulario específico
-                }
-            });
-        });
-    });
-
-
-</script>
+<script src="~/Scripts/Actividades.js"></script>

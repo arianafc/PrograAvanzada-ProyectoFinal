@@ -73,7 +73,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect" href="index.html"
+                            <a class="sidebar-link waves-effect" href="@Url.Action("Dashboard", "Dashboard")"
                                aria-expanded="false">
                                 <i class="fas fa-tachometer-alt"></i><span class="hide-menu">Dashboard</span>
                             </a>
@@ -185,7 +185,10 @@
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+
+        var swalError = '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalError"]?.ToString() ?? ""))';
+var swalSuccess = '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalSuccess"]?.ToString() ?? ""))';
+        $(function() {
             const toggleButton = document.getElementById("sidebarToggle");
             const mainWrapper = document.getElementById("main-wrapper");
 
@@ -194,6 +197,7 @@
                     mainWrapper.classList.toggle("show-sidebar");
                 });
             }
+
         });
     </script>
 
