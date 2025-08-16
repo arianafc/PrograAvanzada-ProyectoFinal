@@ -34,7 +34,7 @@ function abrirModalAgregar() {
     $('#modalApadrinamientoLabel').text('REGISTRAR APADRINAMIENTO');
     $('#btnSubmit').text('Guardar');
 
-    $('#formApadrinamiento').attr('action', '/Animal/GestionApadrinamientos');
+    $('#formApadrinamiento').attr('action', '/Apadrinamiento/GestionApadrinamientos');
 }
 
 // Función para abrir modal en modo EDITAR
@@ -72,7 +72,7 @@ function abrirModalEditar(data) {
     $('#modalApadrinamientoLabel').text('EDITAR APADRINAMIENTO');
     $('#btnSubmit').text('Actualizar');
 
-    $('#formApadrinamiento').attr('action', '/Animal/EditarApadrinamiento');
+    $('#formApadrinamiento').attr('action', '/Apadrinamiento/EditarApadrinamiento');
 }
 
 // Función para configurar eventos de los botones

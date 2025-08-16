@@ -23,7 +23,7 @@
             {
                 <div class="col-md-4 mb-4">
                     <div class="card">
-                        
+
                         <img src="@Url.Content("~/" + animal.IMAGEN)" alt="@animal.NOMBRE" class="img-animal" />
                         <div class="card-body">
 
@@ -47,26 +47,21 @@
                                 </p>
                             }
 
+                            <div class="d-grid gap-2">
 
+                                @if (Session["Nombre"] == null)
+                                {
+                                    <button type="button" class="btn btn-participar w-100 mt-3 ValidacionLoginBtn">Apadrinar</button>
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Apadrinar", "ApadrinarAnimal", "Apadrinamiento", new { id = animal.ID_ANIMAL }, new { @class = "btn btn-participar w-100 mt-3" })
 
-                         
+                                }
 
+                                @Html.ActionLink("Ver Detalles", "DetalleAnimal", new { id = animal.ID_ANIMAL }, new { @class = "btn btn-primary" })
 
-                        <div class="d-grid gap-2">
-
-                            @if (Session["Nombre"] == null)
-                            {
-                                <button type="button" class="btn btn-participar w-100 mt-3 ValidacionLoginBtn">Apadrinar</button>
-                            }
-                            else
-                            {
-                                @Html.ActionLink("Apadrinar", "ApadrinarAnimal", "Animal", new { id = animal.ID_ANIMAL }, new { @class = "btn btn-participar w-100 mt-3" })
-
-                            }
-
-                            @Html.ActionLink("Ver Detalles", "DetalleAnimal", new { id = animal.ID_ANIMAL }, new { @class = "btn btn-primary" })
-
-                        </div>
+                            </div>
                         </div>
                     </div>
                 </div>

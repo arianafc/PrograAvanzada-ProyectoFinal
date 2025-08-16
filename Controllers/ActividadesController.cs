@@ -53,7 +53,6 @@ namespace ProyectoFinal.Controllers
 
 
         [HttpPost]
-
         public ActionResult GestionActividades(GestionActividadesModel actividad, HttpPostedFileBase ImagenActividad, String Hora)
 
         {
@@ -106,9 +105,7 @@ namespace ProyectoFinal.Controllers
 
         }
 
-
         [HttpPost]
-
         public ActionResult CambioEstadoActividad(int IdEstado, int IdActividad) {
 
             using (var dbContext = new CASA_NATURAEntities())
@@ -124,7 +121,6 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpPost]
-
         public ActionResult EditarActividades(GestionActividadesModel actividad, HttpPostedFileBase ImagenActividad, string Hora)
         {
             try
@@ -181,7 +177,6 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpGet]
-
         public ActionResult ActividadesDisponibles()
         {
             try
@@ -203,7 +198,6 @@ namespace ProyectoFinal.Controllers
 
         public ActionResult DetalleActividad(int IdActividad)
         {
-
             try
             {
                 using (var dbcontext = new CASA_NATURAEntities())

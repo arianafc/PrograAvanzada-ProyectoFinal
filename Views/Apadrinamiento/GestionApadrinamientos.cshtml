@@ -11,7 +11,7 @@
             <div class="bg-white p-3 rounded shadow">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="w-bold mb-3 text-center"><b>GESTIÓN DE APADRINAMIENTOS ACTIVOS</b></h3>
+                        <h3 class="w-bold mb-3 text-center"><b>GESTIÓN DE APADRINAMIENTOS</b></h3>
                     </div>
                     <div class="col-sm-12">
                         <button class="AgregarBtn w-100 justify-content-center d-flex text-white"
@@ -25,7 +25,7 @@
 
                 <div class="table-responsive">
                     <table id="tablaApadrinamientos" class="tabla-donaciones p-5 table-bordered text-center align-middle">
-                        <thead class="HeadTablaActividades">
+                        <thead class="HeadTablaApadrinamientos">
                             <tr>
                                 <th>ID</th>
                                 <th>Usuario</th>
@@ -54,10 +54,10 @@
                                     <td>@item.REFERENCIA</td>
                                     <td>@item.ESTADO</td>
                                     <td>
-                                        <form action="@Url.Action("CambiarEstadoApadrinamiento", "Animal")" class="FormCambiarEstado" method="post" style="display:inline;">
+                                        <form action="@Url.Action("CambiarEstadoApadrinamiento", "Apadrinamiento")" class="FormCambiarEstado" method="post" style="display:inline;">
                                             <input type="hidden" name="IdApadrinamiento" value="@item.ID_APADRINAMIENTO" />
-                                            <button type="submit" class="btn btn-cambiar-estado btn-sm" title="Dar de baja">
-                                                <i class="fas fa-trash me-2"></i>
+                                            <button type="submit" class="btn btn-cambiar-estado btn-sm" title="Cambiar de estado">
+                                                <i class="fa @(item.ID_ESTADO == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
                                             </button>
                                         </form>
 

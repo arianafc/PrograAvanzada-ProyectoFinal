@@ -330,6 +330,64 @@ END;
 GO
 
 -- =============================================
+-- SP: EditarAnimalSP
+-- =============================================
+CREATE OR ALTER PROCEDURE EditarAnimalSP
+    @IdAnimal INT,
+    @Nombre VARCHAR(100),
+    @IdRaza INT,
+    @FechaNacimiento DATETIME,
+    @FechaIngreso DATETIME,
+    @Historia VARCHAR(MAX),
+    @Necesidad VARCHAR(MAX),
+    @Imagen VARCHAR(MAX) = NULL
+AS
+BEGIN
+    UPDATE dbo.ANIMAL_TB
+    SET
+        NOMBRE = @Nombre,
+        ID_RAZA = @IdRaza,
+        FECHA_NACIMIENTO = @FechaNacimiento,
+        FECHA_INGRESO = @FechaIngreso,
+        HISTORIA = @Historia,
+        NECESIDAD = @Necesidad,
+        IMAGEN = CASE 
+            WHEN @Imagen IS NOT NULL AND @Imagen != '' THEN @Imagen 
+            ELSE IMAGEN 
+        END
+    WHERE ID_ANIMAL = @IdAnimal;
+END;
+GO
+
+-- =============================================
+-- SP: VisualizarAnimalesSP
+-- =============================================
+
+CREATE OR ALTER PROCEDURE VisualizarAnimalesSP
+AS
+BEGIN
+    SELECT 
+        a.ID_ANIMAL,
+        a.NOMBRE AS NOMBRE_ANIMAL,
+        a.ID_RAZA,
+        r.NOMBRE AS NOMBRE_RAZA,
+        a.FECHA_INGRESO,
+        a.FECHA_NACIMIENTO,
+        a.ID_ESTADO,
+		e.DESCRIPCION AS ESTADO,
+        a.ID_SALUD,
+        s.DESCRIPCION,
+        a.IMAGEN,
+        a.HISTORIA,
+        a.NECESIDAD
+    FROM ANIMAL_TB a
+    INNER JOIN RAZAS_TB r ON a.ID_RAZA = r.ID_RAZA
+	INNER JOIN ESTADOS_TB e ON a.ID_ESTADO = e.ID_ESTADO
+    INNER JOIN ESTADOS_SALUD_TB s ON a.ID_SALUD = s.ID_SALUD
+END;
+GO
+
+-- =============================================
 -- SP: VisualizarApadrinamientosSP
 -- =============================================
 CREATE OR ALTER PROCEDURE VisualizarApadrinamientosSP
@@ -360,6 +418,53 @@ END;
 GO
 
 -- =============================================
+-- SP: CambiarEstadoAnimalSP
+-- =============================================
+CREATE OR ALTER PROCEDURE CambiarEstadoAnimalSP
+    @IdAnimal INT,
+    @IdEstado INT
+AS
+BEGIN
+    DECLARE @ApadrinamientoActivo INT = 0;
+    
+    IF @IdEstado = 2
+    BEGIN
+        SELECT @ApadrinamientoActivo = COUNT(*)
+        FROM APADRINAMIENTOS_TB 
+        WHERE ID_ANIMAL = @IdAnimal AND ID_ESTADO = 1;
+    END;
+    
+    BEGIN TRANSACTION;
+    
+    BEGIN TRY
+        -- Actualizar estado del animal
+        UPDATE ANIMAL_TB
+        SET ID_ESTADO = @IdEstado
+        WHERE ID_ANIMAL = @IdAnimal;
+        
+        IF @IdEstado = 2 AND @ApadrinamientoActivo > 0
+        BEGIN
+            UPDATE APADRINAMIENTOS_TB
+            SET ID_ESTADO = 2 
+            WHERE ID_ANIMAL = @IdAnimal AND ID_ESTADO = 1;
+        END;
+        
+        COMMIT TRANSACTION;
+              
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
+        DECLARE @ErrorState INT = ERROR_STATE();
+        
+        RAISERROR(@ErrorMessage, @ErrorSeverity, @ErrorState);
+    END CATCH;
+END;
+
+
+-- =============================================
 -- SP: CambiarEstadoApadrinamientoSP
 -- =============================================
 CREATE OR ALTER PROCEDURE CambiarEstadoApadrinamientoSP
@@ -367,18 +472,56 @@ CREATE OR ALTER PROCEDURE CambiarEstadoApadrinamientoSP
 AS
 BEGIN
     DECLARE @IdAnimal INT;
-
-    SELECT @IdAnimal = ID_ANIMAL 
+    DECLARE @EstadoActual INT;
+    DECLARE @NuevoEstadoApadrinamiento INT;
+    DECLARE @NuevoEstadoAnimal INT;
+    
+    SELECT 
+        @IdAnimal = ID_ANIMAL,
+        @EstadoActual = ID_ESTADO 
     FROM APADRINAMIENTOS_TB
     WHERE ID_APADRINAMIENTO = @IdApadrinamiento;
-
-    UPDATE APADRINAMIENTOS_TB
-    SET ID_ESTADO = 2
-    WHERE ID_APADRINAMIENTO = @IdApadrinamiento;
-
-    UPDATE ANIMAL_TB
-    SET ID_ESTADO = 1
-    WHERE ID_ANIMAL = @IdAnimal;
+    
+    IF @IdAnimal IS NULL
+    BEGIN
+        RAISERROR('No se encontró el apadrinamiento especificado', 16, 1);
+        RETURN;
+    END;
+    
+    IF @EstadoActual = 1
+    BEGIN
+        SET @NuevoEstadoApadrinamiento = 2; 
+        SET @NuevoEstadoAnimal = 1;        
+    END
+    ELSE
+    BEGIN
+        SET @NuevoEstadoApadrinamiento = 1; 
+        SET @NuevoEstadoAnimal = 3;        
+    END;
+    
+    BEGIN TRANSACTION;
+    
+    BEGIN TRY
+        UPDATE APADRINAMIENTOS_TB
+        SET ID_ESTADO = @NuevoEstadoApadrinamiento
+        WHERE ID_APADRINAMIENTO = @IdApadrinamiento;
+        
+        UPDATE ANIMAL_TB
+        SET ID_ESTADO = @NuevoEstadoAnimal
+        WHERE ID_ANIMAL = @IdAnimal;
+        
+        COMMIT TRANSACTION;
+              
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
+        DECLARE @ErrorState INT = ERROR_STATE();
+        
+        RAISERROR(@ErrorMessage, @ErrorSeverity, @ErrorState);
+    END CATCH;
 END;
 
 -- =============================================
@@ -390,9 +533,9 @@ AS
 BEGIN
     SELECT 
         a.ID_ANIMAL,
-        a.NOMBRE 'NOMBRE_ANIMAL',
+        a.NOMBRE AS NOMBRE_ANIMAL,
         a.ID_RAZA,
-        r.NOMBRE 'NOMBRE_RAZA',
+        r.NOMBRE AS NOMBRE_RAZA,
         a.FECHA_INGRESO,
         a.FECHA_BAJA,
         a.FECHA_NACIMIENTO,
@@ -403,8 +546,8 @@ BEGIN
         a.HISTORIA,
         a.NECESIDAD
     FROM ANIMAL_TB a
-    JOIN RAZAS_TB r ON a.ID_RAZA = r.ID_RAZA
-    JOIN ESTADOS_SALUD_TB s ON a.ID_SALUD = s.ID_SALUD
+    INNER JOIN RAZAS_TB r ON a.ID_RAZA = r.ID_RAZA
+    INNER JOIN ESTADOS_SALUD_TB s ON a.ID_SALUD = s.ID_SALUD
     WHERE a.ID_ANIMAL = @ID_ANIMAL;
 END
 GO
@@ -692,11 +835,11 @@ INSERT INTO ANIMAL_TB (
     FECHA_NACIMIENTO, ID_ESTADO, ID_SALUD,
     IMAGEN, HISTORIA, NECESIDAD
 ) VALUES
-('Max', 1, '20230110', NULL, '20220615', 1, 1, 'imagenes/Perro-Labrador Retriever.jpg', 'Rescatado de la calle en malas condiciones.', 'Requiere medicamentos mensuales'),
-('Luna', 3, '20230512', NULL, '20211120', 1, 2, 'imagenes/Gato-Persa.jpg', 'Abandonada por su familia anterior.', 'Necesita una dieta especial'),
-('Rocky', 2, '20220901', NULL, '20210101', 1, 3, 'imagenes/Perro-Pitbull.jpg', 'Encontrado en zona rural, muy delgado.', 'Tratamiento para piel'),
-('Milo', 4, '20230318', NULL, '20220228', 2, 4, 'imagenes/Gato-Siames.jpg', 'Convaleciente por accidente.', 'Atención médica semanal'),
-('Coco', 5, '20230705', NULL, '20230115', 1, 2, 'imagenes/Conejo-Enano Holandes.jpg', 'Nacimiento en refugio.', 'Vacunas pendientes');
+('Max', 1, '20230110', NULL, '20220615', 1, 1, '/Imagenes/1.jpg', 'Rescatado de la calle en malas condiciones.', 'Requiere medicamentos mensuales'),
+('Luna', 3, '20230512', NULL, '20211120', 1, 2, '/Imagenes/2.jpg', 'Abandonada por su familia anterior.', 'Necesita una dieta especial'),
+('Rocky', 2, '20220901', NULL, '20210101', 1, 3, '/Imagenes/3.jpg', 'Encontrado en zona rural, muy delgado.', 'Tratamiento para piel'),
+('Milo', 4, '20230318', NULL, '20220228', 2, 4, '/Imagenes/4.jpg', 'Convaleciente por accidente.', 'Atención médica semanal'),
+('Coco', 5, '20230705', NULL, '20230115', 1, 2, '/Imagenes/5.jpg', 'Nacimiento en refugio.', 'Vacunas pendientes');
 
 
 -- =============================================
