@@ -7,8 +7,8 @@ body {
     flex-direction: column;
     padding: 0;
     box-sizing: border-box;
-    font-weight: bold;
     min-height: 100vh;
+    font-size: 16px !important;
 }
 
 .body-content {
@@ -1195,4 +1195,20 @@ img {
     padding: 0.5em 0.8em;
     border-radius: 0.5em;
     font-size: 0.9rem;
+}
+
+.VerFacturaBtn {
+    background-color: #062D3E;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.VerFacturaBtn:hover {
+    background-color: #FFC107;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    transform: scale(1.0);
+   
 }

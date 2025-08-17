@@ -1,4 +1,16 @@
-﻿using Microsoft.Ajax.Utilities;
+﻿using iText.IO.Font;
+using iText.IO.Font.Constants;
+using iText.IO.Image;
+using iText.Kernel.Colors;
+using iText.Kernel.Font;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Borders;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using Microsoft.Ajax.Utilities;
+using Microsoft.Win32.SafeHandles;
 using ProyectoFinal.EF;
 using ProyectoFinal.Models;
 using ProyectoFinal.Services;
@@ -13,12 +25,7 @@ using System.Web.Mvc;
 using System.Web.Services.Description;
 using System.Web.UI.WebControls;
 using System.Web.WebPages;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
-
-using iText.Kernel.Font;
-using iText.IO.Font.Constants;
+using Image = iText.Layout.Element.Image;
 using Table = iText.Layout.Element.Table;
 
 namespace ProyectoFinal.Controllers
@@ -81,13 +88,14 @@ namespace ProyectoFinal.Controllers
                     actividades.TICKETS_DISPONIBLES = actividad.NuevaActividad.TicketsDisponibles;
                     actividades.ID_ESTADO = 1;
                     actividades.IMAGEN = string.Empty;
+                    actividades.TIPO = actividad.NuevaActividad.Tipo;
 
                     dbContext.ACTIVIDADES_TB.Add(actividades);
                     var result = dbContext.SaveChanges();
 
                     if (result > 0)
                     {
-                        string extension = Path.GetExtension(ImagenActividad.FileName);
+                        string extension = System.IO.Path.GetExtension(ImagenActividad.FileName);
                         string ruta = AppDomain.CurrentDomain.BaseDirectory + "Imagenes\\" + actividades.ID_ACTIVIDAD + extension;
                         ImagenActividad.SaveAs(ruta);
 
@@ -146,9 +154,9 @@ namespace ProyectoFinal.Controllers
 
                 if (ImagenActividad != null && ImagenActividad.ContentLength > 0)
                 {
-                    string extension = Path.GetExtension(ImagenActividad.FileName);
+                    string extension = System.IO.Path.GetExtension(ImagenActividad.FileName);
                     string nombreArchivo = id + extension;
-                    string rutaFisica = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Imagenes", nombreArchivo);
+                    string rutaFisica = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Imagenes", nombreArchivo);
 
                     ImagenActividad.SaveAs(rutaFisica);
                     rutaVirtual = "/Imagenes/" + nombreArchivo;
@@ -324,15 +332,21 @@ namespace ProyectoFinal.Controllers
         }
 
 
-        [HttpGet
+        [HttpGet]
 
         public ActionResult GenerarFactura(int NumeroFactura)
         {
+           
+        
+
+
             try
             {
                 using (var dbcontext = new CASA_NATURAEntities())
                 {
-
+                    string logoPath = Server.MapPath("~/Imagenes/logo.png");
+                    PdfFont boldFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
+            PdfFont regularFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
                     var factura = dbcontext.VisualizacionVentasSP().FirstOrDefault(x => x.NUMERO_FACTURA == NumeroFactura);
                     if (factura == null)
                     {
@@ -344,46 +358,109 @@ namespace ProyectoFinal.Controllers
                     {
                         PdfWriter writer = new PdfWriter(ms);
                         PdfDocument pdf = new PdfDocument(writer);
-                        Document doc = new Document(pdf);
+                        Document doc = new Document(pdf, iText.Kernel.Geom.PageSize.A4);
+                        doc.SetMargins(20, 20, 20, 20);
 
-                        doc.Add(new Paragraph("FACTURA")
-            .SetFontSize(20)
-           
-            .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+                        // --- Logo de fondo ---
+                        ImageData imageData = ImageDataFactory.Create(logoPath);
+                        Image logo = new Image(imageData)
+                            .ScaleAbsolute(150, 150)
+                            .SetFixedPosition(200, 500)
+                            .SetOpacity(0.1f);
+                        doc.Add(logo);
 
-                        // Datos de la factura
-                        doc.Add(new Paragraph($"Número: {factura.NUMERO_FACTURA}"));
-                        doc.Add(new Paragraph($"Fecha: {factura.FECHA:dd/MM/yyyy}"));
-                        doc.Add(new Paragraph($"Cliente: {factura.NOMBRE_COMPLETO}"));
-                        doc.Add(new Paragraph($"Método de Pago: {factura.METODO}"));
+                        // --- Título ---
+                        Paragraph titulo = new Paragraph("CASA NATURA - FACTURA")
+                            .SetFontSize(24)
+                            .SetFontColor(new DeviceRgb(6, 45, 62)) // #062D3E
+                            .SetTextAlignment(TextAlignment.CENTER);
+                            
+                        doc.Add(titulo);
 
-                        Table table = new Table(4, true);
-                        table.AddHeaderCell("Actividad");
-                        table.AddHeaderCell("Tickets");
-                        table.AddHeaderCell("Precio Unitario");
-                        table.AddHeaderCell("Total");
+                        doc.Add(new Paragraph("\n")); // espacio
 
-                        table.AddCell(factura.NOMBRE_ACTIVIDAD);
-                        table.AddCell(factura.TICKETS_ADQUIRIDOS.ToString());
-                        table.AddCell("₡" + factura.TOTAL/factura.TICKETS_ADQUIRIDOS);
-                        table.AddCell("₡" + factura.TOTAL);
+                        // --- Información del cliente ---
+                        Table infoCliente = new Table(2, true);
+                        infoCliente.SetWidth(UnitValue.CreatePercentValue(100));
 
-                        doc.Add(table);
+                        infoCliente.AddCell(new Cell().Add(new Paragraph("Número de Factura:")).SetBorder(Border.NO_BORDER));
+                        infoCliente.AddCell(new Cell().Add(new Paragraph(factura.NUMERO_FACTURA.ToString())).SetBorder(Border.NO_BORDER));
 
-                        // Total
-                        doc.Add(new Paragraph($"Total a Pagar: ₡{factura.TOTAL:N0}")
-                            .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT));
+                        infoCliente.AddCell(new Cell().Add(new Paragraph("Fecha:")).SetBorder(Border.NO_BORDER));
+                        infoCliente.AddCell(new Cell().Add(new Paragraph(factura.FECHA.ToString())).SetBorder(Border.NO_BORDER));
+
+                        infoCliente.AddCell(new Cell().Add(new Paragraph("Cliente:")).SetBorder(Border.NO_BORDER));
+                        infoCliente.AddCell(new Cell().Add(new Paragraph(factura.NOMBRE_COMPLETO)).SetBorder(Border.NO_BORDER));
+
+                        infoCliente.AddCell(new Cell().Add(new Paragraph("Método de Pago:")).SetBorder(Border.NO_BORDER));
+                        infoCliente.AddCell(new Cell().Add(new Paragraph(factura.METODO)).SetBorder(Border.NO_BORDER));
+
+                        doc.Add(infoCliente);
+
+                        doc.Add(new Paragraph("\n")); // espacio
+
+                        // --- Tabla de actividades ---
+                        Table tabla = new Table(4, true).UseAllAvailableWidth();
+                        string[] headers = { "Actividad", "Tickets", "Precio Unitario", "Total" };
+                        foreach (var header in headers)
+                        {
+                            tabla.AddHeaderCell(new Cell().Add(new Paragraph(header))
+                                                         .SetBackgroundColor(new DeviceRgb(255, 193, 7)) // #FFC107
+                                                         .SetFontColor(ColorConstants.BLACK)
+                                                         .SetTextAlignment(TextAlignment.CENTER));
+                        }
+
+                        // Fila de datos
+                        tabla.AddCell(new Cell().Add(new Paragraph(factura.NOMBRE_ACTIVIDAD)));
+                        tabla.AddCell(new Cell().Add(new Paragraph(factura.TICKETS_ADQUIRIDOS.ToString())).SetTextAlignment(TextAlignment.CENTER));
+                        tabla.AddCell(new Cell().Add(new Paragraph("₡" + (factura.TOTAL / factura.TICKETS_ADQUIRIDOS))).SetTextAlignment(TextAlignment.RIGHT));
+                        tabla.AddCell(new Cell().Add(new Paragraph("₡" + factura.TOTAL)).SetTextAlignment(TextAlignment.RIGHT));
+
+                        doc.Add(tabla);
+
+                        doc.Add(new Paragraph("\n")); // espacio
+
+                        // --- Total ---
+                        Paragraph total = new Paragraph($"Total a Pagar: ₡{factura.TOTAL:N0}")
+                            .SetFontSize(14)
+                            .SetFontColor(ColorConstants.RED)
+                            .SetTextAlignment(TextAlignment.RIGHT);
+                           
+                        doc.Add(total);
+
+                        doc.Add(new Paragraph("\n")); // espacio
+
+                        // --- Nota final ---
+                        Paragraph nota = new Paragraph("¡Gracias por su compra! Esperamos verlo pronto.")
+                            .SetFontSize(10)
+                          
+                            .SetTextAlignment(TextAlignment.CENTER);
+                        doc.Add(nota);
 
                         doc.Close();
 
-                        return File(ms.ToArray(), "application/pdf", $"Factura_{NumeroFactura}.pdf");
+                        // Devolver PDF
+                        return File(ms.ToArray(), "application/pdf", $"Factura_{factura.NUMERO_FACTURA}.pdf");
                     }
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error al cargar las actividades: " + ex.Message;
-                return View(new List<VisualizacionVentasSP_Result>());
+                using (var ms = new MemoryStream())
+                {
+                    PdfWriter writer = new PdfWriter(ms);
+                    PdfDocument pdf = new PdfDocument(writer);
+                    Document doc = new Document(pdf);
+
+                    doc.Add(new Paragraph("ERROR AL GENERAR FACTURA")
+                        .SetFontSize(16)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+                    doc.Add(new Paragraph("Detalle: " + ex.Message));
+
+                    doc.Close();
+
+                    return File(ms.ToArray(), "application/pdf", "ErrorFactura.pdf");
+                }
             }
         }
     }

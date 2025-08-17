@@ -30,7 +30,7 @@
     </div>
      <hr />
 
-    <table class="tabla-donaciones text-center display responsive nowrap w-90" style="font-family: 'Montserrat', sans-serif !important;" id="TablaVentas">
+    <table class="tabla-donaciones text-center dt-responsive nowrap w-100" style="font-family: 'Montserrat', sans-serif !important;" id="TablaActividades">
         <thead class="text-center">
             <tr>
                 <th>NOMBRE</th>
@@ -120,12 +120,12 @@
                         {
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.Nombre)
+                                    <label>Nombre de la Actividad</label>
                                     @Html.TextBoxFor(m => m.NuevaActividad.Nombre, new { @class = "form-control", required = "required" })
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.Tipo)
+                                    <label>Tipo de Actividad</label>
                                     @Html.DropDownListFor(m => m.NuevaActividad.Tipo,
                                         new SelectList(new[] {
                                             new { Value = "Tour", Text = "Tour" },
@@ -136,7 +136,7 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.Fecha)
+                                    <label>Fecha de la Actividad</label>
                                     @Html.TextBoxFor(m => m.NuevaActividad.Fecha, "{0:yyyy-MM-dd}", new
                                     {
                                         @type = "date",
@@ -147,7 +147,7 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.Label("Hora")
+                                    <label>Hora de la Actividad</label>
                                     @Html.TextBox("Hora", null, new
                                     {
                                         @type = "time",
@@ -158,7 +158,7 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.PrecioBoleto)
+                                    <label>Precio del Boleto</label>
                                     @Html.TextBoxFor(m => m.NuevaActividad.PrecioBoleto, new
                                     {
                                         @type = "number",
@@ -170,7 +170,7 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.TicketsDisponibles)
+                                    <label>Tickets Disponibles</label>
                                     @Html.TextBoxFor(m => m.NuevaActividad.TicketsDisponibles, new
                                     {
                                         @type = "number",
@@ -181,12 +181,12 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.Label("Imagen")
-                                    <input type="file" name="ImagenActividad" class="form-control" accept="image/*" />
+                                    <label>Imagen</label>
+                                    <input type="file" name="ImagenActividad" class="form-control" accept="image/*" required="required"/>
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevaActividad.Descripcion)
+                                    <label>Descripción</label>
                                     @Html.TextAreaFor(m => m.NuevaActividad.Descripcion, new
                                     {
                                         @class = "form-control",
@@ -313,7 +313,6 @@
                 </div>
             </div>
         </div>
-
 
 
 

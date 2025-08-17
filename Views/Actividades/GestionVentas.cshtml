@@ -5,10 +5,6 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
 
 
 <div class="dudas-container">
@@ -19,7 +15,7 @@
 
 
 
-    <table class="tabla-donaciones text-center display responsive nowrap w-90" style="font-family: 'Montserrat', sans-serif !important;" id="TablaVentas">
+    <table class="tabla-donaciones text-center dt-responsive nowrap w-100" style="font-family: 'Montserrat', sans-serif !important;" id="TablaVentas">
         <thead class="text-center">
             <tr>
                 <th># FACTURA</th>
@@ -57,7 +53,7 @@
                         </td>
                         <td>@item.METODO</td>
                         <td>
-                            <button id="BtnFactura" class="btn btn-sm btn-dark btn-factura"
+                            <button id="BtnGenerarFactura" class="btn btn-sm VerFacturaBtn "
                                     data-factura="@item.NUMERO_FACTURA">
                                 <i class="fas fa-file-invoice"></i> Ver Factura
                             </button>
@@ -68,7 +64,7 @@
             else
             {
                 <tr>
-                    <td colspan="5" class="sin-datos">No se encontraron donaciones registradas.</td>
+                    <td colspan="5" class="sin-datos">No se encontraron ventas registradas.</td>
                 </tr>
             }
         </tbody>
@@ -78,10 +74,8 @@
 
 <script>
     $(function () {
-        $("#BtnFactura").on('click', function () {
-            var NumFactura = $(this).data('factura');
+       
 
-            window.open('/Actividades/GenerarFactura?NumeroFactura=' + NumFactura, '_blank');
-        });
+       
     });
 </script>

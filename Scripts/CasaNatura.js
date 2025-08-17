@@ -1,19 +1,9 @@
 ﻿$(document).ready(function () {
-    function MostrarAlertaLogin() {
-        Swal.fire({
-            title: 'Debes iniciar sesión',
-            text: 'Para acceder a esta opción, primero inicia sesión en tu cuenta.',
-            icon: 'warning',
-            confirmButtonText: 'Iniciar sesión',
-            confirmButtonColor: ' #0a3c52'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = LoginUrl;
-            }
-        });
-    }
 
-   
+    $(document).on('click', '.VerFacturaBtn', function () {
+        var NumeroFactura = $(this).data("factura");
+        window.location.href = '/Actividades/GenerarFactura?NumeroFactura=' + NumeroFactura;
+    });
    
     const subtotalSpan = document.getElementById("subtotal");
 
@@ -31,6 +21,31 @@
         }
         const subtotal = cantidad * precioUnitario;
         subtotalSpan.textContent = subtotal.toLocaleString('es-CR');
+    });
+
+    $('#TablaActividades').DataTable({
+        responsive: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+        },
+        pageLength: 10,
+        order: [[0, "desc"]],
+        columnDefs: [
+            { orderable: false, targets: [8] }
+        ]
+    });
+
+
+    $('#TablaVentas').DataTable({
+        responsive: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+        },
+        pageLength: 10,
+        order: [[0, "desc"]],
+        columnDefs: [
+            { orderable: false, targets: [8] }
+        ]
     });
 
 });
@@ -204,3 +219,4 @@ function validarPaypal() {
         });
     }
 }
+
