@@ -13,6 +13,13 @@ using System.Web.Mvc;
 using System.Web.Services.Description;
 using System.Web.UI.WebControls;
 using System.Web.WebPages;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+
+using iText.Kernel.Font;
+using iText.IO.Font.Constants;
+using Table = iText.Layout.Element.Table;
 
 namespace ProyectoFinal.Controllers
 {
@@ -100,7 +107,7 @@ namespace ProyectoFinal.Controllers
                 {
 
                     TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
-                    return RedirectToAction("Registro");
+                    return View();
                 }
             }
 
@@ -320,6 +327,70 @@ namespace ProyectoFinal.Controllers
                 return View(new List<VisualizacionVentasSP_Result>());
             }
             
+        }
+
+
+        [HttpGet
+
+        public ActionResult GenerarFactura(int NumeroFactura)
+        {
+            try
+            {
+                using (var dbcontext = new CASA_NATURAEntities())
+                {
+
+                    var factura = dbcontext.VisualizacionVentasSP().FirstOrDefault(x => x.NUMERO_FACTURA == NumeroFactura);
+                    if (factura == null)
+                    {
+                        TempData["SwalError"] = "ERROR: No pudimos generar la factura.";
+                        return RedirectToAction("GestionVentas");
+                    }
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        PdfWriter writer = new PdfWriter(ms);
+                        PdfDocument pdf = new PdfDocument(writer);
+                        Document doc = new Document(pdf);
+
+                        doc.Add(new Paragraph("FACTURA")
+            .SetFontSize(20)
+           
+            .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+
+                        // Datos de la factura
+                        doc.Add(new Paragraph($"Número: {factura.NUMERO_FACTURA}"));
+                        doc.Add(new Paragraph($"Fecha: {factura.FECHA:dd/MM/yyyy}"));
+                        doc.Add(new Paragraph($"Cliente: {factura.NOMBRE_COMPLETO}"));
+                        doc.Add(new Paragraph($"Método de Pago: {factura.METODO}"));
+
+                        Table table = new Table(4, true);
+                        table.AddHeaderCell("Actividad");
+                        table.AddHeaderCell("Tickets");
+                        table.AddHeaderCell("Precio Unitario");
+                        table.AddHeaderCell("Total");
+
+                        table.AddCell(factura.NOMBRE_ACTIVIDAD);
+                        table.AddCell(factura.TICKETS_ADQUIRIDOS.ToString());
+                        table.AddCell("₡" + factura.TOTAL/factura.TICKETS_ADQUIRIDOS);
+                        table.AddCell("₡" + factura.TOTAL);
+
+                        doc.Add(table);
+
+                        // Total
+                        doc.Add(new Paragraph($"Total a Pagar: ₡{factura.TOTAL:N0}")
+                            .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT));
+
+                        doc.Close();
+
+                        return File(ms.ToArray(), "application/pdf", $"Factura_{NumeroFactura}.pdf");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Error al cargar las actividades: " + ex.Message;
+                return View(new List<VisualizacionVentasSP_Result>());
+            }
         }
     }
 

@@ -30,6 +30,7 @@
                 <th>TOTAL PAGADO</th>
                 <th>ESTADO DE LA COMPRA</th>
                 <th>MÉTODO DE PAGO</th>
+                <th>ACCIONES</th>
             </tr>
         </thead>
         <tbody>
@@ -47,14 +48,20 @@
                         <td>
                             @if (item.ESTADO_COMPRA == "Confirmada")
                             {
-                            <span class="badge-confirmada">@item.ESTADO_COMPRA</span>
+                                <span class="badge-confirmada">@item.ESTADO_COMPRA</span>
                             }
                             else
                             {
-                            <span class="badge-agotado">@item.ESTADO_COMPRA</span>
+                                <span class="badge-agotado">@item.ESTADO_COMPRA</span>
                             }
                         </td>
                         <td>@item.METODO</td>
+                        <td>
+                            <button id="BtnFactura" class="btn btn-sm btn-dark btn-factura"
+                                    data-factura="@item.NUMERO_FACTURA">
+                                <i class="fas fa-file-invoice"></i> Ver Factura
+                            </button>
+                        </td>
                     </tr>
                 }
             }
@@ -69,3 +76,12 @@
 
 </div>
 
+<script>
+    $(function () {
+        $("#BtnFactura").on('click', function () {
+            var NumFactura = $(this).data('factura');
+
+            window.open('/Actividades/GenerarFactura?NumeroFactura=' + NumFactura, '_blank');
+        });
+    });
+</script>
