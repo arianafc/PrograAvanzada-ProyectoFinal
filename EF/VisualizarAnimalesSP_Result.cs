@@ -10,32 +10,21 @@
 namespace ProyectoFinal.EF
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ANIMAL_TB
+    public partial class VisualizarAnimalesSP_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ANIMAL_TB()
-        {
-            this.APADRINAMIENTOS_TB = new HashSet<APADRINAMIENTOS_TB>();
-        }
-    
         public int ID_ANIMAL { get; set; }
-        public string NOMBRE { get; set; }
+        public string NOMBRE_ANIMAL { get; set; }
         public int ID_RAZA { get; set; }
+        public string NOMBRE_RAZA { get; set; }
         public System.DateTime FECHA_INGRESO { get; set; }
-        public Nullable<System.DateTime> FECHA_BAJA { get; set; }
         public System.DateTime FECHA_NACIMIENTO { get; set; }
         public int ID_ESTADO { get; set; }
+        public string ESTADO { get; set; }
         public int ID_SALUD { get; set; }
+        public string DESCRIPCION { get; set; }
         public string IMAGEN { get; set; }
         public string HISTORIA { get; set; }
         public string NECESIDAD { get; set; }
-    
-        public virtual ESTADOS_TB ESTADOS_TB { get; set; }
-        public virtual RAZAS_TB RAZAS_TB { get; set; }
-        public virtual ESTADOS_SALUD_TB ESTADOS_SALUD_TB { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<APADRINAMIENTOS_TB> APADRINAMIENTOS_TB { get; set; }
     }
 }

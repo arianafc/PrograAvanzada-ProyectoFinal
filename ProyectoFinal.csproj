@@ -117,6 +117,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ApadrinamientoController.cs" />
     <Compile Include="Controllers\MiPerfilController.cs" />
     <Compile Include="Controllers\ActividadesController.cs" />
     <Compile Include="Controllers\AnimalController.cs" />
@@ -170,15 +171,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\Model1.cs">
+    <Compile Include="EF\Model1.Designer.cs">
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="EF\Model11.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EF\Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="EF\ObtenerAnimalesActivosSP_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -204,13 +205,16 @@
     <Compile Include="EF\USUARIO_ACTIVIDAD_TB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\VisualizacionVentasSP_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="EF\VisualizarActividadesActivasSP_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\VisualizarActividadesSP_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\VisualizarAnimalesSP_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\VisualizarApadrinamientosSP_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -218,15 +222,25 @@
     </Compile>
     <Compile Include="Models\Animal.cs" />
     <Compile Include="Models\Actividad.cs" />
+    <Compile Include="Models\Apadrinamiento.cs" />
+    <Compile Include="Models\GestionAnimalesModel.cs" />
+    <Compile Include="Models\GestionApadrinamientosModel.cs" />
+    <Compile Include="Models\MetodoPago.cs" />
     <Compile Include="Models\TourViewModel.cs" />
     <Compile Include="Models\ConsultaViewModel.cs" />
     <Compile Include="Models\DonacionViewModel.cs" />
     <Compile Include="Models\GestionActividadesModel.cs" />
+    <Compile Include="Models\FiltroSeguridad.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Utilitarios.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="BD\BaseDatosCasaNatura.sql" />
+    <Content Include="BD\Procedimientos Almacenados %28Ari%27s%29.sql" />
+    <Content Include="BD\script.sql" />
+    <Content Include="BD\SCRIPT_DIRECCIONES.sql" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -253,31 +267,35 @@
     <Content Include="EF\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
+      <LastGenOutput>Model11.cs</LastGenOutput>
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\1.png" />
     <Content Include="Imagenes\animales.png" />
     <Content Include="Imagenes\animalesDonar.jpg" />
     <Content Include="Imagenes\animalesDonar.png" />
     <Content Include="Imagenes\caballito.jpg" />
-    <Content Include="Imagenes\Conejo-Enano Holandes.jpg" />
+    <Content Include="Imagenes\Animales\5.jpg" />
     <Content Include="Imagenes\donaciones1.jpeg" />
     <Content Include="Imagenes\face.png" />
     <Content Include="Imagenes\footer.png" />
-    <Content Include="Imagenes\Gato-Persa.jpg" />
-    <Content Include="Imagenes\Gato-Siames.jpg" />
+    <Content Include="Imagenes\Animales\2.jpg" />
+    <Content Include="Imagenes\Animales\4.jpg" />
     <Content Include="Imagenes\img3.png" />
     <Content Include="Imagenes\logo.png" />
     <Content Include="Imagenes\perritos.png" />
-    <Content Include="Imagenes\Perro-Labrador-Retriever.jpg" />
-    <Content Include="Imagenes\Perro-Pitbull.jpg" />
+    <Content Include="Imagenes\Animales\1.jpg" />
+    <Content Include="Imagenes\Animales\3.jpg" />
     <Content Include="Imagenes\placeholder.png" />
     <Content Include="Imagenes\video.png" />
+    <Content Include="Scripts\Animales.js" />
+    <Content Include="Scripts\Apadrinamientos.js" />
     <Content Include="Scripts\app-style-switcher.js" />
     <Content Include="Scripts\app.init.js" />
     <Content Include="Scripts\app.min.js" />
+    <Content Include="Scripts\Autenticacion.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -334,7 +352,7 @@
     <Content Include="Views\Home\RecuperarAcceso.cshtml" />
     <Content Include="Views\Animal\ConsultarAnimales.cshtml" />
     <Content Include="Views\Animal\DetalleAnimal.cshtml" />
-    <Content Include="Views\Animal\ApadrinarAnimal.cshtml" />
+    <Content Include="Views\Apadrinamiento\ApadrinarAnimal.cshtml" />
     <Content Include="Views\Actividades\GestionActividades.cshtml" />
     <Content Include="Views\Donacion\AdminDonaciones.cshtml" />
     <Content Include="Views\MiPerfil\MiPerfil.cshtml" />
@@ -344,6 +362,10 @@
     <Content Include="Views\Actividades\DetalleActividad.cshtml" />
     <Content Include="Views\Actividades\ActividadesDisponibles.cshtml" />
     <Content Include="Views\MiPerfil\EditarInfoPerfil.cshtml" />
+    <Content Include="Views\Apadrinamiento\GestionApadrinamientos.cshtml" />
+    <Content Include="Views\Animal\GestionAnimales.cshtml" />
+    <Content Include="Views\Actividades\GestionVentas.cshtml" />
+    <Content Include="Views\Home\CambioContrasenna.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

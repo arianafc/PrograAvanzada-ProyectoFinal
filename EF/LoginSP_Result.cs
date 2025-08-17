@@ -15,8 +15,8 @@ namespace ProyectoFinal.EF
     {
         public int ID_USUARIO { get; set; }
         public string NOMBRE { get; set; }
-        public string APELLIDO2 { get; set; }
         public string APELLIDO1 { get; set; }
+        public string APELLIDO2 { get; set; }
         public string IDENTIFICACION { get; set; }
         public string CORREO { get; set; }
         public int ID_ROL { get; set; }

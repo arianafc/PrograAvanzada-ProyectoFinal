@@ -1,0 +1,196 @@
+﻿@model ProyectoFinal.Models.GestionAnimalesModel
+
+@{
+    ViewBag.Title = "Gestión de Animales";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main class="container py-5">
+    <div class="row">
+        <div>
+            <div class="bg-white p-3 rounded shadow">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="w-bold mb-3 text-center"><b>GESTIÓN DE ANIMALES</b></h3>
+                    </div>
+                    <div class="col-sm-12">
+                        <button class="AgregarBtn w-100 justify-content-center d-flex text-white"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalAnimal">
+                            Nuevo Animal
+                        </button>
+                    </div>
+                </div>
+                <hr />
+
+                <div class="table-responsive">
+                    <table id="tablaAnimales" class="tabla-donaciones p-5 table-bordered text-center align-middle">
+                        <thead class="HeadTablaAnimales">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Raza</th>
+                                <th>Fecha de Nacimiento</th>
+                                <th>Fecha Inicio</th>
+                                <th>Estado de salud</th>
+                                <th>Historia</th>
+                                <th>Necesidad</th>
+                                <th>Estado</th>
+                                <th>Imagen</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.ListaAnimales)
+                            {
+                                <tr>
+                                    <td>@item.ID_ANIMAL</td>
+                                    <td>@item.NOMBRE_ANIMAL</td>
+                                    <td>@item.NOMBRE_RAZA</td>
+                                    <td>@item.FECHA_NACIMIENTO.ToString("yyyy-MM-dd")</td>
+                                    <td>@item.FECHA_INGRESO.ToString("yyyy-MM-dd")</td>
+                                    <td>@item.DESCRIPCION</td>
+                                    <td>@item.HISTORIA</td>
+                                    <td>@item.NECESIDAD</td>
+                                    <td>@item.ESTADO</td>
+                                    <td>
+                                        @if (item.IMAGEN != null)
+                                        {
+                                            <img src="@item.IMAGEN?v=@DateTime.Now.Ticks" alt="Animal" class="img-actividad" />
+                                        }
+                                        else
+                                        {
+                                            <span>Sin imagen</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <form action="@Url.Action("CambiarEstadoAnimal", "Animal")" class="FormCambiarEstado" method="post" style="display:inline;">
+                                            <input type="hidden" name="IdAnimal" value="@item.ID_ANIMAL" />
+                                            <input type="hidden" name="IdEstado" value="@(item.ID_ESTADO == 1 ? 2 : 1)" />
+                                            <button type="submit" class="btn btn-cambiar-estado btn-sm" title="Cambiar estado">
+                                                <i class="fa @(item.ID_ESTADO == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
+                                            </button>
+                                        </form>
+
+
+                                        <button class="btn btn-cambiar-estado btn-sm btn-editar-Animal"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalAnimal"
+                                                data-id="@item.ID_ANIMAL"
+                                                data-nombre="@item.NOMBRE_ANIMAL"
+                                                data-idraza="@item.ID_RAZA"
+                                                data-idsalud="@item.ID_SALUD"
+                                                data-fechanacimiento="@item.FECHA_NACIMIENTO.ToString("yyyy-MM-dd")"
+                                                data-fechaingreso="@item.FECHA_INGRESO.ToString("yyyy-MM-dd")"
+                                                data-historia="@item.HISTORIA"
+                                                data-necesidad="@item.NECESIDAD"
+                                                data-imagen="@item.IMAGEN"
+                                                title="Editar">
+                                            <i class="fas fa-edit me-2"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal Unificado para Agregar/Editar Animal -->
+                <div class="modal fade" id="modalAnimal" tabindex="-1" aria-labelledby="modalAnimalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title fw-bold" id="modalAnimalLabel">REGISTRAR ANIMAL</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+
+                            <div class="modal-body bg-light p-4 rounded shadow">
+                                @using (Html.BeginForm("GestionAnimales", "Animal", FormMethod.Post, new { @id = "formAnimal", enctype = "multipart/form-data" }))
+                                {
+                                    @Html.HiddenFor(m => m.NuevoAnimal.IdAnimal)
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        @Html.LabelFor(m => m.NuevoAnimal.Nombre, "Nombre del Animal")
+                                        @Html.TextBoxFor(m => m.NuevoAnimal.Nombre, new
+                                        {
+                                            @class = "form-control",
+                                            required = "required"
+                                        })
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        @Html.LabelFor(m => m.NuevoAnimal.IdRaza, "Raza")
+                                        @Html.DropDownListFor(m => m.NuevoAnimal.IdRaza,
+                                            Model.ListaRazas,
+                                            "Seleccione una raza",
+                                            new { @class = "form-control", required = "required" })
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        @Html.LabelFor(m => m.NuevoAnimal.IdSalud, "Salud")
+                                        @Html.DropDownListFor(m => m.NuevoAnimal.IdSalud,
+                                            Model.ListaSalud,
+                                            "Seleccione el estado de salud",
+                                            new { @class = "form-control", required = "required" })
+                                    </div>
+
+
+                                    <div class="col-md-6 mb-3">
+                                        @Html.LabelFor(m => m.NuevoAnimal.FechaNacimiento, "Fecha de Nacimiento")
+                                        @Html.TextBoxFor(m => m.NuevoAnimal.FechaNacimiento, "{0:yyyy-MM-dd}", new
+                                        {
+                                            @type = "date",
+                                            @class = "form-control",
+                                            required = "required"
+                                        })
+                                    </div>
+
+                                    <div class="col-md-6 mb-3" id="FechaIngreso">
+                                        @Html.LabelFor(m => m.NuevoAnimal.FechaIngreso, "Fecha de Ingreso")
+                                        @Html.TextBoxFor(m => m.NuevoAnimal.FechaIngreso, "{0:yyyy-MM-dd}", new
+                                        {
+                                            @type = "date",
+                                            @class = "form-control",                                           
+                                        })
+                                    </div>
+
+                                    <div class="col-md-12 mb-3">
+                                        @Html.LabelFor(m => m.NuevoAnimal.Historia, "Historia")
+                                        @Html.TextAreaFor(m => m.NuevoAnimal.Historia, new
+                                        {
+                                            @class = "form-control",
+                                            rows = "3"
+                                        })
+                                    </div>
+
+                                    <div class="col-md-12 mb-3">
+                                        @Html.LabelFor(m => m.NuevoAnimal.Necesidad, "Necesidades Especiales")
+                                        @Html.TextAreaFor(m => m.NuevoAnimal.Necesidad, new
+                                        {
+                                            @class = "form-control",
+                                            rows = "3"
+                                        })
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        @Html.Label("Imagen")
+                                        <input type="file" name="ImagenAnimal" class="form-control" accept="image/*" />
+                                    </div>
+                                </div>
+
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-warning text-dark" id="btnSubmit">Guardar</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="~/Scripts/Animales.js"></script>

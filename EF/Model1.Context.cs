@@ -91,6 +91,15 @@ namespace ProyectoFinal.EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarContrasennaSP", cORREOParameter, nUEVA_CONTRASENNAParameter);
         }
     
+        public virtual int CambiarEstadoApadrinamientoSP(Nullable<int> idApadrinamiento)
+        {
+            var idApadrinamientoParameter = idApadrinamiento.HasValue ?
+                new ObjectParameter("IdApadrinamiento", idApadrinamiento) :
+                new ObjectParameter("IdApadrinamiento", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEstadoApadrinamientoSP", idApadrinamientoParameter);
+        }
+    
         public virtual int CambioEstadoActividadSP(Nullable<int> idEstado, Nullable<int> idActividad)
         {
             var idEstadoParameter = idEstado.HasValue ?
@@ -257,6 +266,35 @@ namespace ProyectoFinal.EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerMisAnimalesSP_Result>("ObtenerMisAnimalesSP", iD_USUARIOParameter);
         }
     
+        public virtual int RegistrarUsuarioSP(string nOMBRE, string aPELLIDO1, string aPELLIDO2, string cORREO, string cONTRASENNA, string iDENTIFICACION)
+        {
+            var nOMBREParameter = nOMBRE != null ?
+                new ObjectParameter("NOMBRE", nOMBRE) :
+                new ObjectParameter("NOMBRE", typeof(string));
+    
+            var aPELLIDO1Parameter = aPELLIDO1 != null ?
+                new ObjectParameter("APELLIDO1", aPELLIDO1) :
+                new ObjectParameter("APELLIDO1", typeof(string));
+    
+            var aPELLIDO2Parameter = aPELLIDO2 != null ?
+                new ObjectParameter("APELLIDO2", aPELLIDO2) :
+                new ObjectParameter("APELLIDO2", typeof(string));
+    
+            var cORREOParameter = cORREO != null ?
+                new ObjectParameter("CORREO", cORREO) :
+                new ObjectParameter("CORREO", typeof(string));
+    
+            var cONTRASENNAParameter = cONTRASENNA != null ?
+                new ObjectParameter("CONTRASENNA", cONTRASENNA) :
+                new ObjectParameter("CONTRASENNA", typeof(string));
+    
+            var iDENTIFICACIONParameter = iDENTIFICACION != null ?
+                new ObjectParameter("IDENTIFICACION", iDENTIFICACION) :
+                new ObjectParameter("IDENTIFICACION", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarUsuarioSP", nOMBREParameter, aPELLIDO1Parameter, aPELLIDO2Parameter, cORREOParameter, cONTRASENNAParameter, iDENTIFICACIONParameter);
+        }
+    
         public virtual int RegistroSP(string nOMBRE, string aPELLIDO1, string aPELLIDO2, string cORREO, string cONTRASENNA, string iDENTIFICACION)
         {
             var nOMBREParameter = nOMBRE != null ?
@@ -286,11 +324,6 @@ namespace ProyectoFinal.EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistroSP", nOMBREParameter, aPELLIDO1Parameter, aPELLIDO2Parameter, cORREOParameter, cONTRASENNAParameter, iDENTIFICACIONParameter);
         }
     
-        public virtual ObjectResult<VisualizacionVentasSP_Result> VisualizacionVentasSP()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VisualizacionVentasSP_Result>("VisualizacionVentasSP");
-        }
-    
         public virtual ObjectResult<VisualizarActividadesActivasSP_Result> VisualizarActividadesActivasSP()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VisualizarActividadesActivasSP_Result>("VisualizarActividadesActivasSP");
@@ -299,6 +332,66 @@ namespace ProyectoFinal.EF
         public virtual ObjectResult<VisualizarActividadesSP_Result> VisualizarActividadesSP()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VisualizarActividadesSP_Result>("VisualizarActividadesSP");
+        }
+    
+        public virtual ObjectResult<VisualizarApadrinamientosSP_Result> VisualizarApadrinamientosSP()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VisualizarApadrinamientosSP_Result>("VisualizarApadrinamientosSP");
+        }
+    
+        public virtual ObjectResult<VisualizarAnimalesSP_Result> VisualizarAnimalesSP()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VisualizarAnimalesSP_Result>("VisualizarAnimalesSP");
+        }
+    
+        public virtual int CambiarEstadoAnimalSP(Nullable<int> idAnimal, Nullable<int> idEstado)
+        {
+            var idAnimalParameter = idAnimal.HasValue ?
+                new ObjectParameter("IdAnimal", idAnimal) :
+                new ObjectParameter("IdAnimal", typeof(int));
+    
+            var idEstadoParameter = idEstado.HasValue ?
+                new ObjectParameter("IdEstado", idEstado) :
+                new ObjectParameter("IdEstado", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarEstadoAnimalSP", idAnimalParameter, idEstadoParameter);
+        }
+    
+        public virtual int EditarAnimalSP(Nullable<int> idAnimal, string nombre, Nullable<int> idRaza, Nullable<System.DateTime> fechaNacimiento, Nullable<System.DateTime> fechaIngreso, string historia, string necesidad, string imagen)
+        {
+            var idAnimalParameter = idAnimal.HasValue ?
+                new ObjectParameter("IdAnimal", idAnimal) :
+                new ObjectParameter("IdAnimal", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var idRazaParameter = idRaza.HasValue ?
+                new ObjectParameter("IdRaza", idRaza) :
+                new ObjectParameter("IdRaza", typeof(int));
+    
+            var fechaNacimientoParameter = fechaNacimiento.HasValue ?
+                new ObjectParameter("FechaNacimiento", fechaNacimiento) :
+                new ObjectParameter("FechaNacimiento", typeof(System.DateTime));
+    
+            var fechaIngresoParameter = fechaIngreso.HasValue ?
+                new ObjectParameter("FechaIngreso", fechaIngreso) :
+                new ObjectParameter("FechaIngreso", typeof(System.DateTime));
+    
+            var historiaParameter = historia != null ?
+                new ObjectParameter("Historia", historia) :
+                new ObjectParameter("Historia", typeof(string));
+    
+            var necesidadParameter = necesidad != null ?
+                new ObjectParameter("Necesidad", necesidad) :
+                new ObjectParameter("Necesidad", typeof(string));
+    
+            var imagenParameter = imagen != null ?
+                new ObjectParameter("Imagen", imagen) :
+                new ObjectParameter("Imagen", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EditarAnimalSP", idAnimalParameter, nombreParameter, idRazaParameter, fechaNacimientoParameter, fechaIngresoParameter, historiaParameter, necesidadParameter, imagenParameter);
         }
     }
 }

@@ -20,7 +20,11 @@ namespace ProyectoFinal.EF
         public string CORREO { get; set; }
         public string MENSAJE { get; set; }
         public System.DateTime FECHA { get; set; }
-        public string ESTADO { get; set; }
         public Nullable<System.DateTime> FECHA_RESUELTA { get; set; }
+        public Nullable<int> ID_USUARIO { get; set; }
+        public int ID_ESTADO { get; set; }
+    
+        public virtual ESTADOS_TB ESTADOS_TB { get; set; }
+        public virtual USUARIOS_TB USUARIOS_TB { get; set; }
     }
 }

@@ -21,13 +21,7 @@ namespace ProyectoFinal.EF
         public int ID_ESTADO { get; set; }
     
         public virtual DISTRITOS_TB DISTRITOS_TB { get; set; }
-        public virtual DISTRITOS_TB DISTRITOS_TB1 { get; set; }
-        public virtual DISTRITOS_TB DISTRITOS_TB2 { get; set; }
         public virtual ESTADOS_TB ESTADOS_TB { get; set; }
-        public virtual ESTADOS_TB ESTADOS_TB1 { get; set; }
-        public virtual ESTADOS_TB ESTADOS_TB2 { get; set; }
         public virtual USUARIOS_TB USUARIOS_TB { get; set; }
-        public virtual USUARIOS_TB USUARIOS_TB1 { get; set; }
-        public virtual USUARIOS_TB USUARIOS_TB2 { get; set; }
     }
 }
