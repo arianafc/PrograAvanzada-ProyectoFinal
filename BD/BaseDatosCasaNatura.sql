@@ -713,3 +713,42 @@ INSERT INTO METODO_PAGO_TB (METODO, ID_ESTADO) VALUES
 ('Tarjeta crédito/débito', 1),
 ('Sinpe móvil', 1),
 ('PayPal', 1);
+
+
+--- =======================================
+--- SP VENTAS
+---=======================================
+USE [CASA_NATURA]
+GO
+
+/****** Object:  StoredProcedure [dbo].[VisualizacionVentasSP]    Script Date: 8/16/2025 8:58:01 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE   PROCEDURE [dbo].[VisualizacionVentasSP]
+AS
+BEGIN
+    SELECT 
+        UA.ID_USUARIO_ACTIVIDAD AS NUMERO_FACTURA,
+        UA.TICKETS_ADQUIRIDOS, 
+        UA.FECHA, 
+        UA.TOTAL, 
+        U.NOMBRE + ' ' + U.APELLIDO1 + ' ' + U.APELLIDO2 AS NOMBRE_COMPLETO,
+        A.NOMBRE AS NOMBRE_ACTIVIDAD,
+        A.FECHA AS FECHA_ACTIVIDAD,
+        E.DESCRIPCION AS ESTADO_COMPRA,
+        M.METODO
+    FROM USUARIO_ACTIVIDAD_TB UA
+    INNER JOIN ACTIVIDADES_TB A ON A.ID_ACTIVIDAD = UA.ID_ACTIVIDAD
+    INNER JOIN ESTADOS_TB E ON E.ID_ESTADO = UA.ID_ESTADO
+    INNER JOIN METODO_PAGO_TB M ON M.ID_METODO = UA.ID_METODO_PAGO
+    INNER JOIN USUARIOS_TB U ON U.ID_USUARIO = UA.ID_USUARIO;
+END
+GO
+
+
+---===================================================
