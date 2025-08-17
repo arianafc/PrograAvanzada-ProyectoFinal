@@ -18,8 +18,6 @@ namespace ProyectoFinal.EF
         public ROLES_TB()
         {
             this.USUARIOS_TB = new HashSet<USUARIOS_TB>();
-            this.USUARIOS_TB1 = new HashSet<USUARIOS_TB>();
-            this.USUARIOS_TB2 = new HashSet<USUARIOS_TB>();
         }
     
         public int ID_ROL { get; set; }
@@ -27,13 +25,7 @@ namespace ProyectoFinal.EF
         public int ID_ESTADO { get; set; }
     
         public virtual ESTADOS_TB ESTADOS_TB { get; set; }
-        public virtual ESTADOS_TB ESTADOS_TB1 { get; set; }
-        public virtual ESTADOS_TB ESTADOS_TB2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USUARIOS_TB> USUARIOS_TB { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<USUARIOS_TB> USUARIOS_TB1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<USUARIOS_TB> USUARIOS_TB2 { get; set; }
     }
 }

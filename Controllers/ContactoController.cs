@@ -31,27 +31,60 @@ namespace ProyectoFinal.Controllers
 
             using (var db = new CASA_NATURAEntities())
             {
+                var estadoPendienteId = db.ESTADOS_TB
+                                          .Where(e => e.DESCRIPCION == "Pendiente")
+                                          .Select(e => e.ID_ESTADO)
+                                          .FirstOrDefault();
+
+                if (estadoPendienteId == 0)
+                {
+                    TempData["Error"] = "No se encontró el estado 'Pendiente' en ESTADOS_TB.";
+                    return View("Contacto", model);
+                }
+
+                int? idUsuarioActual = null;
+                if (User?.Identity?.IsAuthenticated == true)
+                {
+                    var emailLogin = User.Identity.Name;
+                    var u = db.USUARIOS_TB.Where(x => x.CORREO == emailLogin)
+                                          .Select(x => new { x.ID_USUARIO })
+                                          .FirstOrDefault();
+                    if (u != null) idUsuarioActual = u.ID_USUARIO;
+                }
+
                 var nueva = new CONSULTAS_TB
                 {
                     NOMBRE = model.Nombre,
                     APELLIDO = model.Apellido,
                     CORREO = model.Correo,
                     MENSAJE = model.Mensaje,
-                    ESTADO = "Pendiente",
-                    FECHA = DateTime.Now
-                };
+                    FECHA = DateTime.Now,
+                    ID_USUARIO = idUsuarioActual,
 
-                db.CONSULTAS_TB.Add(nueva);
-                db.SaveChanges();
+                    // ← clave: asignar 'Pendiente' explícitamente para que no vaya 0
+                    ID_ESTADO = estadoPendienteId
+                };
 
                 try
                 {
-                    EnviarCorreoCasaNatura(nueva);
+                    db.CONSULTAS_TB.Add(nueva);
+                    db.SaveChanges();
+
+                    try { EnviarCorreoCasaNatura(nueva); }
+                    catch (Exception ex)
+                    {
+                        TempData["ErrorCorreo"] = "SMTP: " + ex.Message +
+                            (ex.InnerException != null ? " | INNER: " + ex.InnerException.Message : "");
+                    }
                 }
-                catch (Exception ex)
+                catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
                 {
-                    TempData["ErrorCorreo"] = "SMTP: " + ex.Message +
-                        (ex.InnerException != null ? " | INNER: " + ex.InnerException.Message : "");
+                    var msg = ex.InnerException?.InnerException?.Message
+                              ?? ex.InnerException?.Message
+                              ?? ex.Message;
+
+                    TempData["Error"] = "Error al guardar la consulta: " + msg;
+                    return View("Contacto", model);
                 }
             }
 
@@ -64,23 +97,31 @@ namespace ProyectoFinal.Controllers
         {
             using (var db = new CASA_NATURAEntities())
             {
-                var resueltas = db.CONSULTAS_TB
-                    .Where(c => c.ESTADO == "Resuelto")
-                    .Select(c => new ConsultaViewModel
-                    {
-                        IdConsulta = c.ID_CONSULTA,
-                        Nombre = c.NOMBRE,
-                        Apellido = c.APELLIDO,
-                        Correo = c.CORREO,
-                        Mensaje = c.MENSAJE,
-                        Fecha = c.FECHA,
-                        Estado = c.ESTADO,
-                        FechaResuelta = c.FECHA_RESUELTA
-                    }).ToList();
+                var estadoPendienteId = db.ESTADOS_TB
+                    .Where(e => e.DESCRIPCION == "Pendiente")
+                    .Select(e => e.ID_ESTADO)
+                    .FirstOrDefault();
 
-                var pendientes = db.CONSULTAS_TB
-                    .Where(c => c.ESTADO == "Pendiente")
-                    .Select(c => new ConsultaViewModel
+                var estadoResueltoId = db.ESTADOS_TB
+                    .Where(e => e.DESCRIPCION == "Resuelto")
+                    .Select(e => e.ID_ESTADO)
+                    .FirstOrDefault();
+
+                if (estadoPendienteId == 0 || estadoResueltoId == 0)
+                {
+                    TempData["Error"] = "No se encontraron los estados 'Pendiente' o 'Resuelto' en ESTADOS_TB.";
+                    return View("GestionDudas", Tuple.Create(
+                        Enumerable.Empty<ConsultaViewModel>().ToList(),
+                        Enumerable.Empty<ConsultaViewModel>().ToList()
+                    ));
+                }
+
+                var resueltas = (
+                    from c in db.CONSULTAS_TB
+                    join e in db.ESTADOS_TB on c.ID_ESTADO equals e.ID_ESTADO
+                    where c.ID_ESTADO == estadoResueltoId
+                    orderby c.FECHA descending
+                    select new ConsultaViewModel
                     {
                         IdConsulta = c.ID_CONSULTA,
                         Nombre = c.NOMBRE,
@@ -88,8 +129,27 @@ namespace ProyectoFinal.Controllers
                         Correo = c.CORREO,
                         Mensaje = c.MENSAJE,
                         Fecha = c.FECHA,
-                        Estado = c.ESTADO
-                    }).ToList();
+                        FechaResuelta = c.FECHA_RESUELTA,
+                        Estado = e.DESCRIPCION // o e.DESCRIPCION, según tu columna
+                    }
+                ).ToList();
+
+                var pendientes = (
+                    from c in db.CONSULTAS_TB
+                    join e in db.ESTADOS_TB on c.ID_ESTADO equals e.ID_ESTADO
+                    where c.ID_ESTADO == estadoPendienteId
+                    orderby c.FECHA descending
+                    select new ConsultaViewModel
+                    {
+                        IdConsulta = c.ID_CONSULTA,
+                        Nombre = c.NOMBRE,
+                        Apellido = c.APELLIDO,
+                        Correo = c.CORREO,
+                        Mensaje = c.MENSAJE,
+                        Fecha = c.FECHA,
+                        Estado = e.DESCRIPCION
+                    }
+                ).ToList();
 
                 return View("GestionDudas", Tuple.Create(resueltas, pendientes));
             }
@@ -103,8 +163,20 @@ namespace ProyectoFinal.Controllers
                 var consulta = db.CONSULTAS_TB.Find(id);
                 if (consulta != null)
                 {
-                    consulta.ESTADO = "Resuelto";
+                    var estadoResueltoId = db.ESTADOS_TB
+                        .Where(e => e.DESCRIPCION == "Resuelto")
+                        .Select(e => e.ID_ESTADO)
+                        .FirstOrDefault();
+
+                    if (estadoResueltoId == 0)
+                    {
+                        TempData["Error"] = "No se encontró el estado 'Resuelto' en la tabla ESTADOS_TB.";
+                        return RedirectToAction("GestionDudas");
+                    }
+
+                    consulta.ID_ESTADO = estadoResueltoId;
                     consulta.FECHA_RESUELTA = DateTime.Now;
+
                     db.SaveChanges();
                 }
             }
@@ -116,7 +188,7 @@ namespace ProyectoFinal.Controllers
         private void EnviarCorreoCasaNatura(CONSULTAS_TB c)
         {
             var remitente = System.Configuration.ConfigurationManager.AppSettings["CorreoRemitente"];
-            var claveApp = System.Configuration.ConfigurationManager.AppSettings["CorreoPassword"]; 
+            var claveApp = System.Configuration.ConfigurationManager.AppSettings["CorreoPassword"];
             var fromName = "Casa Natura";
 
             var destino = remitente;
@@ -164,7 +236,7 @@ namespace ProyectoFinal.Controllers
             {
                 using (var smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
-                    smtp.EnableSsl = true;            
+                    smtp.EnableSsl = true;
                     smtp.UseDefaultCredentials = false;
                     smtp.Credentials = new NetworkCredential(remitente, claveApp);
                     smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -178,7 +250,7 @@ namespace ProyectoFinal.Controllers
             {
                 using (var smtp = new SmtpClient("smtp.gmail.com", 465))
                 {
-                    smtp.EnableSsl = true;             
+                    smtp.EnableSsl = true;
                     smtp.UseDefaultCredentials = false;
                     smtp.Credentials = new NetworkCredential(remitente, claveApp);
                     smtp.DeliveryMethod = SmtpDeliveryMethod.Network;

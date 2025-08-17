@@ -18,7 +18,6 @@ namespace ProyectoFinal.EF
         public ACTIVIDADES_TB()
         {
             this.USUARIO_ACTIVIDAD_TB = new HashSet<USUARIO_ACTIVIDAD_TB>();
-            this.USUARIO_ACTIVIDAD_TB1 = new HashSet<USUARIO_ACTIVIDAD_TB>();
         }
     
         public int ID_ACTIVIDAD { get; set; }
@@ -33,10 +32,7 @@ namespace ProyectoFinal.EF
         public string NOMBRE { get; set; }
     
         public virtual ESTADOS_TB ESTADOS_TB { get; set; }
-        public virtual ESTADOS_TB ESTADOS_TB1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USUARIO_ACTIVIDAD_TB> USUARIO_ACTIVIDAD_TB { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<USUARIO_ACTIVIDAD_TB> USUARIO_ACTIVIDAD_TB1 { get; set; }
     }
 }
