@@ -174,7 +174,7 @@ namespace ProyectoFinal.Controllers
                     if (service.EnviarCorreo(result.CORREO, mensaje.ToString(), "Solicitud de acceso"))
                     {
                         TempData["SwalSuccess"] = "Hemos enviado un link de recuperación de acceso al correo" +
-                            "electrónico registrado.";
+                            " electrónico registrado.";
                         return RedirectToAction("IniciarSesion", "Home");
                     }
 
