@@ -40,21 +40,16 @@
         }
     });
 
-    $('#tablaActividades').DataTable({
+    $('#TablaActividades').DataTable({
+        responsive: true,
         language: {
-            "search": "Buscar:",
-            "lengthMenu": "Mostrar _MENU_ registros",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ actividades",
-            "paginate": {
-                "first": "Primero",
-                "last": "Último",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            },
-            "zeroRecords": "No se encontraron resultados",
-            "infoEmpty": "No hay actividades para mostrar",
-            "infoFiltered": "(filtrado de _MAX_ actividades totales)"
-        }
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+        },
+        pageLength: 10,
+        order: [[0, "desc"]],
+        columnDefs: [
+            { orderable: false, targets: [8] }
+        ]
     });
 
 

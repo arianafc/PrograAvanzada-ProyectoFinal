@@ -1,21 +1,16 @@
 ﻿// Función para inicializar DataTable
 function initializeDataTable() {
-    $('#tablaApadrinamientos').DataTable({
+    $('#TablaApadrinamientos').DataTable({
+        responsive: true,
         language: {
-            "search": "Buscar:",
-            "lengthMenu": "Mostrar _MENU_ registros",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ apadrinamientos",
-            "paginate": {
-                "first": "Primero",
-                "last": "Último",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            },
-            "zeroRecords": "No se encontraron resultados",
-            "infoEmpty": "No hay apadrinamientos para mostrar",
-            "infoFiltered": "(filtrado de _MAX_ apadrinamientos totales)"
-        }
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+        },
+        pageLength: 10,
+        columnDefs: [
+            { orderable: false, targets: [8] }
+        ]
     });
+
 }
 
 // Función para abrir modal en modo AGREGAR

@@ -23,17 +23,7 @@
         subtotalSpan.textContent = subtotal.toLocaleString('es-CR');
     });
 
-    $('#TablaActividades').DataTable({
-        responsive: true,
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
-        },
-        pageLength: 10,
-        order: [[0, "desc"]],
-        columnDefs: [
-            { orderable: false, targets: [8] }
-        ]
-    });
+
 
 
     $('#TablaVentas').DataTable({
@@ -49,6 +39,8 @@
     });
 
 });
+
+//Funciones para metodos de pago
 function enviarFormularioCompra(metodoPagoId) {
     const cantidad = parseInt(document.getElementById("cantidadBoletos").value);
 
@@ -109,7 +101,7 @@ function mostrarModal() {
     const metodo = document.getElementById('metodo').value;
     const campoReferencia = document.getElementById('campoReferencia');
 
-    // Ocultar campo de referencia por defecto
+    
     if (campoReferencia) {
         campoReferencia.classList.add('d-none');
     }

@@ -177,7 +177,9 @@
 
     <script>
     var swalError = '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalError"]?.ToString() ?? ""))';
-    var swalSuccess = '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalSuccess"]?.ToString() ?? ""))';
+        var swalSuccess = '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalSuccess"]?.ToString() ?? ""))';
+       
+          var LoginUrl = '@Url.Action("IniciarSesion", "Home")';
     </script>
 
     @RenderSection("scripts", required: false)

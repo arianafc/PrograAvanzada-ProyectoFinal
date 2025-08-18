@@ -1,5 +1,6 @@
 ﻿
 $(document).ready(function () {
+    
     if (swalError) {
         Swal.fire({
             icon: 'error',

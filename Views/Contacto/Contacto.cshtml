@@ -11,13 +11,7 @@
 
 <main class="container py-5">
 
-    <!-- Mensajes de éxito o error -->
-    @if (TempData["Mensaje"] != null)
-    {
-        <div class="alert alert-success text-center fw-bold">
-            @TempData["Mensaje"]
-        </div>
-    }
+
     @if (TempData["Error"] != null)
     {
         <div class="alert alert-danger text-center fw-bold">
