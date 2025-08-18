@@ -13800,3 +13800,27 @@ small.text-muted {
     font-weight: 600;
     margin-bottom: 15px;
 }
+
+/* =======================
+   ESTILOS - exportar
+   ======================= */
+
+.acciones-exportar {
+    margin-bottom: 15px;
+    text-align: right;
+}
+
+.btn-exportar {
+    background: #27ae60;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .btn-exportar:hover {
+        background: #2ecc71;
+    }

@@ -45,3 +45,16 @@
         </tbody>
     </table>
 </div>
+<div class="acciones-exportar">
+    <form method="post" action="@Url.Action("ExportarPDF", "Donacion")" style="display:inline;">
+        <button type="submit" class="btn-exportar">
+            <i class="fas fa-file-pdf"></i> Exportar a PDF
+        </button>
+    </form>
+
+    <form method="post" action="@Url.Action("ExportarTXT", "Donacion")" style="display:inline;">
+        <button type="submit" class="btn-exportar">
+            <i class="fas fa-file-alt"></i> Exportar a TXT
+        </button>
+    </form>
+</div>
