@@ -1,5 +1,18 @@
 ﻿$(document).ready(function () {
 
+    $(".hide-toggle").on("click", function () {
+        $(".nav-links").removeClass("show").addClass("hide");
+    });
+
+    $(".menu-toggle").on("click", function () {
+        let navLinks = $(".nav-links");
+        if (navLinks.hasClass("hide")) {
+            navLinks.removeClass("hide").addClass("show");
+        } else {
+            navLinks.addClass("show");
+        }
+    });
+
     $(document).on('click', '.VerFacturaBtn', function () {
         var NumeroFactura = $(this).data("factura");
         window.location.href = '/Actividades/GenerarFactura?NumeroFactura=' + NumeroFactura;
@@ -22,22 +35,6 @@
         const subtotal = cantidad * precioUnitario;
         subtotalSpan.textContent = subtotal.toLocaleString('es-CR');
     });
-
-
-
-
-    $('#TablaVentas').DataTable({
-        responsive: true,
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
-        },
-        pageLength: 10,
-        order: [[0, "desc"]],
-        columnDefs: [
-            { orderable: false, targets: [8] }
-        ]
-    });
-
 });
 
 //Funciones para metodos de pago

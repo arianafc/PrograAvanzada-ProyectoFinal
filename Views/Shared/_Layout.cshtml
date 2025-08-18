@@ -1,38 +1,50 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>@ViewBag.Title - Casa Natura</title>
+
+    <!-- Fuentes e íconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Bootstrap -->
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Estilos -->
     <link href="~/Content/Site.css" rel="stylesheet" />
     <link href="~/Content/navbar.css" rel="stylesheet" />
+
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
-
-
+    <!-- NAVBAR -->
     <nav class="navbar">
-        <div class="container">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Logo -->
             <div class="navbar-brand fw-bold ps-3">
-                <a class="navbar-brand d-flex align-items-center" href="#">
+                <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index", "Home")">
                     <img src="~/imagenes/logo.png" alt="Logo" class="img" />
                     <span style="margin-left: 10px;">CASA<span class="highlight">NATURA</span></span>
                 </a>
             </div>
-            <ul class="nav-links navbar-nav">
 
+            <!-- Links -->
+            <ul class="nav-links navbar-nav hide">
+                <!-- Botón que cierra (solo móvil) -->
+                <div class="hide-toggle d-block d-sm-none">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
 
                 @Html.ActionLink("HOME", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("DONACIONES", "Donaciones", "Donacion", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("APADRINAR", "ConsultarAnimales", "Animal", new { area = "" }, new { @class = "nav-link" })
                 @Html.ActionLink("ACTIVIDADES", "ActividadesDisponibles", "Actividades", new { area = "" }, new { @class = "nav-link" })
-
                 @Html.ActionLink("CONTACTO", "Contacto", "Contacto", new { area = "" }, new { @class = "nav-link" })
 
                 @if (Session["Nombre"] != null)
@@ -44,7 +56,7 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li>
                                 <a class="dropdown-item" href="@Url.Action("MiPerfil", "MiPerfil")">
-                                    <i class="ti-settings me-2"></i> Mi Perfil
+                                    <i class="fa fa-user me-2"></i> Mi Perfil
                                 </a>
                             </li>
                             <li>
@@ -68,118 +80,119 @@
                 }
             </ul>
 
-            <div class="menu-toggle">
-                <i class="d-sm-block d-sm-none gg-menu-right"></i>
+            <!-- Botón que abre el menu (solo móvil) -->
+            <div class="menu-toggle d-block d-sm-none">
+                <i class="fa-solid fa-bars"></i>
             </div>
         </div>
     </nav>
 
-
+    <!-- CONTENIDO -->
     <div class="container body-content">
         @RenderBody()
-
         <br />
-
     </div>
 
+    <!-- FOOTER -->
     <div class="pg-footer">
         <footer class="footer">
             <svg class="footer-wave-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100" preserveAspectRatio="none">
                 <path class="footer-wave-path" d="M851.8,100c125,0,288.3-45,348.2-64V0H0v44c3.7-1,7.3-1.9,11-2.9C80.7,22,151.7,10.8,223.5,6.3C276.7,2.9,330,4,383,9.8 c52.2,5.7,103.3,16.2,153.4,32.8C623.9,71.3,726.8,100,851.8,100z"></path>
             </svg>
             <div class="footer-content">
+                <!-- Columna logo -->
                 <div class="footer-content-column">
                     <div class="footer-logo">
                         <img src="~/Imagenes/logo.png" />
                     </div>
-
                 </div>
+                <!-- Columna donaciones -->
                 <div class="footer-content-column">
                     <div class="footer-menu">
                         <h2 class="footer-menu-name"> DONACIONES</h2>
-                        <ul id="menu-get-started" class="footer-menu-list">
-                            <li class="menu-item menu-item-type-post_type menu-item-object-product">
-                                <a href="@Url.Action("Donaciones", "Donacion")">Quiero donar</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <br />
-                    <div class="footer-menu">
-                        <h2 class="footer-menu-name"> Nosotros</h2>
-                        <ul id="menu-company" class="footer-menu-list">
-                            <li class="menu-item menu-item-type-post_type menu-item-object-page">
-                                <a href="#">Conócenos</a>
-                            </li>
-
+                        <ul class="footer-menu-list">
+                            <li><a href="@Url.Action("Donaciones", "Donacion")">Quiero donar</a></li>
                         </ul>
                     </div>
                 </div>
+                <!-- Columna nosotros -->
+                <div class="footer-content-column">
+                    <div class="footer-menu">
+                        <h2 class="footer-menu-name"> Nosotros</h2>
+                        <ul class="footer-menu-list">
+                            <li><a href="#">Conócenos</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Columna servicios -->
                 <div class="footer-content-column">
                     <div class="footer-menu">
                         <h2 class="footer-menu-name"> TE OFRECEMOS</h2>
-                        <ul id="menu-quick-links" class="footer-menu-list">
-                            <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                                <a target="_blank" rel="noopener noreferrer" href="@Url.Action("ApadrinarAnimal", "Animal")">Apadrinar</a>
-                            </li>
-                            <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                                <a target="_blank" rel="noopener noreferrer" href="@Url.Action("ActividadesDisponibles", "Actividades")">Tours</a>
-                            </li>
-                            <li class="menu-item menu-item-type-post_type menu-item-object-page">
-                                <a href="@Url.Action("ActividadesDisponibles", "Actividades")">Eventos</a>
-                            </li>
-
+                        <ul class="footer-menu-list">
+                            <li><a href="@Url.Action("ApadrinarAnimal", "Animal")">Apadrinar</a></li>
+                            <li><a href="@Url.Action("ActividadesDisponibles", "Actividades")">Tours</a></li>
+                            <li><a href="@Url.Action("ActividadesDisponibles", "Actividades")">Eventos</a></li>
                         </ul>
                     </div>
                 </div>
+                <!-- Columna contacto -->
                 <div class="footer-content-column">
                     <div class="footer-menu">
                         <h2 class="footer-call-to-action-title"> Habla con nosotros</h2>
-                        <p class="footer-call-to-action-description"> Tienes alguna consulta?</p>
-                        <a class="footer-call-to-action-button button" href="@Url.Action("Contacto", "Contacto")" target="_self"> Contactar </a>
+                        <p class="footer-call-to-action-description"> ¿Tienes alguna consulta?</p>
+                        <a class="footer-call-to-action-button button" href="@Url.Action("Contacto", "Contacto")"> Contactar </a>
                     </div>
-                    @*<div class="footer-call-to-action">
-                            <h2 class="footer-call-to-action-title"> Llámanos</h2>
-                            <p class="footer-call-to-action-link-wrapper"> <a class="footer-call-to-action-link" href="tel:0124-64XXXX" target="_self"> +506 73892722</a></p>
-                        </div>*@
-                </div>
-                <div class="footer-social-links">
-                    <svg class="footer-social-amoeba-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 236 54">
-                        <path class="footer-social-amoeba-path" d="M223.06,43.32c-.77-7.2,1.87-28.47-20-32.53C187.78,8,180.41,18,178.32,20.7s-5.63,10.1-4.07,16.7-.13,15.23-4.06,15.91-8.75-2.9-6.89-7S167.41,36,167.15,33a18.93,18.93,0,0,0-2.64-8.53c-3.44-5.5-8-11.19-19.12-11.19a21.64,21.64,0,0,0-18.31,9.18c-2.08,2.7-5.66,9.6-4.07,16.69s.64,14.32-6.11,13.9S108.35,46.5,112,36.54s-1.89-21.24-4-23.94S96.34,0,85.23,0,57.46,8.84,56.49,24.56s6.92,20.79,7,24.59c.07,2.75-6.43,4.16-12.92,2.38s-4-10.75-3.46-12.38c1.85-6.6-2-14-4.08-16.69a21.62,21.62,0,0,0-18.3-9.18C13.62,13.28,9.06,19,5.62,24.47A18.81,18.81,0,0,0,3,33a21.85,21.85,0,0,0,1.58,9.08,16.58,16.58,0,0,1,1.06,5A6.75,6.75,0,0,1,0,54H236C235.47,54,223.83,50.52,223.06,43.32Z"></path>
-                    </svg>
-                    <a class="footer-social-link linkedin" href="#" target="_blank">
-
-                    </a>
-                    <a class="footer-social-link twitter" href="#" target="_blank">
-
-                    </a>
-                    <a class="footer-social-link youtube" href="#" target="_blank">
-
-                    </a>
-                    <a class="footer-social-link github" href="#" target="_blank">
-
-                    </a>
                 </div>
             </div>
+
             <div class="footer-copyright">
                 <div class="footer-copyright-wrapper">
                     <p class="footer-copyright-text">
-                        <a class="footer-copyright-link" href="#" target="_self"> ©2025 | Casa Natura | Derechos Reservados </a>
+                        <a href="#">©2025 | Casa Natura | Derechos Reservados</a>
                     </p>
                 </div>
             </div>
         </footer>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="~/Scripts/CasaNatura.js"></script>
-    <script src="~/Scripts/jquery.min.js"></script>
-    <script src="~/Scripts/Autenticacion.js"></script>
+
+    <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Scripts -->
+    <script src="~/Scripts/CasaNatura.js"></script>
+    <script src="~/Scripts/Autenticacion.js"></script>
+
+    <!-- SweetAlert -->
     <script>
-    var swalError = '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalError"]?.ToString() ?? ""))';
+        var swalError = '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalError"]?.ToString() ?? ""))';
         var swalSuccess = '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalSuccess"]?.ToString() ?? ""))';
-       
-          var LoginUrl = '@Url.Action("IniciarSesion", "Home")';
+        var LoginUrl = '@Url.Action("IniciarSesion", "Home")';
+    </script>
+
+    <!-- Script para abrir/cerrar menú -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const hideToggle = document.querySelector(".hide-toggle");
+            const navLinks = document.querySelector(".nav-links");
+
+            if (menuToggle) {
+                menuToggle.addEventListener("click", () => {
+                    navLinks.classList.remove("hide");
+                    navLinks.classList.add("show");
+                });
+            }
+
+            if (hideToggle) {
+                hideToggle.addEventListener("click", () => {
+                    navLinks.classList.remove("show");
+                    navLinks.classList.add("hide");
+                });
+            }
+        });
     </script>
 
     @RenderSection("scripts", required: false)

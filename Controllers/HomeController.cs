@@ -14,18 +14,27 @@ namespace ProyectoFinal.Controllers
     {
 
         Utilitarios service = new Utilitarios();
+
+        #region HomePage
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult dashboard()
+        #endregion
+
+        #region Dashboard
+
+        [HttpGet]
+        public ActionResult Dashboard()
         {
-            ViewBag.Message = "Your contact page.";
 
             return View();
         }
 
+        #endregion
+
+        #region IniciarSesion
         [HttpGet]
         public ActionResult IniciarSesion()
         {
@@ -35,12 +44,11 @@ namespace ProyectoFinal.Controllers
 
 
         [HttpPost]
-
         public ActionResult IniciarSesion(Usuario usuario)
         {
             using (var dbContext = new CASA_NATURAEntities())
             {
-                
+
                 var result = dbContext.LoginSP(usuario.Correo, usuario.Contrasenna).FirstOrDefault();
 
                 if (result != null)
@@ -68,11 +76,14 @@ namespace ProyectoFinal.Controllers
             }
 
         }
+        #endregion
+
+        #region Registro
 
         [HttpGet]
         public ActionResult Registro()
         {
-            
+
 
             return View();
         }
@@ -105,12 +116,16 @@ namespace ProyectoFinal.Controllers
                 }
                 catch (Exception ex)
                 {
-                
+
                     TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
                     return View();
                 }
             }
         }
+
+        #endregion
+
+        #region CerrarSesion
 
         [HttpGet]
         public ActionResult CerrarSesion()
@@ -118,8 +133,9 @@ namespace ProyectoFinal.Controllers
             Session.Clear();
             return RedirectToAction("IniciarSesion", "Home");
         }
+        #endregion
 
-
+        #region RecuperarAcceso
         [HttpGet]
 
         public ActionResult RecuperarAcceso()
@@ -139,12 +155,12 @@ namespace ProyectoFinal.Controllers
 
                 if (result != null)
                 {
-                         string link = Url.Action(
-                            "CambioContrasenna",
-                                "Home",
-                             new { correo = user.Correo.ToLower() },
-                            protocol: Request.Url.Scheme
-                            );
+                    string link = Url.Action(
+                       "CambioContrasenna",
+                           "Home",
+                        new { correo = user.Correo.ToLower() },
+                       protocol: Request.Url.Scheme
+                       );
                     StringBuilder mensaje = new StringBuilder();
 
                     mensaje.Append("<p>Estimado <strong>" + result.NOMBRE + "</strong>,</p>");
@@ -167,13 +183,15 @@ namespace ProyectoFinal.Controllers
                     return View();
                 }
 
-                TempData["SwalError"] = "Lo sentimos, la cédula o correo indicados no se encuentran registrados o son incorrectos."; 
-                return View(); 
+                TempData["SwalError"] = "Lo sentimos, la cédula o correo indicados no se encuentran registrados o son incorrectos.";
+                return View();
 
             }
         }
 
-        
+        #endregion
+
+        #region CambioContrasenna
 
         [HttpGet]
         public ActionResult CambioContrasenna(string correo)
@@ -187,7 +205,7 @@ namespace ProyectoFinal.Controllers
         {
             using (var dbContext = new CASA_NATURAEntities())
             {
-               var result = dbContext.CambiarContrasennaSP(correo, user.Contrasenna);
+                var result = dbContext.CambiarContrasennaSP(correo, user.Contrasenna);
 
                 if (result > 0)
                 {
@@ -198,7 +216,20 @@ namespace ProyectoFinal.Controllers
                 TempData["SwalError"] = "No se pudo actualizar la contraseña.";
                 return View();
             }
-             
+
+        }
+
+        #endregion
+
+        #region Nosotros
+        [HttpGet]
+
+        public ActionResult Nosotros()
+        {
+            return View();
         }
     }
 }
+    #endregion
+
+    

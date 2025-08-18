@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Nosotros";
+}
+
+<div class="banner-container">
+  
+    <img src="~/Imagenes/cabritas.jpg" class="banner-img"/>
+    <div class="banner-title">¿Quiénes Somos?</div>
+</div>
+
+<!-- Sección de contenido de ¿Quiénes Somos? -->
+<div class="container mt-2">
+    <p class="texto-quienessomos-principal text-center">
+        En <b>Casa</b><strong>Natura</strong>, nos dedicamos a apoyar y
+        proteger a
+        los animales que
+        necesitan un hogar y cuidados especiales. Nuestro objetivo es crear una comunidad de patrocinadores y
+        voluntarios que, junto a nosotros, puedan contribuir al bienestar de cada animal en nuestro refugio.
+    </p>
+
+    <div class="texto-quienessomos row mt-5 mb-5">
+        <div class=" col-md-3 text-center">
+            <h3>¿Qué Hacemos?</h3>
+            <p>
+                Ofrecemos la oportunidad de apadrinar un animal, lo cual permite cubrir sus gastos de alimentación,
+                cuidado médico, y bienestar general. Cada patrocinio ayuda a mejorar la calidad de vida de estos
+                animales y les da una segunda oportunidad.
+            </p>
+            <div class="link-container">
+                <a href="@Url.Action("Contacto", "Contacto")" class="section-link">Contáctenos</a>
+            </div>
+        </div>
+        <div class="col-md-3 text-center">
+            <h3>¿Cómo Puedes Donar?</h3>
+            <p>
+                Puedes realizar donaciones únicas o mensuales que se destinarán a la manutención de los animales y al
+                mantenimiento de nuestras instalaciones. Aceptamos donaciones de dinero, alimentos, medicinas, y
+                juguetes para los animales.
+            </p>
+            <div class="link-container">
+                <a href="@Url.Action("Donacion", "Donaciones")" class="section-link">Ver apartado de Donaciones</a>
+            </div>
+        </div>
+        <div class="col-md-3 text-center">
+            <h3>Tours y Eventos</h3>
+            <p>
+                Ofrecemos tours guiados en el refugio para que puedas conocer a los animales y ver el impacto de tu
+                apoyo. Los fondos recaudados en cada tour se destinan a cubrir las necesidades del refugio. Además de maravillosos eventos para disfrutar
+                en familia
+            </p>
+            <div class="link-container">
+                <a href="@Url.Action("ActividadesDisponibles", "Actividades")" class="section-link">Ver apartado de actividades</a>
+            </div>
+        </div>
+    </div>
+</div>
