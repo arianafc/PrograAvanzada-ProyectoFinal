@@ -46,36 +46,53 @@ namespace ProyectoFinal.Controllers
         [HttpPost]
         public ActionResult IniciarSesion(Usuario usuario)
         {
-            using (var dbContext = new CASA_NATURAEntities())
+            try
             {
-
-                var result = dbContext.LoginSP(usuario.Correo, usuario.Contrasenna).FirstOrDefault();
-
-                if (result != null)
+                using (var dbContext = new CASA_NATURAEntities())
                 {
-                    Session["Nombre"] = result.NOMBRE;
-                    Session["Apellido1"] = result.APELLIDO1;
-                    Session["Apellido2"] = result.APELLIDO2;
-                    Session["Cedula"] = result.IDENTIFICACION;
-                    Session["idUsuario"] = result.ID_USUARIO;
-                    Session["ID_USUARIO"] = result.ID_USUARIO;
-                    Session["email"] = result.CORREO;
-                    Session["IdRol"] = result.ID_ROL;
-                    if (result.ID_ROL == 1)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        return RedirectToAction("dashboard", "Home");
-                    }
-                }
+                    var result = dbContext.LoginSP(usuario.Correo, usuario.Contrasenna).FirstOrDefault();
 
-                TempData["SwalError"] = "Lo sentimos. Usuario o contraseña incorrectos";
+                    if (result != null)
+                    {
+                        if (result.ID_ESTADO != 2) // Usuario activo
+                        {
+                            Session["Nombre"] = result.NOMBRE;
+                            Session["Apellido1"] = result.APELLIDO1;
+                            Session["Apellido2"] = result.APELLIDO2;
+                            Session["Cedula"] = result.IDENTIFICACION;
+                            Session["idUsuario"] = result.ID_USUARIO;
+                            Session["ID_USUARIO"] = result.ID_USUARIO;
+                            Session["email"] = result.CORREO;
+                            Session["IdRol"] = result.ID_ROL;
+
+                            if (result.ID_ROL == 1)
+                            {
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Dashboard", "Home");
+                            }
+                        }
+                        else
+                        {
+                            TempData["SwalError"] = "Usuario inactivo. Si desea activarlo, favor contactar a acasanatura417@gmail.com.";
+                            return View();
+                        }
+                    }
+
+                    TempData["SwalError"] = "Lo sentimos. Usuario o contraseña incorrectos.";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+              
+                TempData["SwalError"] = "Ocurrió un error al procesar la solicitud. Inténtelo nuevamente." + ex.Message;
                 return View();
             }
-
         }
+
         #endregion
 
         #region Registro

@@ -726,7 +726,17 @@ GO
 ------------------------------------------------------
 --SP PARA COMPRAR BOLETOS
 
-CREATE PROCEDURE CompraActividadSP (
+USE [CASA_NATURA]
+GO
+
+/****** Object:  StoredProcedure [dbo].[CompraActividadSP]    Script Date: 8/18/2025 7:10:32 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[CompraActividadSP] (
     @IdUsuario INT,
     @IdMetodoPago INT,
     @NumeroBoletos INT,
@@ -749,7 +759,7 @@ BEGIN
         INSERT INTO USUARIO_ACTIVIDAD_TB 
         (TICKETS_ADQUIRIDOS,FECHA, TOTAL, ID_USUARIO, ID_ESTADO, ID_METODO_PAGO, ID_ACTIVIDAD, REFERENCIA)
         VALUES 
-        (@NumeroBoletos, GETDATE(), @NumeroBoletos * @CostoBoleto, @IdUsuario, 3, @IdMetodoPago, @IdActividad, @Referencia);
+        (@NumeroBoletos, GETDATE(), @NumeroBoletos * @CostoBoleto, @IdUsuario, 6, @IdMetodoPago, @IdActividad, @Referencia);
 
       
         UPDATE ACTIVIDADES_TB 
@@ -768,6 +778,7 @@ BEGIN
         RAISERROR(@ErrorMessage, 16, 1);
     END CATCH
 END;
+GO
 -- =============================================
 -- SP: ObtenerMisAnimales
 -- =============================================

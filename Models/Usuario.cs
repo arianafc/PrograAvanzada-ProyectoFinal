@@ -1,4 +1,7 @@
-﻿namespace ProyectoFinal.Models
+﻿using iText.Layout.Element;
+using ProyectoFinal.EF;
+
+namespace ProyectoFinal.Models
 {
     public class Usuario
     {
@@ -11,9 +14,10 @@
         public string Contrasenna { get; set; }
         public string ContrasennaAnterior { get; set; }
         public string ConfirmarContrasenna { get; set; }
-        public int idRol {  get; set; }
-        public int idEstado { 
-        get; set;   
+        public int IdRol {  get; set; }
+        public int IdEstado
+        {
+            get; set;   
         
         }
     }

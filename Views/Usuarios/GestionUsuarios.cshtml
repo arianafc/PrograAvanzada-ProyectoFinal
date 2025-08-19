@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProyectoFinal.EF.ObtenerUsuariosSP_Result>
+﻿@model ProyectoFinal.Models.GestionUsuariosModel
 
 @{
     ViewBag.Title = "Usuarios";
@@ -8,7 +8,7 @@
 
 
 <div class="dudas-container">
-    <h2 class="TituloSeccion">Mis Ventas <i style="color: #17a2b8" class="fas fa-receipt"></i> </h2>
+    <h2 class="TituloSeccion">Gestión de Usuarios <i style="color: #17a2b8" class="fas fa-user"></i> </h2>
 
 
     <table class="tabla-donaciones text-center dt-responsive nowrap w-100" style="font-family: 'Montserrat', sans-serif !important;" id="TablaUsuarios">
@@ -23,21 +23,37 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model != null)
+            @if (Model.Usuarios != null && Model.Usuarios.Any())
             {
-                foreach (var item in Model)
+                foreach (var item in Model.Usuarios)
                 {
                     <tr>
                         <td>@item.IDENTIFICACION</td>
-                        <td>@item.NOMBRE</td>
+                        <td>@item.NOMBRE @item.APELLIDO1 @item.APELLIDO2</td>
                         <td>@item.CORREO</td>
                         <td>@item.ROL</td>
                         <td>@item.ESTADO</td>
                         <td>
-                            <button id="BtnGenerarFactura" class="btn btn-sm VerFacturaBtn "
-                                    data-factura="@item.ID_USUARIO">
-                                <i class="fas fa-file-invoice"></i> Ver Factura
+                            <form action="@Url.Action("CambioEstadoUsuario", "Usuarios")" class="FormCambiarEstado" method="post" style="display:inline;">
+                                <input type="hidden" name="IdUsuario" value="@item.ID_USUARIO" />
+                                <input type="hidden" name="IdEstado" value="@(item.ID_ESTADO == 1 ? 2 : 1)" />
+                                <button type="submit" class="btn btn-cambiar-estado btn-sm" title="Cambiar estado">
+                                    <i class="fa @(item.ID_ESTADO == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
+                                </button>
+                            </form>
+                            <button class="btn btn-cambiar-estado btn-sm BtnEditarUsuario"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEditarUsuario"
+                                    data-id="@item.ID_USUARIO"
+                                    data-nombre="@item.NOMBRE"
+                                    data-apellido1="@item.APELLIDO1"
+                                    data-apellido2="@item.APELLIDO2"
+                                    data-correo="@item.CORREO"
+                                    data-rol="@item.ID_ROL"
+                                    data-estado="@item.ID_ESTADO">
+                                <i class="fas fa-edit me-2"></i>
                             </button>
+                         
                         </td>
                     </tr>
                 }
@@ -45,13 +61,77 @@
             else
             {
                 <tr>
-                    <td colspan="6" class="sin-datos">No se encontraron usarios registradas.</td>
+                    <td colspan="6" class="sin-datos">No se encontraron usuarios registrados.</td>
                 </tr>
             }
         </tbody>
+
     </table>
 
 </div>
+
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="modalEditarUsuarioLabel">EDITAR USUARIO</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body bg-light p-4 rounded shadow">
+                <form id="formEditarUsuario">
+                    <input type="hidden" id="EditarIdUsuario" name="IdUsuario" />
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Nombre</label>
+                            <input type="text" id="EditarNombre" name="Nombre" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Apellido 1</label>
+                            <input type="text" id="EditarApellido1" name="Apellido1" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Apellido 2</label>
+                            <input type="text" id="EditarApellido2" name="Apellido2" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Correo</label>
+                            <input type="email" id="EditarCorreo" name="Correo" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Rol</label>
+                            <select id="EditarRol" name="IdRol" class="form-control" required>
+                                @foreach (var rol in Model.Roles)
+                                {
+                                    <option value="@rol.ID_ROL">@rol.ROL</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label>Estado</label>
+                            <select id="EditarEstado" name="IdEstado" class="form-control" required>
+                                <option value="1">Activo</option>
+                                <option value="2">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning text-dark">Actualizar Usuario</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 <script src="~/Scripts/Usuarios.js"></script>
