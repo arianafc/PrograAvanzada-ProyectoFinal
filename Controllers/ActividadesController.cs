@@ -32,9 +32,9 @@ namespace ProyectoFinal.Controllers
 {
     public class ActividadesController : Controller
     {
-        // GET: Actividades
+      
         Utilitarios service = new Utilitarios();
-
+        #region GestionActividades
         [HttpGet]
         public ActionResult GestionActividades()
         {
@@ -119,21 +119,39 @@ namespace ProyectoFinal.Controllers
             }
 
         }
+        #endregion
+
+        #region CambiarEstadoActividad
 
         [HttpPost]
-        public ActionResult CambioEstadoActividad(int IdEstado, int IdActividad) {
-
-            using (var dbContext = new CASA_NATURAEntities())
+        public ActionResult CambioEstadoActividad(int IdEstado, int IdActividad)
+        {
+            try
             {
-                var result = dbContext.CambioEstadoActividadSP(IdEstado, IdActividad);
-                if (result > 0)
+                using (var dbContext = new CASA_NATURAEntities())
                 {
+                    var result = dbContext.CambioEstadoActividadSP(IdEstado, IdActividad);
+
+                    if (result > 0)
+                    {
+                        TempData["SwalSuccess"] = "El estado de la actividad se actualizó correctamente.";
+                        return RedirectToAction("GestionActividades", "Actividades");
+                    }
+
+                    TempData["SwalError"] = "No se pudo actualizar el estado de la actividad.";
                     return RedirectToAction("GestionActividades", "Actividades");
                 }
-                return View();
             }
-
+            catch (Exception ex)
+            {
+  
+                TempData["ErrorMessage"] = "Ocurrió un error al intentar cambiar el estado de la actividad."+ ex.Message;
+                return RedirectToAction("GestionActividades", "Actividades");
+            }
         }
+
+
+        #endregion
 
         [HttpPost]
         public ActionResult EditarActividades(GestionActividadesModel actividad, HttpPostedFileBase ImagenActividad, string Hora)

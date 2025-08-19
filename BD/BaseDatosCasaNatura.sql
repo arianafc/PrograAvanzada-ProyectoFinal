@@ -231,7 +231,7 @@ AS
 BEGIN
     IF EXISTS (SELECT 1 FROM USUARIOS_TB WHERE CORREO = @CORREO)
     BEGIN
-        RAISERROR('El correo ya está registrado.', 16, 1);
+        RAISERROR('El correo ya estï¿½ registrado.', 16, 1);
         RETURN;
     END
 
@@ -495,7 +495,7 @@ BEGIN
     
     IF @IdAnimal IS NULL
     BEGIN
-        RAISERROR('No se encontró el apadrinamiento especificado', 16, 1);
+        RAISERROR('No se encontrï¿½ el apadrinamiento especificado', 16, 1);
         RETURN;
     END;
     
@@ -514,7 +514,8 @@ BEGIN
     
     BEGIN TRY
         UPDATE APADRINAMIENTOS_TB
-        SET ID_ESTADO = @NuevoEstadoApadrinamiento
+        SET ID_ESTADO = @NuevoEstadoApadrinamiento,
+		FECHA_BAJA = GETDATE()
         WHERE ID_APADRINAMIENTO = @IdApadrinamiento;
         
         UPDATE ANIMAL_TB
@@ -714,7 +715,7 @@ BEGIN
         RETURN;
     END
 
-    -- Actualiza la contraseña encriptada
+    -- Actualiza la contraseï¿½a encriptada
     UPDATE USUARIOS_TB
     SET PASSWORD = CONVERT(VARCHAR(64), HASHBYTES('SHA2_256', @NUEVA_CONTRASENNA), 2)
     WHERE CORREO = @CORREO;
@@ -725,7 +726,17 @@ GO
 ------------------------------------------------------
 --SP PARA COMPRAR BOLETOS
 
-CREATE PROCEDURE CompraActividadSP (
+USE [CASA_NATURA]
+GO
+
+/****** Object:  StoredProcedure [dbo].[CompraActividadSP]    Script Date: 8/18/2025 7:10:32 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[CompraActividadSP] (
     @IdUsuario INT,
     @IdMetodoPago INT,
     @NumeroBoletos INT,
@@ -748,7 +759,7 @@ BEGIN
         INSERT INTO USUARIO_ACTIVIDAD_TB 
         (TICKETS_ADQUIRIDOS,FECHA, TOTAL, ID_USUARIO, ID_ESTADO, ID_METODO_PAGO, ID_ACTIVIDAD, REFERENCIA)
         VALUES 
-        (@NumeroBoletos, GETDATE(), @NumeroBoletos * @CostoBoleto, @IdUsuario, 3, @IdMetodoPago, @IdActividad, @Referencia);
+        (@NumeroBoletos, GETDATE(), @NumeroBoletos * @CostoBoleto, @IdUsuario, 6, @IdMetodoPago, @IdActividad, @Referencia);
 
       
         UPDATE ACTIVIDADES_TB 
@@ -767,6 +778,7 @@ BEGIN
         RAISERROR(@ErrorMessage, 16, 1);
     END CATCH
 END;
+GO
 -- =============================================
 -- SP: ObtenerMisAnimales
 -- =============================================
@@ -816,7 +828,7 @@ INSERT INTO ESTADOS_SALUD_TB (DESCRIPCION) VALUES
 ('Buena'),
 ('Regular'),
 ('Delicada'),
-('Crítica');
+('Crï¿½tica');
 
 -- =============================================
 -- INSERTS PARA ESPECIES_TB
@@ -835,7 +847,7 @@ INSERT INTO RAZAS_TB (NOMBRE, ID_ESPECIE, ID_ESTADO) VALUES
 ('Pitbull', 1, 1),
 ('Persa', 2, 1),
 ('Siames', 2, 1),
-('Enano Holandés', 3, 1),
+('Enano Holandï¿½s', 3, 1),
 ('Canario', 4, 1); 
 
 -- =============================================
@@ -849,7 +861,7 @@ INSERT INTO ANIMAL_TB (
 ('Max', 1, '20230110', NULL, '20220615', 1, 1, '/Imagenes/1.jpg', 'Rescatado de la calle en malas condiciones.', 'Requiere medicamentos mensuales'),
 ('Luna', 3, '20230512', NULL, '20211120', 1, 2, '/Imagenes/2.jpg', 'Abandonada por su familia anterior.', 'Necesita una dieta especial'),
 ('Rocky', 2, '20220901', NULL, '20210101', 1, 3, '/Imagenes/3.jpg', 'Encontrado en zona rural, muy delgado.', 'Tratamiento para piel'),
-('Milo', 4, '20230318', NULL, '20220228', 2, 4, '/Imagenes/4.jpg', 'Convaleciente por accidente.', 'Atención médica semanal'),
+('Milo', 4, '20230318', NULL, '20220228', 2, 4, '/Imagenes/4.jpg', 'Convaleciente por accidente.', 'Atenciï¿½n mï¿½dica semanal'),
 ('Coco', 5, '20230705', NULL, '20230115', 1, 2, '/Imagenes/5.jpg', 'Nacimiento en refugio.', 'Vacunas pendientes');
 
 
@@ -864,8 +876,8 @@ INSERT INTO ROLES_TB (ROL, ID_ESTADO) VALUES
 -- INSERTS PARA METODO_PAGO_TB
 -- =============================================
 INSERT INTO METODO_PAGO_TB (METODO, ID_ESTADO) VALUES
-('Tarjeta crédito/débito', 1),
-('Sinpe móvil', 1),
+('Tarjeta crï¿½dito/dï¿½bito', 1),
+('Sinpe mï¿½vil', 1),
 ('PayPal', 1);
 
 
@@ -992,3 +1004,14 @@ BEGIN
     WHERE ID_ANIMAL = @IdAnimal;
 END
 GO
+
+CREATE OR ALTER PROCEDURE ObtenerUsuariosSP
+AS
+BEGIN
+	SELECT U.ID_USUARIO, U.NOMBRE, U.APELLIDO1, U.APELLIDO2, U.ID_ROL, U.CORREO,
+	U.ID_ESTADO, U.IDENTIFICACION, R.ROL, E.DESCRIPCION AS ESTADO
+	FROM USUARIOS_TB U
+	INNER JOIN ROLES_TB R ON U.ID_ROL = R.ID_ROL
+	INNER JOIN ESTADOS_TB E ON U.ID_ESTADO = E.ID_ESTADO;
+
+END;

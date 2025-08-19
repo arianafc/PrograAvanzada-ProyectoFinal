@@ -213,6 +213,7 @@
     <Compile Include="Controllers\ContactoController.cs" />
     <Compile Include="Controllers\DonacionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="EF\ACTIVIDADES_TB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -279,6 +280,9 @@
     <Compile Include="EF\ObtenerMisAnimalesSP_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\ObtenerUsuariosSP_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\PROVINCIAS_TB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -325,6 +329,7 @@
     <Compile Include="Models\MisToursViewModel.cs" />
     <Compile Include="Models\GestionAnimalesModel.cs" />
     <Compile Include="Models\GestionApadrinamientosModel.cs" />
+    <Compile Include="Models\GestionUsuariosModel.cs" />
     <Compile Include="Models\MetodoPago.cs" />
     <Compile Include="Models\TourViewModel.cs" />
     <Compile Include="Models\ConsultaViewModel.cs" />
@@ -451,6 +456,7 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\sidebarmenu.js" />
     <Content Include="Scripts\sparkline.js" />
+    <Content Include="Scripts\Usuarios.js" />
     <Content Include="Scripts\waves.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -491,6 +497,7 @@
     <Content Include="Views\Dashboard\Dashboard.cshtml" />
     <Content Include="Views\Contacto\GestionDudas.cshtml" />
     <Content Include="Views\Home\Nosotros.cshtml" />
+    <Content Include="Views\Usuarios\GestionUsuarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -529,6 +536,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties content_4bootstrap_1css_1map__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
