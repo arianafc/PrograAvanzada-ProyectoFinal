@@ -319,6 +319,7 @@
     <Compile Include="Models\Animal.cs" />
     <Compile Include="Models\Actividad.cs" />
     <Compile Include="Models\Apadrinamiento.cs" />
+    <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\GestionAnimalesModel.cs" />
     <Compile Include="Models\GestionApadrinamientosModel.cs" />
     <Compile Include="Models\GestionUsuariosModel.cs" />
@@ -329,6 +330,7 @@
     <Compile Include="Models\GestionActividadesModel.cs" />
     <Compile Include="Models\FiltroSeguridad.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\VentasMes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Utilitarios.cs" />
   </ItemGroup>

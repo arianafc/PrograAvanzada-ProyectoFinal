@@ -20,5 +20,8 @@ namespace ProyectoFinal.Models
             get; set;   
         
         }
+
+        public decimal TotalDonaciones { get; set; }
+        public string NombreCompleto { get; set; }
     }
 }

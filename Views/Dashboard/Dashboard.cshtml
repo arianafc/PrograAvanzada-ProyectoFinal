@@ -1,4 +1,4 @@
-﻿
+﻿@model ProyectoFinal.Models.DashboardModel
 
 
 @{
@@ -13,10 +13,185 @@
 
 
 <div class="dudas-container">
-   
+    <h2 class="mb-4">Dashboard <i class="fas fa-tachometer-alt"></i></h2>
+
+    <!-- Tarjetas resumen -->
+    <div class="row g-4">
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 shadow text-center" style="background-color:#062D3E; color:#FFC107;">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="fas fa-dollar-sign me-2"></i>Total Ventas</h6>
+                    <p class="card-text fs-5">@Model.TotalVentas.ToString("C")</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 shadow text-center" style="background-color:#FFC107; color:#062D3E;">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="fas fa-users me-2"></i>Usuarios Activos</h6>
+                    <p class="card-text fs-5">@Model.NumeroUsuariosActivos</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 shadow text-center" style="background-color:#062D3E; color:#FFC107;">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="fas fa-paw me-2"></i>Animales Totales</h6>
+                    <p class="card-text fs-5">@Model.NumeroAnimalesTotales</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card h-100 shadow text-center" style="background-color:#FFC107; color:#062D3E;">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="fas fa-hand-holding-heart me-2"></i>Actividades Activas</h6>
+                    <p class="card-text fs-5">@Model.NumeroActividadesActivadas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficas: dos por fila -->
+    <div class="row mt-4 g-4">
+        <div class="col-md-6 col-sm-12">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h6 class="card-title">Animales Apadrinados vs Sin Apadrinar</h6>
+                    <canvas id="animalesChart" style="height:250px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h6 class="card-title">Usuarios Activos vs Inactivos</h6>
+                    <canvas id="usuariosChart" style="height:250px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4 g-4">
+        <div class="col-md-6 col-sm-12">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h6 class="card-title">Ventas por Mes</h6>
+                    <canvas id="ventasChart" style="height:250px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h6 class="card-title">Top 3 Usuarios con más Donaciones</h6>
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Total Donaciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.TopUsuarios != null && Model.TopUsuarios.Any())
+                            {
+                                foreach (var usuario in Model.TopUsuarios)
+                                {
+                                    <tr>
+                                        <td>@usuario.NombreCompleto</td>
+                                        <td>@usuario.TotalDonaciones.ToString("C")</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="2">No hay usuarios con donaciones aún.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
 
 
-<script src="~/Scripts/Actividades.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    //El script lo dejo aqui porque ocupo variables del model
+    // Ventas por mes
+
+
+   var ctxVentas = document.getElementById('ventasChart').getContext('2d');
+
+    var ventasData = @Html.Raw(Json.Encode(Model.VentasPorMes.Select(v => v.Total)));
+    var ventasLabels = @Html.Raw(Json.Encode(Model.NombresMeses));
+
+    new Chart(ctxVentas, {
+        type: 'line',
+        data: {
+            labels: ventasLabels,
+            datasets: [{
+                label: 'Total Ventas',
+                data: ventasData,
+                borderColor: '#FFC107',
+                backgroundColor: 'rgba(255,193,7,0.2)',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: true } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+    // Animales
+    var ctxAnimales = document.getElementById('animalesChart').getContext('2d');
+    new Chart(ctxAnimales, {
+        type: 'doughnut',
+        data: {
+            labels: ['Apadrinados', 'Sin Apadrinar'],
+            datasets: [{
+                data: [@Model.NumeroAnimalesApadrinados, @Model.NumeroAnimalesTotales - @Model.NumeroAnimalesApadrinados],
+                backgroundColor: ['#FFC107', '#062D3E']
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // Usuarios
+    var usuariosActivos = @Model.NumeroUsuariosActivos;
+    var usuariosInactivos = @Model.NumeroUsuariosInactivos; // calculado
+
+    var ctxUsuarios = document.getElementById('usuariosChart').getContext('2d');
+    new Chart(ctxUsuarios, {
+        type: 'bar',
+        data: {
+            labels: ['Activos', 'Inactivos'],
+            datasets: [{
+                label: 'Usuarios',
+                data: [usuariosActivos, usuariosInactivos],
+                backgroundColor: ['#062D3E', '#FFC107']
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
+            }
+        }
+    });
+</script>
