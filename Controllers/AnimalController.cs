@@ -36,6 +36,7 @@ namespace ProyectoFinal.Controllers
 
 
         [HttpGet]
+        [FiltroSesion]
         public ActionResult DetalleAnimal(int id)
         {
             try
@@ -114,6 +115,7 @@ namespace ProyectoFinal.Controllers
 
 
         [HttpPost]
+       
         public ActionResult GestionAnimales(GestionAnimalesModel animal, HttpPostedFileBase ImagenAnimal)
         {
             using (var dbContext = new CASA_NATURAEntities())

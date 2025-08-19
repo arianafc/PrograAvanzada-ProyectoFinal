@@ -15,7 +15,8 @@ namespace ProyectoFinal.Controllers
         {
             return Session["idUsuario"] != null;
         }
-
+        [HttpGet]
+        [FiltroSesion]
         public ActionResult MiPerfil()
         {
             if (!EsUsuarioAutenticado())
@@ -166,7 +167,8 @@ namespace ProyectoFinal.Controllers
 
 
 
-
+        [HttpGet]
+        [FiltroSesion]
         public ActionResult MisDonaciones()
         {
             if (Session["idUsuario"] == null)
@@ -192,6 +194,7 @@ namespace ProyectoFinal.Controllers
             }
         }
         [HttpGet]
+        [FiltroSesion]
         public ActionResult MisAnimales()
         {
             if (Session["idUsuario"] == null)
@@ -211,7 +214,8 @@ namespace ProyectoFinal.Controllers
         }
 
 
-
+        [HttpGet]
+        [FiltroSesion]
         public ActionResult MisTours()
         {
             if (!EsUsuarioAutenticado())

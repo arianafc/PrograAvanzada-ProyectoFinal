@@ -14,6 +14,7 @@ namespace ProyectoFinal.Controllers
 
         #region GestionUsuarios
         [HttpGet]
+        [FiltroAdministrador]
         public ActionResult GestionUsuarios()
         {
             try

@@ -14,6 +14,7 @@ namespace ProyectoFinal.Controllers
     {
         #region Dashboard
         [HttpGet]
+        [FiltroAdministrador]
         public ActionResult Dashboard()
         {
 

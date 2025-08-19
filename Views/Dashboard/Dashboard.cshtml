@@ -21,7 +21,7 @@
             <div class="card h-100 shadow text-center" style="background-color:#062D3E; color:#FFC107;">
                 <div class="card-body">
                     <h6 class="card-title"><i class="fas fa-dollar-sign me-2"></i>Total Ventas</h6>
-                    <p class="card-text fs-5">@Model.TotalVentas.ToString("C")</p>
+                    <p class="card-text fs-5">@Model.TotalVentas.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("es-CR"))</p>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
         <div class="col-md-3 col-sm-6">
             <div class="card h-100 shadow text-center" style="background-color:#FFC107; color:#062D3E;">
                 <div class="card-body">
-                    <h6 class="card-title"><i class="fas fa-users me-2"></i>Usuarios Activos</h6>
+                    <h6 class="card-title"><i class="fas fa-users me-2"></i>Clientes Activos</h6>
                     <p class="card-text fs-5">@Model.NumeroUsuariosActivos</p>
                 </div>
             </div>
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <!-- Gráficas: dos por fila -->
+ 
     <div class="row mt-4 g-4">
         <div class="col-md-6 col-sm-12">
             <div class="card shadow h-100">

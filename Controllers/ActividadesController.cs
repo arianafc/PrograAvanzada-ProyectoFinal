@@ -37,6 +37,7 @@ namespace ProyectoFinal.Controllers
 
         #region GestionActividades
         [HttpGet]
+        [FiltroAdministrador]
         public ActionResult GestionActividades()
         {
             try
@@ -160,6 +161,7 @@ namespace ProyectoFinal.Controllers
         #endregion
 
         [HttpPost]
+        [FiltroAdministrador]
         public ActionResult EditarActividades(GestionActividadesModel actividad, HttpPostedFileBase ImagenActividad, string Hora)
         {
             try
@@ -234,7 +236,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpGet]
-
+        [FiltroSesion]
         public ActionResult DetalleActividad(int IdActividad)
         {
             try
@@ -262,6 +264,7 @@ namespace ProyectoFinal.Controllers
 
 
         [HttpPost]
+        [FiltroSesion]
         public ActionResult ComprarBoletos(int IdActividad, int MetodoPago, int NumBoletos, string Referencia)
         {
             try
@@ -333,6 +336,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpGet]
+        [FiltroAdministrador]
 
         public ActionResult GestionVentas()
         {
@@ -357,7 +361,7 @@ namespace ProyectoFinal.Controllers
 
 
         [HttpGet]
-
+        [FiltroAdministrador]
         public ActionResult GenerarFactura(int NumeroFactura)
         {
            

@@ -22,6 +22,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpGet]
+        [FiltroAdministrador]
         public ActionResult AdminDonaciones()
         {
             using (var db = new CASA_NATURAEntities())
@@ -42,6 +43,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpGet]
+        [FiltroSesion]
         public ActionResult FormularioDonar()
         {
             return View();

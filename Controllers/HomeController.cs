@@ -23,16 +23,6 @@ namespace ProyectoFinal.Controllers
 
         #endregion
 
-        #region Dashboard
-
-        [HttpGet]
-        public ActionResult Dashboard()
-        {
-
-            return View();
-        }
-
-        #endregion
 
         #region IniciarSesion
         [HttpGet]
@@ -71,7 +61,7 @@ namespace ProyectoFinal.Controllers
                             }
                             else
                             {
-                                return RedirectToAction("Dashboard", "Home");
+                                return RedirectToAction("Dashboard", "Dashboard");
                             }
                         }
                         else

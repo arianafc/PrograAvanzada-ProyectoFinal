@@ -93,6 +93,7 @@ namespace ProyectoFinal.Controllers
         }
 
         [HttpGet]
+        [FiltroAdministrador]
         public ActionResult GestionDudas()
         {
             using (var db = new CASA_NATURAEntities())
