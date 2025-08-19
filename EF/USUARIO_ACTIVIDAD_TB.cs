@@ -18,15 +18,22 @@ namespace ProyectoFinal.EF
         public Nullable<int> TICKETS_ADQUIRIDOS { get; set; }
         public Nullable<System.DateTime> FECHA { get; set; }
         public Nullable<decimal> TOTAL { get; set; }
-        public string REFERENCIA { get; set; }
         public int ID_USUARIO { get; set; }
         public int ID_ACTIVIDAD { get; set; }
         public int ID_ESTADO { get; set; }
         public int ID_METODO_PAGO { get; set; }
+        public string REFERENCIA { get; set; }
     
         public virtual ACTIVIDADES_TB ACTIVIDADES_TB { get; set; }
+        public virtual ACTIVIDADES_TB ACTIVIDADES_TB1 { get; set; }
         public virtual ESTADOS_TB ESTADOS_TB { get; set; }
+        public virtual ESTADOS_TB ESTADOS_TB1 { get; set; }
+        public virtual ESTADOS_TB ESTADOS_TB2 { get; set; }
         public virtual METODO_PAGO_TB METODO_PAGO_TB { get; set; }
+        public virtual METODO_PAGO_TB METODO_PAGO_TB1 { get; set; }
+        public virtual METODO_PAGO_TB METODO_PAGO_TB2 { get; set; }
         public virtual USUARIOS_TB USUARIOS_TB { get; set; }
+        public virtual USUARIOS_TB USUARIOS_TB1 { get; set; }
+        public virtual USUARIOS_TB USUARIOS_TB2 { get; set; }
     }
 }

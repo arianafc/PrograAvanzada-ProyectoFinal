@@ -62,7 +62,6 @@
                 MIS ACTIVIDADES
             </a>
         </div>
-
     </div>
 
     <!-- Donaciones -->
@@ -76,6 +75,9 @@
                 <table class="table table-bordered text-center m-0">
                     <thead class="table-light">
                         <tr>
+                            <th>ID</th>
+                            <th>NOMBRE COMPLETO</th>
+                            <th>CORREO</th>
                             <th>MONTO</th>
                             <th>FECHA</th>
                         </tr>
@@ -86,6 +88,9 @@
                             foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>@item.DonacionId</td>
+                                    <td>@item.NombreCompleto</td>
+                                    <td>@item.Correo</td>
                                     <td>@item.Monto.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                                     <td>@item.Fecha.ToString("dd/MM/yyyy")</td>
                                 </tr>
@@ -104,8 +109,3 @@
     </div>
 
 </main>
-
-
-
-
-

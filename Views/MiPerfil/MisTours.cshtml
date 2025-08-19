@@ -1,7 +1,8 @@
-﻿@{
-    ViewBag.Title = "MisTours";
+﻿@model IEnumerable<ProyectoFinal.Models.MisToursViewModel>
+
+@{
+    ViewBag.Title = "Mis Tours";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var tours = ViewBag.Tours as IEnumerable<dynamic>;
 }
 
 <style>
@@ -68,20 +69,23 @@
         <h4 class="fw-bold">MIS ACTIVIDADES RESERVADAS</h4>
     </div>
 
-    @if (tours != null && tours.Any())
+    @if (Model != null && Model.Any())
     {
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            @foreach (var tour in tours)
+        <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+            @foreach (var tour in Model)
             {
-                <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img src="@Url.Content("~/" + tour.IMAGEN)" class="card-img-top" alt="@tour.NOMBRE" style="height:200px; object-fit:cover;">
+                <div class="col d-flex justify-content-center">
+                    <div class="card h-100 shadow-sm text-center" style="width: 18rem;">
+                        <img src="@Url.Content("~/" + tour.IMAGEN)"
+                             alt="@tour.NOMBRE"
+                             class="card-img-top img-fluid rounded-top mx-auto"
+                             style="height:200px; width:200px;" />
                         <div class="card-body">
                             <h5 class="card-title">@tour.NOMBRE</h5>
                             <p class="card-text text-muted">@tour.DESCRIPCION</p>
                             <p class="mb-1"><strong>Fecha:</strong> @tour.FECHA.ToString("dd/MM/yyyy")</p>
                             <p class="mb-1"><strong>Boletos adquiridos:</strong> @tour.TICKETS_ADQUIRIDOS</p>
-                            <p class="mb-1"><strong>Total:</strong> ₡@((decimal)tour.TOTAL).ToString("N2")</p>
+                            <p class="mb-1"><strong>Total:</strong> ₡@tour.TOTAL.ToString("N2")</p>
                         </div>
                     </div>
                 </div>
@@ -96,5 +100,6 @@
             </div>
         </div>
     }
+
 
 </main>

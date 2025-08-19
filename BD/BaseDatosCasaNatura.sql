@@ -906,3 +906,89 @@ GO
 
 
 ---===================================================
+/****** nuevos SP Johnny******/
+
+USE CASA_NATURA;
+GO
+
+CREATE OR ALTER PROCEDURE SP_ObtenerMisTours
+    @IdUsuario INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        a.ID_ACTIVIDAD,
+        a.NOMBRE,
+        a.DESCRIPCION,
+        a.FECHA,
+        a.IMAGEN,
+        ua.TICKETS_ADQUIRIDOS,
+        ua.TOTAL
+    FROM USUARIO_ACTIVIDAD_TB ua
+    INNER JOIN ACTIVIDADES_TB a 
+        ON ua.ID_ACTIVIDAD = a.ID_ACTIVIDAD
+    WHERE ua.ID_USUARIO = @IdUsuario
+      AND a.FECHA >= CAST(GETDATE() AS DATE);  -- Solo hoy o fechas futuras
+END
+GO
+
+---------------------------------------
+
+USE CASA_NATURA;
+GO
+
+CREATE OR ALTER PROCEDURE SP_ObtenerMisAnimales
+    @IdUsuario INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        a.ID_ANIMAL,
+        a.NOMBRE AS NOMBRE_ANIMAL,
+        r.NOMBRE AS RAZA,
+        e.NOMBRE AS ESPECIE,
+        a.IMAGEN,
+        ap.MONTO_MENSUAL,
+        ap.FECHA AS FECHA_INICIO,
+        ap.REFERENCIA
+    FROM APADRINAMIENTOS_TB ap
+    INNER JOIN ANIMAL_TB a
+        ON ap.ID_ANIMAL = a.ID_ANIMAL
+    INNER JOIN RAZAS_TB r
+        ON a.ID_RAZA = r.ID_RAZA
+    INNER JOIN ESPECIES_TB e
+        ON r.ID_ESPECIE = e.ID_ESPECIE
+    WHERE ap.ID_USUARIO = @IdUsuario
+      AND ap.FECHA_BAJA IS NULL
+      AND ap.ID_ESTADO = 1;
+END
+GO
+
+---------------------------------------------
+
+USE CASA_NATURA;
+GO
+
+CREATE OR ALTER PROCEDURE SP_FinalizarApadrinamiento
+    @IdUsuario INT,
+    @IdAnimal INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Cambiar el estado del apadrinamiento a 2 (finalizado)
+    UPDATE APADRINAMIENTOS_TB
+    SET ID_ESTADO = 2,
+        FECHA_BAJA = GETDATE()
+    WHERE ID_USUARIO = @IdUsuario
+      AND ID_ANIMAL = @IdAnimal
+      AND ID_ESTADO = 1; -- activo
+
+    -- Cambiar estado del animal a 1 (disponible)
+    UPDATE ANIMAL_TB
+    SET ID_ESTADO = 1
+    WHERE ID_ANIMAL = @IdAnimal;
+END
+GO

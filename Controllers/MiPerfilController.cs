@@ -2,6 +2,7 @@
 using ProyectoFinal.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -167,6 +168,7 @@ namespace ProyectoFinal.Controllers
 
 
 
+        [HttpGet]
         public ActionResult MisDonaciones()
         {
             if (Session["idUsuario"] == null)
@@ -182,8 +184,11 @@ namespace ProyectoFinal.Controllers
                     .Where(d => d.ID_USUARIO == idUsuario)
                     .Select(d => new DonacionViewModel
                     {
-                        Monto = d.MONTO.Value,
-                        Fecha = d.FECHA.Value
+                        DonacionId = d.ID_DONACION,
+                        NombreCompleto = d.USUARIOS_TB.NOMBRE + " " + d.USUARIOS_TB.APELLIDO1 + " " + d.USUARIOS_TB.APELLIDO2, // ← unimos nombre y apellido del usuario
+                        Correo = d.USUARIOS_TB.CORREO,
+                        Monto = d.MONTO ?? 0,
+                        Fecha = d.FECHA ?? DateTime.Now
                     })
                     .OrderByDescending(d => d.Fecha)
                     .ToList();
@@ -191,24 +196,8 @@ namespace ProyectoFinal.Controllers
                 return View(donaciones);
             }
         }
-        [HttpGet]
-        public ActionResult MisAnimales()
-        {
-            if (Session["idUsuario"] == null)
-            {
-                return RedirectToAction("IniciarSesion", "Home");
-            }
 
-            int ID_USUARIO = Convert.ToInt32(Session["idUsuario"]);
 
-            using (var db = new CASA_NATURAEntities())
-            {
-                // Llamada al SP a través del método generado por EF
-                var animales = db.ObtenerMisAnimalesSP(ID_USUARIO).ToList();
-
-                return View(animales);
-            }
-        }
 
 
 
@@ -218,32 +207,68 @@ namespace ProyectoFinal.Controllers
                 return RedirectToAction("IniciarSesion", "Home");
 
             int idUsuario = Convert.ToInt32(Session["idUsuario"]);
-            DateTime fechaLimite = DateTime.Today.AddDays(-1); // ayer a las 00:00
 
             using (var db = new CASA_NATURAEntities())
             {
-                var tours = (from ua in db.USUARIO_ACTIVIDAD_TB
-                             join a in db.ACTIVIDADES_TB
-                                 on ua.ID_ACTIVIDAD equals a.ID_ACTIVIDAD
-                             where ua.ID_USUARIO == idUsuario
-                             select new
-                             {
-                                 a.ID_ACTIVIDAD,
-                                 a.NOMBRE,
-                                 a.DESCRIPCION,
-                                 a.FECHA,
-                                 a.IMAGEN,
-                                 ua.TICKETS_ADQUIRIDOS,
-                                 ua.TOTAL
-                             }).ToList();
+                var parametro = new SqlParameter("@IdUsuario", idUsuario);
 
-                ViewBag.Tours = tours;
+                var tours = db.Database
+                              .SqlQuery<MisToursViewModel>("EXEC SP_ObtenerMisTours @IdUsuario", parametro)
+                              .ToList();
+
+                return View(tours);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult MisAnimales()
+        {
+            if (Session["idUsuario"] == null)
+            {
+                return RedirectToAction("IniciarSesion", "Home");
             }
 
-            return View();
+            int idUsuario = Convert.ToInt32(Session["idUsuario"]);
+
+            using (var db = new CASA_NATURAEntities())
+            {
+                var parametro = new SqlParameter("@IdUsuario", idUsuario);
+
+                // Llamada al SP directamente desde EF
+                var animales = db.Database
+                                 .SqlQuery<AnimalViewModel>("EXEC SP_ObtenerMisAnimales @IdUsuario", parametro)
+                                 .ToList();
+
+                return View(animales);
+            }
         }
 
 
+
+        [HttpPost]
+        public ActionResult FinalizarApadrinamiento(int idAnimal)
+        {
+            if (Session["idUsuario"] == null)
+            {
+                return RedirectToAction("IniciarSesion", "Home");
+            }
+
+            int idUsuario = Convert.ToInt32(Session["idUsuario"]);
+
+            using (var db = new CASA_NATURAEntities())
+            {
+                var parametros = new[]
+                {
+            new SqlParameter("@IdUsuario", idUsuario),
+            new SqlParameter("@IdAnimal", idAnimal)
+        };
+
+                db.Database.ExecuteSqlCommand("EXEC SP_FinalizarApadrinamiento @IdUsuario, @IdAnimal", parametros);
+            }
+
+            TempData["Mensaje"] = "El apadrinamiento fue finalizado correctamente.";
+            return RedirectToAction("MisAnimales");
+        }
 
 
 
