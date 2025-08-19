@@ -160,7 +160,7 @@ namespace ProyectoFinal.Controllers
                     var animal = dbContext.ANIMAL_TB.FirstOrDefault(a => a.ID_ANIMAL == apadrinamiento.NuevoApadrinamiento.IdAnimal);
                     if (animal != null)
                     {
-                        animal.ID_ESTADO = 2;
+                        animal.ID_ESTADO = 3;
                     }
 
                     var result = dbContext.SaveChanges();

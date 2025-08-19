@@ -10,172 +10,163 @@
     <h2 class="TituloSeccion">Gestión de Apadrinamientos <i class="fas fa-calendar-check" style="color: #17a2b8"></i></h2>
 
     <div class="row">
-
         <div class="col-sm-2">
             <button class="AgregarBtn w-100 justify-content-center d-flex text-white"
                     data-bs-toggle="modal"
                     data-bs-target="#modalApadrinamiento">
                 Nuevo Apadrinamiento +
             </button>
-
         </div>
-
-
     </div>
     <hr />
-   
-        
-
-            <table id="TablaApadrinamientos" class="tabla-donaciones text-center dt-responsive nowrap w-100" style="font-family: 'Montserrat', sans-serif !important;">
-                <thead class="HeadTablaApadrinamientos">
-                  
-                    <tr>
-                        <th>ID</th>
-                        <th>Usuario</th>
-                        <th>Animal</th>
-                        <th>Monto Mensual</th>
-                        <th>Fecha Inicio</th>
-                        <th>Fecha Baja</th>
-                        <th>Método Pago</th>
-                        <th>Referencia</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach (var item in Model.ListaApadrinamientos)
-                    {
-                        <tr>
-                            <td>@item.ID_APADRINAMIENTO</td>
-                            <td>@item.NOMBRE_USUARIO @item.APELLIDO1_USUARIO @item.APELLIDO2_USUARIO</td>
-                            <td>@item.NOMBRE_ANIMAL</td>
-                            <td>$ @String.Format("{0:N2}", item.MONTO_MENSUAL)</td>
-                            <td>@item.FECHA.ToString("yyyy-MM-dd")</td>
-                            <td>@(item.FECHA_BAJA.HasValue ? item.FECHA_BAJA.Value.ToString("yyyy-MM-dd") : "-")</td>
-                            <td>@item.METODO_PAGO</td>
-                            <td>@item.REFERENCIA</td>
-                            <td>
-                                <span class="badge @(item.ID_ESTADO == 1 ? "badge-activo" : "badge-inactivo")">
-                                    @(item.ID_ESTADO == 1 ? "Activo" : "Inactivo")
-                                </span>
-                            </td>
-                            <td>
-                                <form action="@Url.Action("CambiarEstadoApadrinamiento", "Apadrinamiento")" class="FormCambiarEstado" method="post" style="display:inline;">
-                                    <input type="hidden" name="IdApadrinamiento" value="@item.ID_APADRINAMIENTO" />
-                                    <button type="submit" class="btn btn-cambiar-estado btn-sm" title="Cambiar de estado">
-                                        <i class="fa @(item.ID_ESTADO == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
-                                    </button>
-                                </form>
-
-                                <button class="btn btn-cambiar-estado btn-sm btn-editar-apadrinamiento"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modalApadrinamiento"
-                                        data-id="@item.ID_APADRINAMIENTO"
-                                        data-usuarioid="@item.ID_USUARIO"
-                                        data-animalid="@item.ID_ANIMAL"
-                                        data-metodoid="@item.ID_METODO"
-                                        data-monto="@item.MONTO_MENSUAL.ToString().Replace(",", ".")"
-                                        data-fechainicio="@item.FECHA.ToString("yyyy-MM-dd")"
-                                        data-fechabaja="@(item.FECHA_BAJA.HasValue ? item.FECHA_BAJA.Value.ToString("yyyy-MM-dd") : "")"
-                                        data-referencia="@item.REFERENCIA"
-                                        data-estado="@item.ESTADO"
-                                        title="Editar">
-                                    <i class="fas fa-edit me-2"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Modal Unificado para Agregar/Editar Apadrinamiento -->
-        <div class="modal fade" id="modalApadrinamiento" tabindex="-1" aria-labelledby="modalApadrinamientoLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title fw-bold" id="modalApadrinamientoLabel">REGISTRAR APADRINAMIENTO</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-
-                    <div class="modal-body bg-light p-4 rounded shadow">
-                        @using (Html.BeginForm("GestionApadrinamientos", "Apadrinamientos", FormMethod.Post, new { @id = "formApadrinamiento" }))
+    <table id="TablaApadrinamientos" class="tabla-donaciones text-center dt-responsive nowrap w-100" style="font-family: 'Montserrat', sans-serif !important;">
+        <thead class="HeadTablaApadrinamientos">
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Animal</th>
+                <th>Monto Mensual</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Baja</th>
+                <th>Método Pago</th>
+                <th>Referencia</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ListaApadrinamientos)
+            {
+                <tr>
+                    <td>@item.ID_APADRINAMIENTO</td>
+                    <td>@item.NOMBRE_USUARIO @item.APELLIDO1_USUARIO @item.APELLIDO2_USUARIO</td>
+                    <td>@item.NOMBRE_ANIMAL</td>
+                    <td>$ @String.Format("{0:N2}", item.MONTO_MENSUAL)</td>
+                    <td>@item.FECHA.ToString("yyyy-MM-dd")</td>
+                    <td>@(item.FECHA_BAJA.HasValue ? item.FECHA_BAJA.Value.ToString("yyyy-MM-dd") : "-")</td>
+                    <td>@item.METODO_PAGO</td>
+                    <td>@item.REFERENCIA</td>
+                    <td>@item.ESTADO</td>
+                    <td>
+                        @if (item.ID_ESTADO == 2)
                         {
-                            @Html.HiddenFor(m => m.NuevoApadrinamiento.IdApadrinamiento)
 
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevoApadrinamiento.MontoMensual, "Monto Mensual")
-                                    @Html.TextBoxFor(m => m.NuevoApadrinamiento.MontoMensual, new
-                                    {
-                                        @type = "number",
-                                        @step = "0.01",
-                                        @class = "form-control",
-                                        required = "required",
-                                        min = "0"
-                                    })
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevoApadrinamiento.Fecha, "Fecha inicio")
-                                    @Html.TextBoxFor(m => m.NuevoApadrinamiento.Fecha, "{0:yyyy-MM-dd}", new
-                                    {
-                                        @type = "date",
-                                        @class = "form-control",
-                                        required = "required"
-                                    })
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevoApadrinamiento.IdUsuario, "Usuario")
-                                    @Html.DropDownListFor(m => m.NuevoApadrinamiento.IdUsuario,
-                                        Model.ListaUsuarios,
-                                        "Seleccione un usuario",
-                                        new { @class = "form-control", required = "required" })
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevoApadrinamiento.IdAnimal, "Animal")
-                                    @Html.DropDownListFor(m => m.NuevoApadrinamiento.IdAnimal,
-                                        Model.ListaAnimales,
-                                        "Seleccione un animal",
-                                        new { @class = "form-control", required = "required" })
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevoApadrinamiento.IdMetodo, "Método de Pago")
-                                    @Html.DropDownListFor(m => m.NuevoApadrinamiento.IdMetodo,
-                                        Model.ListaMetodosPago,
-                                        "Seleccione un método",
-                                        new { @class = "form-control", required = "required" })
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    @Html.LabelFor(m => m.NuevoApadrinamiento.Referencia)
-                                    @Html.TextBoxFor(m => m.NuevoApadrinamiento.Referencia, new { @class = "form-control" })
-                                </div>
-
-                                <div class="col-md-6 mb-3" id="fechaBajaContainer" style="display: none;">
-                                    @Html.Label("FechaBaja", "Fecha de Baja")
-                                    @Html.TextBox("NuevoApadrinamiento.FechaBaja", "", "{0:yyyy-MM-dd}", new
-                                    {
-                                        @type = "date",
-                                        @class = "form-control"
-                                    })
-                                </div>
-                            </div>
-
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-warning text-dark" id="btnSubmit">Guardar</button>
-                            </div>
                         }
+                        else
+                        {
+                            <form action="@Url.Action("CambiarEstadoApadrinamiento", "Apadrinamiento")" class="FormCambiarEstado" method="post" style="display:inline;">
+                                <input type="hidden" name="IdApadrinamiento" value="@item.ID_APADRINAMIENTO" />
+                                <button type="submit" class="btn btn-cambiar-estado btn-sm" title="Cambiar de estado">
+                                    <i class="fa @(item.ID_ESTADO == 1 ? "fa-toggle-on" : "fa-toggle-off")"></i>
+                                </button>
+                            </form>
+
+                            <button class="btn btn-cambiar-estado btn-sm btn-editar-apadrinamiento"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalApadrinamiento"
+                                    data-id="@item.ID_APADRINAMIENTO"
+                                    data-usuarioid="@item.ID_USUARIO"
+                                    data-animalid="@item.ID_ANIMAL"
+                                    data-metodoid="@item.ID_METODO"
+                                    data-monto="@item.MONTO_MENSUAL.ToString().Replace(",", ".")"
+                                    data-fechainicio="@item.FECHA.ToString("yyyy-MM-dd")"
+                                    data-fechabaja="@(item.FECHA_BAJA.HasValue ? item.FECHA_BAJA.Value.ToString("yyyy-MM-dd") : "")"
+                                    data-referencia="@item.REFERENCIA"
+                                    data-estado="@item.ESTADO"
+                                    title="Editar">
+                                <i class="fas fa-edit me-2"></i>
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Unificado para Agregar/Editar Apadrinamiento -->
+<div class="modal fade" id="modalApadrinamiento" tabindex="-1" aria-labelledby="modalApadrinamientoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="modalApadrinamientoLabel">REGISTRAR APADRINAMIENTO</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body bg-light p-4 rounded shadow">
+                @using (Html.BeginForm("GestionApadrinamientos", "Apadrinamientos", FormMethod.Post, new { @id = "formApadrinamiento" }))
+                {
+                    @Html.HiddenFor(m => m.NuevoApadrinamiento.IdApadrinamiento)
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(m => m.NuevoApadrinamiento.MontoMensual, "Monto Mensual")
+                            @Html.TextBoxFor(m => m.NuevoApadrinamiento.MontoMensual, new
+                            {
+                                @type = "number",
+                                @step = "0.01",
+                                @class = "form-control",
+                                required = "required",
+                                min = "0"
+                            })
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(m => m.NuevoApadrinamiento.Fecha, "Fecha inicio")
+                            @Html.TextBoxFor(m => m.NuevoApadrinamiento.Fecha, "{0:yyyy-MM-dd}", new
+                            {
+                                @type = "date",
+                                @class = "form-control",
+                                required = "required"
+                            })
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(m => m.NuevoApadrinamiento.IdUsuario, "Usuario")
+                            @Html.DropDownListFor(m => m.NuevoApadrinamiento.IdUsuario,
+                                Model.ListaUsuarios,
+                                "Seleccione un usuario",
+                                new { @class = "form-control", required = "required" })
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(m => m.NuevoApadrinamiento.IdAnimal, "Animal")
+                            @Html.DropDownListFor(m => m.NuevoApadrinamiento.IdAnimal,
+                                Model.ListaAnimales,
+                                "Seleccione un animal",
+                                new { @class = "form-control", required = "required" })
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(m => m.NuevoApadrinamiento.IdMetodo, "Método de Pago")
+                            @Html.DropDownListFor(m => m.NuevoApadrinamiento.IdMetodo,
+                                Model.ListaMetodosPago,
+                                "Seleccione un método",
+                                new { @class = "form-control", required = "required" })
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            @Html.LabelFor(m => m.NuevoApadrinamiento.Referencia)
+                            @Html.TextBoxFor(m => m.NuevoApadrinamiento.Referencia, new { @class = "form-control" })
+                        </div>
+
+                        <div class="col-md-6 mb-3" id="fechaBajaContainer" style="display: none;">
+                            @Html.Label("FechaBaja", "Fecha de Baja")
+                            @Html.TextBox("NuevoApadrinamiento.FechaBaja", "", "{0:yyyy-MM-dd}", new
+                            {
+                                @type = "date",
+                                @class = "form-control"
+                            })
+                        </div>
                     </div>
-                </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning text-dark" id="btnSubmit">Guardar</button>
+                    </div>
+                }
             </div>
         </div>
     </div>
-
-
+</div>
 
 <script src="~/Scripts/Apadrinamientos.js"></script>
