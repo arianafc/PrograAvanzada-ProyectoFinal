@@ -10,10 +10,10 @@ using System.Web.UI;
 
 namespace ProyectoFinal.Controllers
 {
-    [OutputCache(Duration = 0, Location = OutputCacheLocation.None, NoStore = true, VaryByParam = "*")]
     public class ApadrinamientoController : Controller
     {
         readonly Utilitarios service = new Utilitarios();
+
         [FiltroSesion]
         [HttpGet]
         public ActionResult ApadrinarAnimal(int id)
@@ -26,6 +26,7 @@ namespace ProyectoFinal.Controllers
 
                     if (result == null)
                     {
+                        // CAMBIO: Usar ViewBag para errores que no requieren redirección
                         ViewBag.Error = "Animal no encontrado";
                         return RedirectToAction("ConsultarAnimales", "Animal");
                     }
@@ -35,6 +36,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
+                // CAMBIO: Usar ViewBag para errores que no requieren redirección
                 ViewBag.Error = "Error: " + ex.Message;
                 return RedirectToAction("Index");
             }
@@ -49,13 +51,21 @@ namespace ProyectoFinal.Controllers
                 {
                     return RedirectToAction("IniciarSesion", "Home");
                 }
+
                 int idUsuario = Convert.ToInt32(Session["IdUsuario"]);
                 int idMetodo = service.ObtenerIdMetodo(metodo);
 
                 if (montoMensual <= 50)
                 {
-                    ViewBag.Error = "El monto debe ser mayor a 50 doláres.";
-                    return RedirectToAction("ApadrinarAnimal", new { id = idAnimal });
+                    // CAMBIO: Usar ViewBag para errores en la misma vista
+                    ViewBag.Error = "El monto debe ser mayor a 50 dólares.";
+
+                    // Recargar el animal para mostrar la vista
+                    using (var dbcontext = new CASA_NATURAEntities())
+                    {
+                        var result = dbcontext.ObtenerAnimalPorIdSP(idAnimal).FirstOrDefault();
+                        return View(result);
+                    }
                 }
 
                 string referenciaFinal = (idMetodo == 2) ? referencia : null;
@@ -64,16 +74,31 @@ namespace ProyectoFinal.Controllers
                 {
                     dbcontext.InsertarApadrinamientoSP(montoMensual, idUsuario, idMetodo, referenciaFinal, idAnimal);
                 }
-                TempData["Mensaje"] = "Apadrinamiento registrado exitosamente.";
-                return RedirectToAction("ConsultarAnimales", "Animal");
+
+                // CAMBIO: Mostrar mensaje de éxito y recargar la misma vista
+                ViewBag.Mensaje = "¡Apadrinamiento registrado exitosamente! Gracias por tu generosidad.";
+
+                // Recargar el animal para mostrar la vista con el mensaje
+                using (var dbcontext = new CASA_NATURAEntities())
+                {
+                    var result = dbcontext.ObtenerAnimalPorIdSP(idAnimal).FirstOrDefault();
+                    return View(result);
+                }
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error al apadrinar el animal: " + ex.Message;
-                return RedirectToAction("ConsultarAnimales", "Animal");
+                // CAMBIO: Usar ViewBag para errores en la misma vista
+                ViewBag.Error = "Error al guardar el apadrinamiento: " +
+                    (ex.InnerException?.InnerException?.Message ?? ex.Message);
+
+                // Recargar el animal para mostrar la vista
+                using (var dbcontext = new CASA_NATURAEntities())
+                {
+                    var result = dbcontext.ObtenerAnimalPorIdSP(idAnimal).FirstOrDefault();
+                    return View(result);
+                }
             }
         }
-
 
         [HttpGet]
         [FiltroAdministrador]
@@ -89,39 +114,37 @@ namespace ProyectoFinal.Controllers
                     {
                         NuevoApadrinamiento = new Apadrinamiento(),
                         ListaApadrinamientos = result,
-
                         ListaUsuarios = dbContext.USUARIOS_TB
-                    .Where(a => a.ID_ESTADO == 1)
-                    .Select(u => new SelectListItem
-                    {
-                        Value = u.ID_USUARIO.ToString(),
-                        Text = u.NOMBRE + " " + u.APELLIDO1 + " " + u.APELLIDO2
-                    })
-                    .ToList(),
-
+                            .Where(a => a.ID_ESTADO == 1)
+                            .Select(u => new SelectListItem
+                            {
+                                Value = u.ID_USUARIO.ToString(),
+                                Text = u.NOMBRE + " " + u.APELLIDO1 + " " + u.APELLIDO2
+                            })
+                            .ToList(),
                         ListaAnimales = dbContext.ANIMAL_TB
-                    .Where(a => a.ID_ESTADO == 1)
-                    .Select(a => new SelectListItem
-                    {
-                        Value = a.ID_ANIMAL.ToString(),
-                        Text = a.NOMBRE
-                    })
-                    .ToList(),
-
+                            .Where(a => a.ID_ESTADO == 1)
+                            .Select(a => new SelectListItem
+                            {
+                                Value = a.ID_ANIMAL.ToString(),
+                                Text = a.NOMBRE
+                            })
+                            .ToList(),
                         ListaMetodosPago = dbContext.METODO_PAGO_TB
-                    .Where(a => a.ID_ESTADO == 1)
-                    .Select(m => new SelectListItem
-                    {
-                        Value = m.ID_METODO.ToString(),
-                        Text = m.METODO
-                    })
-                    .ToList()
+                            .Where(a => a.ID_ESTADO == 1)
+                            .Select(m => new SelectListItem
+                            {
+                                Value = m.ID_METODO.ToString(),
+                                Text = m.METODO
+                            })
+                            .ToList()
                     };
 
                     return View(viewModel);
                 }
                 catch (Exception ex)
                 {
+                    // CAMBIO: Usar ViewBag para errores en la misma vista
                     ViewBag.Error = "Ocurrió un error al cargar los apadrinamientos: " + ex.Message;
 
                     return View(new GestionApadrinamientosModel
@@ -139,6 +162,12 @@ namespace ProyectoFinal.Controllers
         [HttpPost]
         public ActionResult GestionApadrinamientos(GestionApadrinamientosModel apadrinamiento)
         {
+            // Verificar si es una edición o creación
+            if (apadrinamiento.NuevoApadrinamiento.IdApadrinamiento > 0)
+            {
+                return EditarApadrinamiento(apadrinamiento);
+            }
+
             using (var dbContext = new CASA_NATURAEntities())
             {
                 try
@@ -167,20 +196,21 @@ namespace ProyectoFinal.Controllers
 
                     if (result > 0)
                     {
-                        TempData["SwalSuccess"] = "Apadrinamiento registrado con éxito";
-                        return RedirectToAction("GestionApadrinamientos", "Apadrinamiento");
+                        // CAMBIO: Usar TempData para mensajes después de redirección
+                        TempData["Mensaje"] = "Apadrinamiento registrado con éxito";
                     }
                     else
                     {
-                        TempData["SwalError"] = "No se pudo registrar el apadrinamiento";
-                        return RedirectToAction("GestionApadrinamientos", "Apadrinamiento");
+                        TempData["Error"] = "No se pudo registrar el apadrinamiento";
                     }
                 }
                 catch (Exception ex)
                 {
-                    TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
-                    return RedirectToAction("GestionApadrinamientos", "Apadrinamiento");
+                    TempData["Error"] = "Error al guardar el apadrinamiento: " +
+                        (ex.InnerException?.InnerException?.Message ?? ex.Message);
                 }
+
+                return RedirectToAction("GestionApadrinamientos", "Apadrinamiento");
             }
         }
 
@@ -196,7 +226,7 @@ namespace ProyectoFinal.Controllers
 
                     if (apadrinamiento == null)
                     {
-                        TempData["SwalError"] = "El apadrinamiento no fue encontrado";
+                        TempData["Error"] = "El apadrinamiento no fue encontrado";
                         return RedirectToAction("GestionApadrinamientos", "Apadrinamiento");
                     }
 
@@ -245,18 +275,18 @@ namespace ProyectoFinal.Controllers
 
                     if (result > 0)
                     {
-                        TempData["SwalSuccess"] = "Apadrinamiento actualizado con éxito";
+                        TempData["Mensaje"] = "Apadrinamiento actualizado con éxito";
                         return RedirectToAction("GestionApadrinamientos", "Apadrinamiento");
                     }
                     else
                     {
-                        TempData["SwalError"] = "No se pudo actualizar el apadrinamiento";
+                        TempData["Error"] = "No se pudo actualizar el apadrinamiento";
                         return RedirectToAction("GestionApadrinamientos", "Apadrinamiento");
                     }
                 }
                 catch (Exception ex)
                 {
-                    TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
+                    TempData["Error"] = ex.InnerException?.Message ?? ex.Message;
                     return RedirectToAction("GestionApadrinamientos", "Apadrinamiento");
                 }
             }
@@ -265,15 +295,29 @@ namespace ProyectoFinal.Controllers
         [HttpPost]
         public ActionResult CambiarEstadoApadrinamiento(int IdApadrinamiento)
         {
-            using (var dbContext = new CASA_NATURAEntities())
+            try
             {
-                var result = dbContext.CambiarEstadoApadrinamientoSP(IdApadrinamiento);
-                if (result > 0)
+                using (var dbContext = new CASA_NATURAEntities())
                 {
-                    return RedirectToAction("GestionApadrinamientos", "Apadrinamiento");
+                    var result = dbContext.CambiarEstadoApadrinamientoSP(IdApadrinamiento);
+
+                    if (result > 0)
+                    {
+                        // CAMBIO: Usar TempData para mensajes después de redirección
+                        TempData["Mensaje"] = "Estado cambiado exitosamente";
+                    }
+                    else
+                    {
+                        TempData["Error"] = "No se pudo cambiar el estado";
+                    }
                 }
-                return View();
             }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Error: " + ex.Message;
+            }
+
+            return RedirectToAction("GestionApadrinamientos", "Apadrinamiento");
         }
     }
 }
