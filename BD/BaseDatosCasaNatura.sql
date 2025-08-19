@@ -819,6 +819,9 @@ INSERT INTO ESTADOS_TB (DESCRIPCION) VALUES
 ('Activo'),
 ('Inactivo'),
 ('Apadrinado');
+('Resuelto');
+('Pendiente');
+('Confirmada');
 
 -- =============================================
 -- INSERTS PARA ESTADOS_SALUD_TB
