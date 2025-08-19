@@ -60,10 +60,6 @@ function abrirModalEditar(data) {
     $('select[name="NuevoApadrinamiento.IdAnimal"]').val(data.animalid);
     $('select[name="NuevoApadrinamiento.IdMetodo"]').val(data.metodoid);
 
-    $('input[name="NuevoApadrinamiento.Fecha"]').prop('readonly', true);
-    $('select[name="NuevoApadrinamiento.IdUsuario"]').prop('disabled', true);
-    $('select[name="NuevoApadrinamiento.IdMetodo"]').prop('disabled', true);
-
     $('#modalApadrinamientoLabel').text('EDITAR APADRINAMIENTO');
     $('#btnSubmit').text('Actualizar');
 
@@ -118,27 +114,6 @@ function setupStateChangeConfirmation() {
             });
         });
     });
-}
-
-// Función para mostrar notificaciones SweetAlert
-function showSwalNotifications(successMessage, errorMessage) {
-    if (successMessage) {
-        Swal.fire({
-            icon: 'success',
-            title: 'Éxito',
-            text: successMessage,
-            timer: 2000,
-            showConfirmButton: false
-        });
-    }
-
-    if (errorMessage) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: errorMessage
-        });
-    }
 }
 
 // Inicialización cuando el documento esté listo

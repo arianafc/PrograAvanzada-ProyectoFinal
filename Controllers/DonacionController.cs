@@ -8,6 +8,7 @@ using System.Text;
 using System.Web.Mvc;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using iText.Kernel.Pdf;
 
 namespace ProyectoFinal.Controllers
 {
@@ -110,7 +111,7 @@ namespace ProyectoFinal.Controllers
                 var ms = new MemoryStream();
 
                 var document = new Document(PageSize.A4, 25, 25, 30, 30);
-                PdfWriter.GetInstance(document, ms).CloseStream = false;
+                iTextSharp.text.pdf.PdfWriter.GetInstance(document, ms).CloseStream = false;
 
                 document.Open();
 
