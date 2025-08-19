@@ -34,25 +34,25 @@ a:active {
     padding: 1rem;
   }
 
-  .nav-links {
-    position: absolute;
-    top: 0px;
-    left: 40%;
-    right: 0;
-    height: 100vh;
-    flex-direction: column;
-   
-    box-shadow: -35px 0px 20px -25px rgba(0, 0, 0, 0.548);
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    align-content: space-between;
-    padding: 0rem;
-    z-index: 999;
-    transition: all 200ms ease;
-  }
+    .nav-links {
+        position: absolute;
+        top: 0px;
+        left: 40%;
+        right: 0;
+        height: 100vh;
+        flex-direction: column;
+        box-shadow: -35px 0px 20px -25px rgba(0, 0, 0, 0.548);
+        -webkit-backdrop-filter: blur(4px);
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(8px);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        align-content: space-between;
+        padding: 0rem;
+        z-index: 999;
+        transition: all 200ms ease;
+    }
   .nav-links.show {
     transform: translateX(0%);
     visibility: visible;

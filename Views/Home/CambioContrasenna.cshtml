@@ -7,7 +7,7 @@
 
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-5">
-            <div id="login-form" class="bg-light p-4 rounded shadow mx-auto">
+            <div id="formRegistro" class="bg-light p-4 rounded shadow mx-auto">
                 <h2 class="fw-bold text-center mb-4">CAMBIO DE CONTRASEÑA</h2>
                 @using (Html.BeginForm("CambioContrasenna", "Home", FormMethod.Post, new { @class = "form-horizontal m-t-20" }))
                 {
@@ -31,32 +31,9 @@
                     </div>
                 }
             </div>
-                </div>
+        </div>
     </div>
 </main>
 
-<script>
+<script src="~/Scripts/Autenticacion.js"></script>
 
-
-     @if (TempData["SwalError"] != null)
- {
-     <text>
-         Swal.fire({
-             icon: 'error',
-             title: 'Error',
-              text: '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalError"].ToString()))'
-         });
-     </text>
- }
-
- @if (TempData["SwalSuccess"] != null)
- {
-     <text>
-         Swal.fire({
-             icon: 'success',
-             title: 'Éxito',
-             text: '@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SwalSuccess"].ToString()))'
-         });
-     </text>
- }
-</script>

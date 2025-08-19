@@ -367,6 +367,7 @@
     <Content Include="Imagenes\animalesDonar.png" />
     <Content Include="Imagenes\caballito.jpg" />
     <Content Include="Imagenes\Animales\5.jpg" />
+    <Content Include="Imagenes\cabritas.jpg" />
     <Content Include="Imagenes\donaciones1.jpeg" />
     <Content Include="Imagenes\face.png" />
     <Content Include="Imagenes\footer.png" />
@@ -415,7 +416,6 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\perfect-scrollbar.jquery.min.js" />
     <Content Include="Scripts\popper.min.js" />
-    <Content Include="Scripts\script.js" />
     <Content Include="Scripts\sidebarmenu.js" />
     <Content Include="Scripts\sparkline.js" />
     <Content Include="Scripts\waves.js" />
@@ -457,6 +457,7 @@
     <Content Include="Views\Home\CambioContrasenna.cshtml" />
     <Content Include="Views\Dashboard\Dashboard.cshtml" />
     <Content Include="Views\Contacto\GestionDudas.cshtml" />
+    <Content Include="Views\Home\Nosotros.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

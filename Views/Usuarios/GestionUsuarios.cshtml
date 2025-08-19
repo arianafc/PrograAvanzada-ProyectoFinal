@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ProyectoFinal.EF.ObtenerUsuariosSP_Result>
+
+@{
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<div class="dudas-container">
+    <h2 class="TituloSeccion">Mis Ventas <i style="color: #17a2b8" class="fas fa-receipt"></i> </h2>
+
+
+    <table class="tabla-donaciones text-center dt-responsive nowrap w-100" style="font-family: 'Montserrat', sans-serif !important;" id="TablaUsuarios">
+        <thead class="text-center">
+            <tr>
+                <th>CEDULA</th>
+                <th>USUARIO</th>
+                <th>CORREO</th>
+                <th>ROL</th>
+                <th>ESTADO</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.IDENTIFICACION</td>
+                        <td>@item.NOMBRE</td>
+                        <td>@item.CORREO</td>
+                        <td>@item.ROL</td>
+                        <td>@item.ESTADO</td>
+                        <td>
+                            <button id="BtnGenerarFactura" class="btn btn-sm VerFacturaBtn "
+                                    data-factura="@item.ID_USUARIO">
+                                <i class="fas fa-file-invoice"></i> Ver Factura
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="sin-datos">No se encontraron usarios registradas.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+<script src="~/Scripts/Usuarios.js"></script>
