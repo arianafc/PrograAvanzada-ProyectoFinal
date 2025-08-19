@@ -18,6 +18,8 @@ namespace ProyectoFinal.EF
         public ESPECIES_TB()
         {
             this.RAZAS_TB = new HashSet<RAZAS_TB>();
+            this.RAZAS_TB1 = new HashSet<RAZAS_TB>();
+            this.RAZAS_TB2 = new HashSet<RAZAS_TB>();
         }
     
         public int ID_ESPECIE { get; set; }
@@ -25,7 +27,13 @@ namespace ProyectoFinal.EF
         public int ID_ESTADO { get; set; }
     
         public virtual ESTADOS_TB ESTADOS_TB { get; set; }
+        public virtual ESTADOS_TB ESTADOS_TB1 { get; set; }
+        public virtual ESTADOS_TB ESTADOS_TB2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RAZAS_TB> RAZAS_TB { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RAZAS_TB> RAZAS_TB1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RAZAS_TB> RAZAS_TB2 { get; set; }
     }
 }
