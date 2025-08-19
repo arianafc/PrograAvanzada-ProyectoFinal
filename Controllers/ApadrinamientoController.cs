@@ -36,7 +36,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error: " + ex.Message;
                 return RedirectToAction("Index");
             }
         }
@@ -91,7 +92,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error al guardar el apadrinamiento: " +
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error al guardar el apadrinamiento: " +
                     (ex.InnerException?.InnerException?.Message ?? ex.Message);
 
                 using (var dbcontext = new CASA_NATURAEntities())
@@ -146,7 +148,8 @@ namespace ProyectoFinal.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.Error = "Ocurrió un error al cargar los apadrinamientos: " + ex.Message;
+                    Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                    TempData["SwalError"] = "Ocurrió un error al cargar los apadrinamientos: " + ex.Message;
 
                     return View(new GestionApadrinamientosModel
                     {
@@ -205,6 +208,7 @@ namespace ProyectoFinal.Controllers
                 }
                 catch (Exception ex)
                 {
+                    Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                     TempData["Error"] = "Error al guardar el apadrinamiento: " +
                         (ex.InnerException?.InnerException?.Message ?? ex.Message);
                 }
@@ -284,6 +288,7 @@ namespace ProyectoFinal.Controllers
                 }
                 catch (Exception ex)
                 {
+                    Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                     TempData["Error"] = ex.InnerException?.Message ?? ex.Message;
                     return RedirectToAction("GestionApadrinamientos", "Apadrinamiento");
                 }
@@ -311,6 +316,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                 TempData["Error"] = "Error: " + ex.Message;
             }
 

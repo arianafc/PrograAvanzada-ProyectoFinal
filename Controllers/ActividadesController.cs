@@ -17,6 +17,7 @@ using ProyectoFinal.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -58,7 +59,9 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Ocurrió un error al cargar las actividades: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+
+                TempData["SwalError"] = "Ocurrió un error al cargar las actividades: " + ex.Message;
 
                 return View(new GestionActividadesModel
                 {
@@ -118,17 +121,17 @@ namespace ProyectoFinal.Controllers
     }
     catch (Exception ex)
     {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
 
-        TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
+                TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
         return View();
     }
 }
 
 
         
-        #endregion
+     
 
-        #region CambiarEstadoActividad
 
         [HttpPost]
         public ActionResult CambioEstadoActividad(int IdEstado, int IdActividad)
@@ -151,14 +154,15 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-  
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+
                 TempData["SwalError"] = "Ocurrió un error al intentar cambiar el estado de la actividad."+ ex.Message;
                 return RedirectToAction("GestionActividades", "Actividades");
             }
         }
 
 
-        #endregion
+  
 
         [HttpPost]
         [FiltroAdministrador]
@@ -212,10 +216,17 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                 TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
                 return RedirectToAction("GestionActividades", "Actividades");
             }
         }
+
+        #endregion
+
+
+
+        #region ActividadesCliente
 
         [HttpGet]
         public ActionResult ActividadesDisponibles()
@@ -224,13 +235,16 @@ namespace ProyectoFinal.Controllers
             {
                 using (var dbcontext = new CASA_NATURAEntities())
                 {
+
                     var result = dbcontext.VisualizarActividadesActivasSP().ToList();
                     return View(result);
                 }
             }
             catch (Exception ex)
+
             {
-                ViewBag.Error = "Error al cargar las actividades: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error al cargar las actividades: " + ex.Message;
                 return View(new List<VisualizarActividadesActivasSP_Result>());
             }
         }
@@ -257,7 +271,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error en detalle actividad: " + ex.Message;
                 return RedirectToAction("Index");
             }
         }
@@ -329,11 +344,12 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-             
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                 TempData["SwalError"] = "Ocurrió un error al procesar la compra.";
                 return RedirectToAction("ActividadesDisponibles", "Actividades");
             }
         }
+        #endregion
 
         [HttpGet]
         [FiltroAdministrador]
@@ -353,20 +369,18 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error al cargar las actividades: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error al cargar las actividades: " + ex.Message;
                 return View(new List<VisualizacionVentasSP_Result>());
             }
             
         }
 
-
+       
         [HttpGet]
         [FiltroAdministrador]
         public ActionResult GenerarFactura(int NumeroFactura)
         {
-           
-        
-
 
             try
             {
@@ -474,6 +488,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+
                 using (var ms = new MemoryStream())
                 {
                     PdfWriter writer = new PdfWriter(ms);
@@ -489,6 +505,8 @@ namespace ProyectoFinal.Controllers
 
                     return File(ms.ToArray(), "application/pdf", "ErrorFactura.pdf");
                 }
+
+              
             }
         }
     }

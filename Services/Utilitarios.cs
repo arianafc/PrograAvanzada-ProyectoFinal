@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoFinal.EF;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -70,6 +71,28 @@ namespace ProyectoFinal.Services
             }
         }
 
+        public static void RegistrarError(Exception ex, int? idUsuario = null)
+        {
+            try
+            {
+                using (var dbContext = new CASA_NATURAEntities())
+                {
+                    var error = new REGISTRO_ERRORES_TB
+                    {
+                        ID_USUARIO = idUsuario,
+                        FECHA_ACTUAL = DateTime.Now,
+                        MENSAJE = ex.Message + (ex.InnerException != null ? " | Inner: " + ex.InnerException.Message : "")
+                    };
+
+                    dbContext.REGISTRO_ERRORES_TB.Add(error);
+                    dbContext.SaveChanges();
+                }
+            }
+            catch
+            {
+               
+            }
+        }
 
     }
 }

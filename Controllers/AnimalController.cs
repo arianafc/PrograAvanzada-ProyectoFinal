@@ -29,7 +29,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error al cargar los animales: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error al cargar los animales: " + ex.Message;
                 return View(new List<ObtenerAnimalesActivosSP_Result>());
             }
         }
@@ -57,7 +58,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error: " + ex.Message;
                 return RedirectToAction("Index");
             }
         }
@@ -100,7 +102,8 @@ namespace ProyectoFinal.Controllers
 
                 catch (Exception ex)
                 {
-                    ViewBag.Error = "Ocurrió un error al cargar los animales: " + ex.Message;
+                    Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                    TempData["SwalError"] = "Ocurrió un error al cargar los animales: " + ex.Message;
 
                     return View(new GestionAnimalesModel
                     {
@@ -159,6 +162,7 @@ namespace ProyectoFinal.Controllers
                 }
                 catch (Exception ex)
                 {
+                    Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                     TempData["Error"] = ex.InnerException?.Message ?? ex.Message;
                     return RedirectToAction("GestionAnimales", "Animal");
                 }
@@ -238,6 +242,7 @@ namespace ProyectoFinal.Controllers
                 }
                 catch (Exception ex)
                 {
+                    Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                     TempData["Error"] = "Error: " + (ex.InnerException?.Message ?? ex.Message);
                     return RedirectToAction("GestionAnimales", "Animal");
                 }
@@ -265,7 +270,9 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                 TempData["Error"] = "Error: " + ex.Message;
+
             }
 
             return RedirectToAction("GestionAnimales", "Animal");

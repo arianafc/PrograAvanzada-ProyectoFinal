@@ -1,5 +1,6 @@
 ﻿using ProyectoFinal.EF;
 using ProyectoFinal.Models;
+using ProyectoFinal.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -87,7 +88,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                 TempData["SwalError"] = "Ocurrió un error al intentar cargar el dashboard." + ex.Message;
                 return View();
             }
