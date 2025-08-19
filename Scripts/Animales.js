@@ -1,20 +1,14 @@
 ﻿// Función para inicializar DataTable
 function initializeDataTable() {
-    $('#tablaAnimales').DataTable({
+    $('#TablaAnimales').DataTable({
+        responsive: true,
         language: {
-            "search": "Buscar:",
-            "lengthMenu": "Mostrar _MENU_ registros",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ Animales",
-            "paginate": {
-                "first": "Primero",
-                "last": "Último",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            },
-            "zeroRecords": "No se encontraron resultados",
-            "infoEmpty": "No hay Animales para mostrar",
-            "infoFiltered": "(filtrado de _MAX_ Animales totales)"
-        }
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+        },
+        pageLength: 10,
+        columnDefs: [
+            { orderable: false, targets: [9] }
+        ]
     });
 }
 

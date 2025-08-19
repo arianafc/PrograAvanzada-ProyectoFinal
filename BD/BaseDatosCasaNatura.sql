@@ -514,7 +514,8 @@ BEGIN
     
     BEGIN TRY
         UPDATE APADRINAMIENTOS_TB
-        SET ID_ESTADO = @NuevoEstadoApadrinamiento
+        SET ID_ESTADO = @NuevoEstadoApadrinamiento,
+		FECHA_BAJA = GETDATE()
         WHERE ID_APADRINAMIENTO = @IdApadrinamiento;
         
         UPDATE ANIMAL_TB

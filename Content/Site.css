@@ -99,12 +99,24 @@ main {
     padding: 10px 20px;
     border-radius: 10px;
     color: white;
-    background-color: #007bff;
+    background-color: #0a3c52;
     border: none;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     transition: background-color 0.3s, color 0.3s;
     text-align: center;
+    width: 100%;
+}
+
+.nombreAnimal {
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: white;
+    background-color: #0a3c52;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
     width: 100%;
 }
 

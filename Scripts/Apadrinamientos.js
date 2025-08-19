@@ -7,10 +7,9 @@ function initializeDataTable() {
         },
         pageLength: 10,
         columnDefs: [
-            { orderable: false, targets: [8] }
+            { orderable: false, targets: [9] }
         ]
     });
-
 }
 
 // Función para abrir modal en modo AGREGAR
@@ -51,7 +50,6 @@ function abrirModalEditar(data) {
     $('input[name="NuevoApadrinamiento.Fecha"]').val(data.fechainicio);
     $('input[name="NuevoApadrinamiento.Referencia"]').val(data.referencia);
 
-    // Llenar fecha de baja si existe
     if (data.fechabaja && data.fechabaja !== '') {
         $('input[name="NuevoApadrinamiento.FechaBaja"]').val(data.fechabaja);
     } else {
@@ -62,7 +60,9 @@ function abrirModalEditar(data) {
     $('select[name="NuevoApadrinamiento.IdAnimal"]').val(data.animalid);
     $('select[name="NuevoApadrinamiento.IdMetodo"]').val(data.metodoid);
 
-    $('#fechaBajaContainer').show();
+    $('input[name="NuevoApadrinamiento.Fecha"]').prop('readonly', true);
+    $('select[name="NuevoApadrinamiento.IdUsuario"]').prop('disabled', true);
+    $('select[name="NuevoApadrinamiento.IdMetodo"]').prop('disabled', true);
 
     $('#modalApadrinamientoLabel').text('EDITAR APADRINAMIENTO');
     $('#btnSubmit').text('Actualizar');
