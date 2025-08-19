@@ -321,7 +321,7 @@ namespace ProyectoFinal.Controllers
                 {
                     var parametro = new SqlParameter("@IdUsuario", idUsuario);
                     var tours = db.Database
-                                  .SqlQuery<MisToursViewModel>("EXEC SP_ObtenerMisTours @IdUsuario", parametro)
+                                  .SqlQuery<MisToursViewModel>("EXEC ObtenerMisToursSP @IdUsuario", parametro)
                                   .ToList();
 
                     return View(tours);
@@ -351,7 +351,7 @@ namespace ProyectoFinal.Controllers
                 {
                     var parametro = new SqlParameter("@IdUsuario", idUsuario);
                     var animales = db.Database
-                                     .SqlQuery<AnimalViewModel>("EXEC SP_ObtenerMisAnimales @IdUsuario", parametro)
+                                     .SqlQuery<AnimalViewModel>("EXEC ObtenerMisAnimalesSP @IdUsuario", parametro)
                                      .ToList();
 
                     return View(animales);
@@ -385,7 +385,7 @@ namespace ProyectoFinal.Controllers
                         new SqlParameter("@IdAnimal", idAnimal)
                     };
 
-                    db.Database.ExecuteSqlCommand("EXEC SP_FinalizarApadrinamiento @IdUsuario, @IdAnimal", parametros);
+                    db.Database.ExecuteSqlCommand("EXEC FinalizarApadrinamientoSP @IdUsuario, @IdAnimal", parametros);
                 }
 
                 TempData["Mensaje"] = "El apadrinamiento fue finalizado correctamente.";

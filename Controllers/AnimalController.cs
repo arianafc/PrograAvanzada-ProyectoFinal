@@ -260,18 +260,18 @@ namespace ProyectoFinal.Controllers
 
                     if (result > 0)
                     {
-                        TempData["Mensaje"] = "Estado cambiado exitosamente";
+                        TempData["SwalSuccess"] = "Estado cambiado exitosamente";
                     }
                     else
                     {
-                        TempData["Error"] = "No se pudo cambiar el estado";
+                        TempData["SwalError"] = "No se pudo cambiar el estado";
                     }
                 }
             }
             catch (Exception ex)
             {
                 Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
-                TempData["Error"] = "Error: " + ex.Message;
+                TempData["SwalError"] = "Error: " + ex.Message;
 
             }
 

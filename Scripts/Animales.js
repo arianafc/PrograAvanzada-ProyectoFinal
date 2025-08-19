@@ -1,4 +1,25 @@
-﻿// Función para inicializar DataTable
+﻿$(function () {
+
+    if (swalError) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: swalError,
+            confirmButtonColor: ' #062D3E;'
+        });
+    }
+
+    if (swalSuccess) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: swalSuccess,
+            confirmButtonColor: ' #062D3E'
+        });
+    }
+});
+
+// Función para inicializar DataTable
 function initializeDataTable() {
     $('#TablaAnimales').DataTable({
         responsive: true,

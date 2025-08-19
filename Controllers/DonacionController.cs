@@ -107,13 +107,13 @@ namespace ProyectoFinal.Controllers
                     db.InsertarDonacionSP(cantidad, idUsuario, idMetodo, referenciaFinal);
                 }
 
-                TempData["Mensaje"] = "Donación registrada exitosamente.";
+                TempData["SwalSuccess"] = "Donación registrada exitosamente.";
                 return RedirectToAction("FormularioDonar");
             }
             catch (Exception ex)
             {
                 Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
-                TempData["SwalSuccess"] = "Error al guardar la donación: " +
+                TempData["SwalError"] = "Error al guardar la donación: " +
                     (ex.InnerException?.InnerException?.Message ?? ex.Message);
                 return View();
             }

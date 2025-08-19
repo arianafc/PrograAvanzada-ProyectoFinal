@@ -57,7 +57,7 @@ namespace ProyectoFinal.Controllers
 
                 if (montoMensual <= 50)
                 {
-                    ViewBag.Error = "El monto debe ser mayor a 50 dólares.";
+                    ViewBag.ErrorApadrinamiento = "El monto debe ser mayor a 50 dólares.";
 
                     using (var dbcontext = new CASA_NATURAEntities())
                     {
@@ -82,7 +82,7 @@ namespace ProyectoFinal.Controllers
                     dbcontext.InsertarApadrinamientoSP(montoMensual, idUsuario, idMetodo, referenciaFinal, idAnimal);
                 }
 
-                ViewBag.Mensaje = "¡Apadrinamiento registrado exitosamente! Gracias por tu generosidad.";
+                TempData["SwalSuccess"] = "¡Apadrinamiento registrado exitosamente! Gracias por tu generosidad.";
 
                 using (var dbcontext = new CASA_NATURAEntities())
                 {
@@ -306,11 +306,11 @@ namespace ProyectoFinal.Controllers
 
                     if (result > 0)
                     {
-                        TempData["Mensaje"] = "Estado cambiado exitosamente";
+                        TempData["SwalSuccess"] = "Estado cambiado exitosamente";
                     }
                     else
                     {
-                        TempData["Error"] = "No se pudo cambiar el estado";
+                        TempData["SwalError"] = "No se pudo cambiar el estado";
                     }
                 }
             }

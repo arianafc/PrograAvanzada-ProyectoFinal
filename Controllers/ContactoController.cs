@@ -100,7 +100,7 @@ namespace ProyectoFinal.Controllers
                 }
             }
 
-            TempData["Mensaje"] = "Consulta enviada con éxito.";
+            TempData["SwalSuccess"] = "Consulta enviada con éxito.";
             ModelState.Clear();
             return RedirectToAction("Contacto");
         }

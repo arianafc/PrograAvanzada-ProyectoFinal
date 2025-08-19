@@ -101,22 +101,31 @@ namespace ProyectoFinal.Controllers
             dbContext.ACTIVIDADES_TB.Add(actividades);
             var result = dbContext.SaveChanges();
 
-            if (result > 0)
+            if (result > 0 && ImagenActividad != null && ImagenActividad.ContentLength > 0)
             {
-                string extension = System.IO.Path.GetExtension(ImagenActividad.FileName);
+                        int maxFileSize = 5 * 1024 * 1024; 
+                        if (ImagenActividad.ContentLength > maxFileSize)
+                        {
+                            TempData["SwalError"] = "La imagen excede el tamaño máximo permitido (5MB).";
+                            return RedirectToAction("GestionActividades", "Actividades");
+                        }
+
+                        string extension = System.IO.Path.GetExtension(ImagenActividad.FileName);
                 string ruta = AppDomain.CurrentDomain.BaseDirectory + "Imagenes\\" + actividades.ID_ACTIVIDAD + extension;
                 ImagenActividad.SaveAs(ruta);
 
                 actividades.IMAGEN = "/Imagenes/" + actividades.ID_ACTIVIDAD + extension;
                 dbContext.SaveChanges();
 
-                return RedirectToAction("GestionActividades", "Actividades");
+                        TempData["SwalSuccess"] = "Actividad registrada con éxito";
+                        return RedirectToAction("GestionActividades", "Actividades");
+                      
 
 
             }
 
             TempData["SwalSuccess"] = "Actividad registrado con éxito";
-            return View();
+             return RedirectToAction("GestionActividades", "Actividades");
         }
     }
     catch (Exception ex)
@@ -124,7 +133,7 @@ namespace ProyectoFinal.Controllers
                 Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
 
                 TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
-        return View();
+                return RedirectToAction("GestionActividades", "Actividades");
     }
 }
 

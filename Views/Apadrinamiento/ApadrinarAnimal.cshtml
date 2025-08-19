@@ -18,24 +18,18 @@
         Selecciona la cantidad y método de pago. ¡Gracias por ser parte del cambio!
     </p>
 
-    @if (ViewBag.Mensaje != null)
+
+    @if (TempData["MensajeApadrinamiento"] != null)
     {
         <div class="alert alert-success text-center fw-bold">
-            @ViewBag.Mensaje
+            @TempData["MensajeApadrinamiento"]
         </div>
     }
 
-    @if (TempData["Mensaje"] != null)
-    {
-        <div class="alert alert-success text-center fw-bold">
-            @TempData["Mensaje"]
-        </div>
-    }
-
-    @if (TempData["Error"] != null)
+    @if (TempData["ErrorApadrinamiento"] != null)
     {
         <div class="alert alert-danger text-center">
-            @TempData["Error"]
+            @TempData["ErrorApadrinamiento"]
         </div>
     }
 

@@ -24,7 +24,7 @@ namespace ProyectoFinal.Controllers
                 using (var dbContext = new CASA_NATURAEntities())
                 {
                     var NumeroActividadesActivas = dbContext.ACTIVIDADES_TB.Where(ac => ac.ID_ESTADO == 1).Count();
-                    var VentasTotal = dbContext.USUARIO_ACTIVIDAD_TB.Sum(u => u.TOTAL);
+                    var VentasTotal = dbContext.USUARIO_ACTIVIDAD_TB.Sum(u => (decimal?)u.TOTAL) ?? 0;
                     var NumeroUsuariosActivos = dbContext.USUARIOS_TB
                         .Where(r => r.ID_ROL == 1 && r.ID_ESTADO == 1)
                                     .Count();
@@ -90,7 +90,7 @@ namespace ProyectoFinal.Controllers
             {
                 Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                 TempData["SwalError"] = "Ocurrió un error al intentar cargar el dashboard." + ex.Message;
-                return View();
+                return View(new DashboardModel());
             }
 
 
