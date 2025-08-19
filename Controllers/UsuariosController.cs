@@ -1,5 +1,6 @@
 ﻿using ProyectoFinal.EF;
 using ProyectoFinal.Models;
+using ProyectoFinal.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace ProyectoFinal.Controllers
 
         #region GestionUsuarios
         [HttpGet]
+        [FiltroAdministrador]
         public ActionResult GestionUsuarios()
         {
             try
@@ -34,9 +36,10 @@ namespace ProyectoFinal.Controllers
 
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                TempData["Error"] = "Ocurrió un error al cargar los usuarios: " + e.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Ocurrió un error al cargar los usuarios: " + ex.Message;
                 return RedirectToAction("Dashboard", "Dashboard");
             }
         }
@@ -68,8 +71,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                
-                TempData["ErrorMessage"] = "Ocurrió un error al cambiar el estado del usuario." + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Ocurrió un error al cambiar el estado del usuario." + ex.Message;
                 return RedirectToAction("GestionUsuarios", "Usuarios");
             }
         }
@@ -112,6 +115,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception e)
             {
+                Utilitarios.RegistrarError(e, (int?)Session["idUsuario"]);
                 return Json(new { success = false, message = "Ocurrió un error al actualizar el usuario: " + e.Message });
             }
         }

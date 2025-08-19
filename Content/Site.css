@@ -331,7 +331,7 @@ main {
     position: relative;
 }
 
-<<<<<<< Updated upstream
+
 .footer-call-to-action {
     margin-top: 30px;
 }
@@ -530,7 +530,7 @@ main {
       width: 49.99%;
   } */
 }
-=======
+
 .logo-link {
     display: inline-flex;
     align-items: center;
@@ -586,9 +586,6 @@ main {
     height: 100%;
     left: 0;
     top: 0;
-    &:after
-
-{
     content: '';
     position: absolute;
     top: 0;
@@ -620,9 +617,7 @@ img {
     opacity: 0;
     transition: all .3s;
     left: -30px;
-    //left: 50%;
-    //transform: translateX(-50%);
-    &.active
+}
 
 {
     left: 0;

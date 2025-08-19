@@ -60,9 +60,17 @@
                         <div class="card-body bg-light h-100 d-flex flex-column justify-content-center">
                             <h4 class="fw-bold text-center text-dark mb-4">Formulario de Apadrinamiento</h4>
 
-                            <form id="formDonar" method="post" action="@Url.Action("ApadrinarAnimal", "Apadrinamiento")">
+                            <!-- Formulario para enviar datos al servidor -->
+                            @using (Html.BeginForm("ApadrinarAnimal", "Apadrinamiento", FormMethod.Post, new { id = "formApadrinarAnimal" }))
+                            {
                                 @Html.Hidden("idAnimal", Model.ID_ANIMAL)
+                                @Html.Hidden("metodo", null, new { id = "inputMetodoPago" })
+                                @Html.Hidden("montoMensual", null, new { id = "inputMontoMensual" })
+                                @Html.Hidden("referencia", null, new { id = "inputReferencia" })
+                            }
 
+                            <!-- Formulario visual para el usuario -->
+                            <div id="formApadrinar">
                                 <div class="mb-3">
                                     <label for="montoMensual" class="form-label fw-bold">Monto mensual (mínimo $50)</label>
                                     <input type="number" id="montoMensual" name="montoMensual" class="form-control"
@@ -71,7 +79,7 @@
 
                                 <div class="mb-3">
                                     <label for="metodo" class="form-label fw-bold">Método de pago</label>
-                                    <select id="metodo" name="metodo" class="form-select" required onchange="mostrarModal()">
+                                    <select id="metodo" name="metodo" class="form-select" required>
                                         <option value="">Selecciona un método de pago</option>
                                         <option value="tarjeta">Tarjeta crédito/débito</option>
                                         <option value="sinpe">Sinpe móvil</option>
@@ -80,12 +88,12 @@
                                 </div>
 
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-warning fw-bold text-dark" id="submit-button">Apadrinar</button>
+                                    <button type="button" class="btn btn-warning fw-bold text-dark" id="btnApadrinar" onclick="mostrarModalApadrinamiento()">Apadrinar</button>
                                 </div>
-                                <div class="d-grid">
+                                <div class="d-grid mt-2">
                                     @Html.ActionLink("Volver", "ConsultarAnimales", "Animal", null, new { @class = "volver-btn" })
                                 </div>
-                            </form>
+                            </div>
 
                             <p class="text-center text-muted mt-3 small">
                                 <i class="fas fa-heart text-warning"></i> Gracias por tu generosidad
@@ -107,21 +115,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="formTarjeta">
-                    <div class="mb-3">
-                        <label for="numeroTarjeta">Número de tarjeta</label>
-                        <input type="text" id="numeroTarjeta" class="form-control" placeholder="XXXX-XXXX-XXXX-XXXX" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="titularTarjeta">Nombre del titular</label>
-                        <input type="text" id="titularTarjeta" class="form-control" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="codigoSeguridad">Código de seguridad</label>
-                        <input type="text" id="codigoSeguridad" class="form-control" placeholder="XXX" required />
-                    </div>
-                    <button type="button" class="btn btn-success" onclick="validarTarjeta()">Finalizar</button>
-                </form>
+                <div class="mb-3">
+                    <label for="numeroTarjeta">Número de tarjeta</label>
+                    <input type="text" id="numeroTarjeta" class="form-control" placeholder="XXXX-XXXX-XXXX-XXXX" required />
+                </div>
+                <div class="mb-3">
+                    <label for="titularTarjeta">Nombre del titular</label>
+                    <input type="text" id="titularTarjeta" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label for="codigoSeguridad">Código de seguridad</label>
+                    <input type="text" id="codigoSeguridad" class="form-control" placeholder="XXX" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="enviarFormularioApadrinamiento(1)">Finalizar Apadrinamiento</button>
             </div>
         </div>
     </div>
@@ -139,10 +147,15 @@
                 <p>Realice su Sinpe al número: <strong>70265643</strong></p>
                 <p>Nombre del titular: <strong>Casa Natura</strong></p>
                 <div class="mb-3">
-                    <label>Referencia</label>
-                    <input type="text" id="referencia" class="form-control" required />
+                    <label for="referenciaApadrinamiento" class="form-label fw-bold">Número de referencia Sinpe</label>
+                    <input type="text" id="referenciaApadrinamiento" name="referencia" class="form-control"
+                           placeholder="Digite el número de referencia"
+                           pattern="^\d{6,30}$"
+                           title="Solo números, mínimo 6 dígitos" required />
                 </div>
-                <button type="button" class="btn btn-success" onclick="validarSinpe()">Hecho</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="enviarFormularioApadrinamiento(2)">Finalizar Apadrinamiento</button>
             </div>
         </div>
     </div>
@@ -157,20 +170,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="formPaypal">
-                    <div class="mb-3">
-                        <label for="usuarioPaypal">Usuario de PayPal</label>
-                        <input type="text" id="usuarioPaypal" class="form-control" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="contrasenaPaypal">Contraseña</label>
-                        <input type="password" id="contrasenaPaypal" class="form-control" required />
-                    </div>
-                    <button type="button" class="btn btn-success" onclick="validarPaypal()">Finalizar</button>
-                </form>
+                <div class="mb-3">
+                    <label for="usuarioPaypal">Usuario de PayPal</label>
+                    <input type="text" id="usuarioPaypal" class="form-control" placeholder="Correo o usuario" required />
+                </div>
+                <div class="mb-3">
+                    <label for="contrasenaPaypal">Contraseña</label>
+                    <input type="password" id="contrasenaPaypal" class="form-control" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="enviarFormularioApadrinamiento(3)">Finalizar Apadrinamiento</button>
             </div>
         </div>
     </div>
 </div>
 
 <script src="@Url.Content("~/Scripts/CasaNatura.js")"></script>
+<script src="@Url.Content("~/Scripts/Apadrinamientos.js")"></script>

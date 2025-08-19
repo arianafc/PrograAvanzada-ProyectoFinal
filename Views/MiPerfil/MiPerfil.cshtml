@@ -142,8 +142,8 @@
                     <h5 class="col-12 text-center fw-bold pt-3">DIRECCIÓN</h5>
 
                     <div class="col-md-3">
-                        <label for="provinciaAdmin">Provincia</label>
-                        <select class="form-control" id="provinciaAdmin" name="provincia" required>
+                        <label for="ProvinciaAdmin">Provincia</label>
+                        <select class="form-control" id="ProvinciaAdmin" name="provincia" required>
                             <option value="">Seleccione Provincia</option>
                             @foreach (var provincia in ViewBag.Provincias)
                             {
@@ -153,8 +153,8 @@
                     </div>
 
                     <div class="col-md-3">
-                        <label for="cantonAdmin">Cantón</label>
-                        <select class="form-control" id="cantonAdmin" name="canton" required>
+                        <label for="CantonAdmin">Cantón</label>
+                        <select class="form-control" id="CantonAdmin" name="canton" required>
                             <option value="">Seleccione Cantón</option>
                             @foreach (var canton in ViewBag.Cantones)
                             {
@@ -164,8 +164,8 @@
                     </div>
 
                     <div class="col-md-3">
-                        <label for="distritoAdmin">Distrito</label>
-                        <select class="form-control" id="distritoAdmin" name="distrito" required>
+                        <label for="DistritoAdmin">Distrito</label>
+                        <select class="form-control" id="DistritoAdmin" name="distrito" required>
                             <option value="">Seleccione Distrito</option>
                             @foreach (var distrito in ViewBag.Distritos)
                             {
@@ -199,36 +199,4 @@
 
 </main>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function () {
-    $('#provinciaAdmin').change(function () {
-        var provinciaId = $(this).val();
-
-        $('#cantonAdmin').empty().append('<option value="">Seleccione Cantón</option>');
-        $('#distritoAdmin').empty().append('<option value="">Seleccione Distrito</option>');
-
-        if (provinciaId) {
-            $.getJSON('@Url.Action("ObtenerCantones", "MiPerfil")', { provinciaId: provinciaId }, function (cantones) {
-                $.each(cantones, function (index, canton) {
-                    $('#cantonAdmin').append('<option value="' + canton.ID_CANTON + '">' + canton.NOMBRE + '</option>');
-                });
-            });
-        }
-    });
-
-    $('#cantonAdmin').change(function () {
-        var cantonId = $(this).val();
-
-        $('#distritoAdmin').empty().append('<option value="">Seleccione Distrito</option>');
-
-        if (cantonId) {
-            $.getJSON('@Url.Action("ObtenerDistritos", "MiPerfil")', { cantonId: cantonId }, function (distritos) {
-                $.each(distritos, function (index, distrito) {
-                    $('#distritoAdmin').append('<option value="' + distrito.ID_DISTRITO + '">' + distrito.NOMBRE + '</option>');
-                });
-            });
-        }
-    });
-});
-</script>
+<script src="~/Scripts/MiPerfil.js"></script>

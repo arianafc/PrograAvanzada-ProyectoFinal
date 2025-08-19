@@ -1,5 +1,21 @@
 ﻿$(document).ready(function () {
 
+    if (swalError) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: swalError
+        });
+    }
+
+    if (swalSuccess) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: swalSuccess
+        });
+    }
+
     $(".hide-toggle").on("click", function () {
         $(".nav-links").removeClass("show").addClass("hide");
     });
@@ -35,6 +51,8 @@
         const subtotal = cantidad * precioUnitario;
         subtotalSpan.textContent = subtotal.toLocaleString('es-CR');
     });
+
+    
 });
 
 //Funciones para metodos de pago

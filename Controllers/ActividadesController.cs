@@ -17,6 +17,7 @@ using ProyectoFinal.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -32,16 +33,19 @@ namespace ProyectoFinal.Controllers
 {
     public class ActividadesController : Controller
     {
-      
+
         Utilitarios service = new Utilitarios();
+
         #region GestionActividades
         [HttpGet]
+        [FiltroAdministrador]
         public ActionResult GestionActividades()
         {
-            using (var dbContext = new CASA_NATURAEntities())
+            try
             {
-                try
+                using (var dbContext = new CASA_NATURAEntities())
                 {
+
                     var result = dbContext.VisualizarActividadesSP().ToList();
 
                     var viewModel = new GestionActividadesModel
@@ -52,76 +56,82 @@ namespace ProyectoFinal.Controllers
 
                     return View(viewModel);
                 }
-                catch (Exception ex)
-                {
-                    ViewBag.Error = "Ocurrió un error al cargar las actividades: " + ex.Message;
+            }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
 
-                    return View(new GestionActividadesModel
-                    {
-                        NuevaActividad = new Actividad(),
-                        ListaActividades = new List<VisualizarActividadesSP_Result>()
-                    });
-                }
+                TempData["SwalError"] = "Ocurrió un error al cargar las actividades: " + ex.Message;
+
+                return View(new GestionActividadesModel
+                {
+                    NuevaActividad = new Actividad(),
+                    ListaActividades = new List<VisualizarActividadesSP_Result>()
+                });
             }
         }
+ 
 
 
         [HttpPost]
         public ActionResult GestionActividades(GestionActividadesModel actividad, HttpPostedFileBase ImagenActividad, String Hora)
 
+{
+    try
+    {
+        using (var dbContext = new CASA_NATURAEntities())
         {
-            using (var dbContext = new CASA_NATURAEntities())
+
+            var actividades = new ACTIVIDADES_TB();
+            DateTime fechaCompleta;
+            if (DateTime.TryParse(actividad.NuevaActividad.Fecha.ToString("yyyy-MM-dd") + " " + Hora, out fechaCompleta))
             {
-                try
-                {
-                    var actividades = new ACTIVIDADES_TB();
-                    DateTime fechaCompleta;
-                    if (DateTime.TryParse(actividad.NuevaActividad.Fecha.ToString("yyyy-MM-dd") + " " + Hora, out fechaCompleta))
-                    {
-                        actividades.FECHA = fechaCompleta;
-                    }
-
-                    actividades.ID_ACTIVIDAD = 0;
-                    actividades.NOMBRE = actividad.NuevaActividad.Nombre;
-                    actividades.DESCRIPCION = actividad.NuevaActividad.Descripcion;
-                    actividades.PRECIO_BOLETO = actividad.NuevaActividad.PrecioBoleto;
-                    actividades.TICKETS_DISPONIBLES = actividad.NuevaActividad.TicketsDisponibles;
-                    actividades.ID_ESTADO = 1;
-                    actividades.IMAGEN = string.Empty;
-                    actividades.TIPO = actividad.NuevaActividad.Tipo;
-
-                    dbContext.ACTIVIDADES_TB.Add(actividades);
-                    var result = dbContext.SaveChanges();
-
-                    if (result > 0)
-                    {
-                        string extension = System.IO.Path.GetExtension(ImagenActividad.FileName);
-                        string ruta = AppDomain.CurrentDomain.BaseDirectory + "Imagenes\\" + actividades.ID_ACTIVIDAD + extension;
-                        ImagenActividad.SaveAs(ruta);
-
-                        actividades.IMAGEN = "/Imagenes/" + actividades.ID_ACTIVIDAD + extension;
-                        dbContext.SaveChanges();
-
-                        return RedirectToAction("GestionActividades", "Actividades");
-
-
-                    }
-
-                    TempData["SwalSuccess"] = "Actividad registrado con éxito";
-                    return View();
-                }
-                catch (Exception ex)
-                {
-
-                    TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
-                    return View();
-                }
+                actividades.FECHA = fechaCompleta;
             }
 
-        }
-        #endregion
+            actividades.ID_ACTIVIDAD = 0;
+            actividades.NOMBRE = actividad.NuevaActividad.Nombre;
+            actividades.DESCRIPCION = actividad.NuevaActividad.Descripcion;
+            actividades.PRECIO_BOLETO = actividad.NuevaActividad.PrecioBoleto;
+            actividades.TICKETS_DISPONIBLES = actividad.NuevaActividad.TicketsDisponibles;
+            actividades.ID_ESTADO = 1;
+            actividades.IMAGEN = string.Empty;
+            actividades.TIPO = actividad.NuevaActividad.Tipo;
 
-        #region CambiarEstadoActividad
+            dbContext.ACTIVIDADES_TB.Add(actividades);
+            var result = dbContext.SaveChanges();
+
+            if (result > 0)
+            {
+                string extension = System.IO.Path.GetExtension(ImagenActividad.FileName);
+                string ruta = AppDomain.CurrentDomain.BaseDirectory + "Imagenes\\" + actividades.ID_ACTIVIDAD + extension;
+                ImagenActividad.SaveAs(ruta);
+
+                actividades.IMAGEN = "/Imagenes/" + actividades.ID_ACTIVIDAD + extension;
+                dbContext.SaveChanges();
+
+                return RedirectToAction("GestionActividades", "Actividades");
+
+
+            }
+
+            TempData["SwalSuccess"] = "Actividad registrado con éxito";
+            return View();
+        }
+    }
+    catch (Exception ex)
+    {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+
+                TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
+        return View();
+    }
+}
+
+
+        
+     
+
 
         [HttpPost]
         public ActionResult CambioEstadoActividad(int IdEstado, int IdActividad)
@@ -144,16 +154,18 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-  
-                TempData["ErrorMessage"] = "Ocurrió un error al intentar cambiar el estado de la actividad."+ ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+
+                TempData["SwalError"] = "Ocurrió un error al intentar cambiar el estado de la actividad."+ ex.Message;
                 return RedirectToAction("GestionActividades", "Actividades");
             }
         }
 
 
-        #endregion
+  
 
         [HttpPost]
+        [FiltroAdministrador]
         public ActionResult EditarActividades(GestionActividadesModel actividad, HttpPostedFileBase ImagenActividad, string Hora)
         {
             try
@@ -204,10 +216,17 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                 TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
                 return RedirectToAction("GestionActividades", "Actividades");
             }
         }
+
+        #endregion
+
+
+
+        #region ActividadesCliente
 
         [HttpGet]
         public ActionResult ActividadesDisponibles()
@@ -216,19 +235,22 @@ namespace ProyectoFinal.Controllers
             {
                 using (var dbcontext = new CASA_NATURAEntities())
                 {
+
                     var result = dbcontext.VisualizarActividadesActivasSP().ToList();
                     return View(result);
                 }
             }
             catch (Exception ex)
+
             {
-                ViewBag.Error = "Error al cargar las actividades: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error al cargar las actividades: " + ex.Message;
                 return View(new List<VisualizarActividadesActivasSP_Result>());
             }
         }
 
         [HttpGet]
-
+        [FiltroSesion]
         public ActionResult DetalleActividad(int IdActividad)
         {
             try
@@ -249,13 +271,15 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error en detalle actividad: " + ex.Message;
                 return RedirectToAction("Index");
             }
         }
 
 
         [HttpPost]
+        [FiltroSesion]
         public ActionResult ComprarBoletos(int IdActividad, int MetodoPago, int NumBoletos, string Referencia)
         {
             try
@@ -281,7 +305,7 @@ namespace ProyectoFinal.Controllers
 
                     if (result > 0)
                     {
-                        // Armar mensaje
+                       
                         decimal total = actividad.PRECIO_BOLETO * NumBoletos;
                         string nombreUsuario = usuario.NOMBRE;
                         string correoDestino = usuario.CORREO;
@@ -320,13 +344,15 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-             
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                 TempData["SwalError"] = "Ocurrió un error al procesar la compra.";
                 return RedirectToAction("ActividadesDisponibles", "Actividades");
             }
         }
+        #endregion
 
         [HttpGet]
+        [FiltroAdministrador]
 
         public ActionResult GestionVentas()
         {
@@ -343,20 +369,18 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error al cargar las actividades: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error al cargar las actividades: " + ex.Message;
                 return View(new List<VisualizacionVentasSP_Result>());
             }
             
         }
 
-
+       
         [HttpGet]
-
+        [FiltroAdministrador]
         public ActionResult GenerarFactura(int NumeroFactura)
         {
-           
-        
-
 
             try
             {
@@ -464,6 +488,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+
                 using (var ms = new MemoryStream())
                 {
                     PdfWriter writer = new PdfWriter(ms);
@@ -479,6 +505,8 @@ namespace ProyectoFinal.Controllers
 
                     return File(ms.ToArray(), "application/pdf", "ErrorFactura.pdf");
                 }
+
+              
             }
         }
     }

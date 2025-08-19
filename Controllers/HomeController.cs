@@ -18,28 +18,36 @@ namespace ProyectoFinal.Controllers
         #region HomePage
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error " + ex.Message;
+                return View();
+            }
         }
 
         #endregion
 
-        #region Dashboard
-
-        [HttpGet]
-        public ActionResult Dashboard()
-        {
-
-            return View();
-        }
-
-        #endregion
 
         #region IniciarSesion
         [HttpGet]
         public ActionResult IniciarSesion()
         {
 
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error " + ex.Message;
+                return View();
+            }
         }
 
 
@@ -71,7 +79,7 @@ namespace ProyectoFinal.Controllers
                             }
                             else
                             {
-                                return RedirectToAction("Dashboard", "Home");
+                                return RedirectToAction("Dashboard", "Dashboard");
                             }
                         }
                         else
@@ -87,7 +95,7 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-              
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                 TempData["SwalError"] = "Ocurrió un error al procesar la solicitud. Inténtelo nuevamente." + ex.Message;
                 return View();
             }
@@ -101,8 +109,16 @@ namespace ProyectoFinal.Controllers
         public ActionResult Registro()
         {
 
-
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error " + ex.Message;
+                return View();
+            }
         }
 
         [HttpPost]
@@ -133,7 +149,7 @@ namespace ProyectoFinal.Controllers
                 }
                 catch (Exception ex)
                 {
-
+                    Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
                     TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
                     return View();
                 }
@@ -147,8 +163,18 @@ namespace ProyectoFinal.Controllers
         [HttpGet]
         public ActionResult CerrarSesion()
         {
-            Session.Clear();
-            return RedirectToAction("IniciarSesion", "Home");
+            try
+            {
+                Session.Clear();
+                return RedirectToAction("IniciarSesion", "Home");
+            }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error " + ex.Message;
+                return View();
+            }
+            
         }
         #endregion
 
@@ -157,54 +183,70 @@ namespace ProyectoFinal.Controllers
 
         public ActionResult RecuperarAcceso()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error " + ex.Message;
+                return View();
+            }
         }
 
         [HttpPost]
 
         public ActionResult RecuperarAcceso(Usuario user)
         {
-            using (var dbContext = new CASA_NATURAEntities())
+            try
             {
-
-                var result = dbContext.USUARIOS_TB.FirstOrDefault(u => u.CORREO.ToLower() == user.Correo.ToLower()
-                                                             && u.Identificacion == user.Identificacion);
-
-                if (result != null)
+                using (var dbContext = new CASA_NATURAEntities())
                 {
-                    string link = Url.Action(
-                       "CambioContrasenna",
-                           "Home",
-                        new { correo = user.Correo.ToLower() },
-                       protocol: Request.Url.Scheme
-                       );
-                    StringBuilder mensaje = new StringBuilder();
+                    var result = dbContext.USUARIOS_TB
+                        .FirstOrDefault(u => u.CORREO.ToLower() == user.Correo.ToLower()
+                                          && u.Identificacion == user.Identificacion);
 
-                    mensaje.Append("<p>Estimado <strong>" + result.NOMBRE + "</strong>,</p>");
-                    mensaje.Append("<p>Recibimos una solicitud para recuperar su acceso.</p>");
-                    mensaje.Append("<p>Haga clic en el siguiente enlace para cambiar su contraseña:</p>");
-                    mensaje.Append("<p><a href='" + link + "' style='color:#007bff;'>" + link + "</a></p>");
-                    mensaje.Append("<p>Este enlace es válido por un tiempo limitado.</p>");
-                    mensaje.Append("<p>Gracias,<br/>El equipo de soporte</p>");
-
-
-                    if (service.EnviarCorreo(result.CORREO, mensaje.ToString(), "Solicitud de acceso"))
+                    if (result != null)
                     {
-                        TempData["SwalSuccess"] = "Hemos enviado un link de recuperación de acceso al correo" +
-                            " electrónico registrado.";
-                        return RedirectToAction("IniciarSesion", "Home");
+                        string link = Url.Action(
+                            "CambioContrasenna",
+                            "Home",
+                            new { correo = user.Correo.ToLower() },
+                            protocol: Request.Url.Scheme
+                        );
+
+                        StringBuilder mensaje = new StringBuilder();
+                        mensaje.Append("<p>Estimado <strong>" + result.NOMBRE + "</strong>,</p>");
+                        mensaje.Append("<p>Recibimos una solicitud para recuperar su acceso.</p>");
+                        mensaje.Append("<p>Haga clic en el siguiente enlace para cambiar su contraseña:</p>");
+                        mensaje.Append("<p><a href='" + link + "' style='color:#007bff;'>" + link + "</a></p>");
+                        mensaje.Append("<p>Este enlace es válido por un tiempo limitado.</p>");
+                        mensaje.Append("<p>Gracias,<br/>El equipo de soporte</p>");
+
+                        if (service.EnviarCorreo(result.CORREO, mensaje.ToString(), "Solicitud de acceso"))
+                        {
+                            TempData["SwalSuccess"] = "Hemos enviado un link de recuperación de acceso al correo registrado.";
+                            return RedirectToAction("IniciarSesion", "Home");
+                        }
+
+                        TempData["SwalError"] = "No se pudo realizar la notificación de su acceso al sistema.";
+                        return View();
                     }
 
-
-                    TempData["SwalError"] = "No se pudo realizar la notificación de su acceso al sistema";
+                    TempData["SwalError"] = "Lo sentimos, la cédula o correo indicados no se encuentran registrados o son incorrectos.";
                     return View();
                 }
+            }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
 
-                TempData["SwalError"] = "Lo sentimos, la cédula o correo indicados no se encuentran registrados o son incorrectos.";
+                TempData["SwalError"] = "Ocurrió un error inesperado. Intente nuevamente más tarde.";
                 return View();
-
             }
         }
+
 
         #endregion
 
@@ -213,27 +255,46 @@ namespace ProyectoFinal.Controllers
         [HttpGet]
         public ActionResult CambioContrasenna(string correo)
         {
-            ViewBag.Correo = correo;
-            return View();
+            try
+            {
+                ViewBag.Correo = correo;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error " + ex.Message;
+                return View();
+            }
+           
         }
 
         [HttpPost]
-        public ActionResult CambioContrasenna(Usuario user, String correo)
+        public ActionResult CambioContrasenna(Usuario user, string correo)
         {
-            using (var dbContext = new CASA_NATURAEntities())
+            try
             {
-                var result = dbContext.CambiarContrasennaSP(correo, user.Contrasenna);
-
-                if (result > 0)
+                using (var dbContext = new CASA_NATURAEntities())
                 {
-                    TempData["SwalSuccess"] = "Contraseña actualizada con éxito.";
-                    return RedirectToAction("IniciarSesion", "Home");
-                }
+                    var result = dbContext.CambiarContrasennaSP(correo, user.Contrasenna);
 
-                TempData["SwalError"] = "No se pudo actualizar la contraseña.";
+                    if (result > 0)
+                    {
+                        TempData["SwalSuccess"] = "Contraseña actualizada con éxito.";
+                        return RedirectToAction("IniciarSesion", "Home");
+                    }
+
+                    TempData["SwalError"] = "No se pudo actualizar la contraseña.";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+
+                TempData["SwalError"] = "Ocurrió un error inesperado. Intente nuevamente más tarde.";
                 return View();
             }
-
         }
 
         #endregion
@@ -243,7 +304,16 @@ namespace ProyectoFinal.Controllers
 
         public ActionResult Nosotros()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error " + ex.Message;
+                return View();
+            }
         }
     }
 }

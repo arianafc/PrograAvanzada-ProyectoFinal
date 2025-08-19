@@ -1,11 +1,13 @@
-﻿using System;
+﻿using ProyectoFinal.EF;
+using ProyectoFinal.Models;
+using ProyectoFinal.Services;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
-using ProyectoFinal.EF;
-using ProyectoFinal.Models;
 
 namespace ProyectoFinal.Controllers
 {
@@ -21,164 +23,205 @@ namespace ProyectoFinal.Controllers
         // POST: /Contacto/EnviarConsulta
         [HttpPost]
         [ValidateAntiForgeryToken]
+     
         public ActionResult EnviarConsulta(ConsultaViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                TempData["Error"] = "Hubo un problema al enviar la consulta.";
+                TempData["SwalError"] = "Hubo un problema al enviar la consulta.";
                 return View("Contacto", model);
             }
 
             using (var db = new CASA_NATURAEntities())
             {
-                var estadoPendienteId = db.ESTADOS_TB
-                                          .Where(e => e.DESCRIPCION == "Pendiente")
-                                          .Select(e => e.ID_ESTADO)
-                                          .FirstOrDefault();
-
-                if (estadoPendienteId == 0)
-                {
-                    TempData["Error"] = "No se encontró el estado 'Pendiente' en ESTADOS_TB.";
-                    return View("Contacto", model);
-                }
-
-                int? idUsuarioActual = null;
-                if (User?.Identity?.IsAuthenticated == true)
-                {
-                    var emailLogin = User.Identity.Name;
-                    var u = db.USUARIOS_TB.Where(x => x.CORREO == emailLogin)
-                                          .Select(x => new { x.ID_USUARIO })
-                                          .FirstOrDefault();
-                    if (u != null) idUsuarioActual = u.ID_USUARIO;
-                }
-
-                var nueva = new CONSULTAS_TB
-                {
-                    NOMBRE = model.Nombre,
-                    APELLIDO = model.Apellido,
-                    CORREO = model.Correo,
-                    MENSAJE = model.Mensaje,
-                    FECHA = DateTime.Now,
-                    ID_USUARIO = idUsuarioActual,
-
-                    // ← clave: asignar 'Pendiente' explícitamente para que no vaya 0
-                    ID_ESTADO = estadoPendienteId
-                };
-
                 try
                 {
+                    var estadoPendienteId = db.ESTADOS_TB
+                                              .Where(e => e.DESCRIPCION == "Pendiente")
+                                              .Select(e => e.ID_ESTADO)
+                                              .FirstOrDefault();
+
+                    if (estadoPendienteId == 0)
+                    {
+                        TempData["SwalError"] = "No se encontró el estado 'Pendiente' en ESTADOS_TB.";
+                        return View("Contacto", model);
+                    }
+
+                    int? idUsuarioActual = null;
+                    if (User?.Identity?.IsAuthenticated == true)
+                    {
+                        var emailLogin = User.Identity.Name;
+                        var u = db.USUARIOS_TB.Where(x => x.CORREO == emailLogin)
+                                              .Select(x => new { x.ID_USUARIO })
+                                              .FirstOrDefault();
+                        if (u != null) idUsuarioActual = u.ID_USUARIO;
+                    }
+
+                    var nueva = new CONSULTAS_TB
+                    {
+                        NOMBRE = model.Nombre,
+                        APELLIDO = model.Apellido,
+                        CORREO = model.Correo,
+                        MENSAJE = model.Mensaje,
+                        FECHA = DateTime.Now,
+                        ID_USUARIO = idUsuarioActual,
+                        ID_ESTADO = estadoPendienteId
+                    };
+
                     db.CONSULTAS_TB.Add(nueva);
                     db.SaveChanges();
 
-                    try { EnviarCorreoCasaNatura(nueva); }
-                    catch (Exception ex)
+                    try
                     {
-                        TempData["ErrorCorreo"] = "SMTP: " + ex.Message +
-                            (ex.InnerException != null ? " | INNER: " + ex.InnerException.Message : "");
+                        EnviarCorreoCasaNatura(nueva);
+                    }
+                    catch (Exception exCorreo)
+                    {
+                        TempData["SwalError"] = "Error al enviar correo: " + exCorreo.Message;
+                        Utilitarios.RegistrarError(exCorreo, idUsuarioActual);
                     }
                 }
-                catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                catch (System.Data.Entity.Infrastructure.DbUpdateException exDb)
                 {
-                    var msg = ex.InnerException?.InnerException?.Message
-                              ?? ex.InnerException?.Message
-                              ?? ex.Message;
+                    var msg = exDb.InnerException?.InnerException?.Message
+                              ?? exDb.InnerException?.Message
+                              ?? exDb.Message;
 
-                    TempData["Error"] = "Error al guardar la consulta: " + msg;
+                    TempData["SwalError"] = "Error al guardar la consulta: " + msg;
+                    Utilitarios.RegistrarError(exDb, null); 
+
+                    return View("Contacto", model);
+                }
+                catch (Exception ex)
+                {
+                    TempData["SwalError"] = "Ocurrió un error inesperado al procesar la consulta.";
+                    Utilitarios.RegistrarError(ex, null);
                     return View("Contacto", model);
                 }
             }
 
             TempData["Mensaje"] = "Consulta enviada con éxito.";
+            ModelState.Clear();
             return RedirectToAction("Contacto");
         }
 
+
         [HttpGet]
+        [FiltroAdministrador]
         public ActionResult GestionDudas()
         {
-            using (var db = new CASA_NATURAEntities())
+            try
             {
-                var estadoPendienteId = db.ESTADOS_TB
-                    .Where(e => e.DESCRIPCION == "Pendiente")
-                    .Select(e => e.ID_ESTADO)
-                    .FirstOrDefault();
-
-                var estadoResueltoId = db.ESTADOS_TB
-                    .Where(e => e.DESCRIPCION == "Resuelto")
-                    .Select(e => e.ID_ESTADO)
-                    .FirstOrDefault();
-
-                if (estadoPendienteId == 0 || estadoResueltoId == 0)
+                using (var db = new CASA_NATURAEntities())
                 {
-                    TempData["Error"] = "No se encontraron los estados 'Pendiente' o 'Resuelto' en ESTADOS_TB.";
-                    return View("GestionDudas", Tuple.Create(
-                        Enumerable.Empty<ConsultaViewModel>().ToList(),
-                        Enumerable.Empty<ConsultaViewModel>().ToList()
-                    ));
+                    var estadoPendienteId = db.ESTADOS_TB
+                        .Where(e => e.DESCRIPCION == "Pendiente")
+                        .Select(e => e.ID_ESTADO)
+                        .FirstOrDefault();
+
+                    var estadoResueltoId = db.ESTADOS_TB
+                        .Where(e => e.DESCRIPCION == "Resuelto")
+                        .Select(e => e.ID_ESTADO)
+                        .FirstOrDefault();
+
+                    if (estadoPendienteId == 0 || estadoResueltoId == 0)
+                    {
+                        TempData["Error"] = "No se encontraron los estados 'Pendiente' o 'Resuelto' en ESTADOS_TB.";
+                        return View("GestionDudas", Tuple.Create(
+                            new List<ConsultaViewModel>(),
+                            new List<ConsultaViewModel>()
+                        ));
+                    }
+
+                    var resueltas = (
+                        from c in db.CONSULTAS_TB
+                        join e in db.ESTADOS_TB on c.ID_ESTADO equals e.ID_ESTADO
+                        where c.ID_ESTADO == estadoResueltoId
+                        orderby c.FECHA descending
+                        select new ConsultaViewModel
+                        {
+                            IdConsulta = c.ID_CONSULTA,
+                            Nombre = c.NOMBRE,
+                            Apellido = c.APELLIDO,
+                            Correo = c.CORREO,
+                            Mensaje = c.MENSAJE,
+                            Fecha = c.FECHA,
+                            FechaResuelta = c.FECHA_RESUELTA,
+                            Estado = e.DESCRIPCION
+                        }
+                    ).ToList();
+
+                    var pendientes = (
+                        from c in db.CONSULTAS_TB
+                        join e in db.ESTADOS_TB on c.ID_ESTADO equals e.ID_ESTADO
+                        where c.ID_ESTADO == estadoPendienteId
+                        orderby c.FECHA descending
+                        select new ConsultaViewModel
+                        {
+                            IdConsulta = c.ID_CONSULTA,
+                            Nombre = c.NOMBRE,
+                            Apellido = c.APELLIDO,
+                            Correo = c.CORREO,
+                            Mensaje = c.MENSAJE,
+                            Fecha = c.FECHA,
+                            Estado = e.DESCRIPCION
+                        }
+                    ).ToList();
+
+                    return View("GestionDudas", Tuple.Create(resueltas, pendientes));
                 }
+            }
+            catch (Exception ex)
+            {
+               
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
 
-                var resueltas = (
-                    from c in db.CONSULTAS_TB
-                    join e in db.ESTADOS_TB on c.ID_ESTADO equals e.ID_ESTADO
-                    where c.ID_ESTADO == estadoResueltoId
-                    orderby c.FECHA descending
-                    select new ConsultaViewModel
-                    {
-                        IdConsulta = c.ID_CONSULTA,
-                        Nombre = c.NOMBRE,
-                        Apellido = c.APELLIDO,
-                        Correo = c.CORREO,
-                        Mensaje = c.MENSAJE,
-                        Fecha = c.FECHA,
-                        FechaResuelta = c.FECHA_RESUELTA,
-                        Estado = e.DESCRIPCION // o e.DESCRIPCION, según tu columna
-                    }
-                ).ToList();
+                TempData["SwalError"] = "Ocurrió un error al cargar las dudas.";
 
-                var pendientes = (
-                    from c in db.CONSULTAS_TB
-                    join e in db.ESTADOS_TB on c.ID_ESTADO equals e.ID_ESTADO
-                    where c.ID_ESTADO == estadoPendienteId
-                    orderby c.FECHA descending
-                    select new ConsultaViewModel
-                    {
-                        IdConsulta = c.ID_CONSULTA,
-                        Nombre = c.NOMBRE,
-                        Apellido = c.APELLIDO,
-                        Correo = c.CORREO,
-                        Mensaje = c.MENSAJE,
-                        Fecha = c.FECHA,
-                        Estado = e.DESCRIPCION
-                    }
-                ).ToList();
-
-                return View("GestionDudas", Tuple.Create(resueltas, pendientes));
+                
+                return View("GestionDudas", Tuple.Create(
+                    new List<ConsultaViewModel>(),
+                    new List<ConsultaViewModel>()
+                ));
             }
         }
 
         [HttpPost]
         public ActionResult MarcarComoResuelta(int id)
         {
-            using (var db = new CASA_NATURAEntities())
+            try
             {
-                var consulta = db.CONSULTAS_TB.Find(id);
-                if (consulta != null)
+                using (var db = new CASA_NATURAEntities())
                 {
-                    var estadoResueltoId = db.ESTADOS_TB
-                        .Where(e => e.DESCRIPCION == "Resuelto")
-                        .Select(e => e.ID_ESTADO)
-                        .FirstOrDefault();
-
-                    if (estadoResueltoId == 0)
+                    var consulta = db.CONSULTAS_TB.Find(id);
+                    if (consulta != null)
                     {
-                        TempData["Error"] = "No se encontró el estado 'Resuelto' en la tabla ESTADOS_TB.";
-                        return RedirectToAction("GestionDudas");
+                        var estadoResueltoId = db.ESTADOS_TB
+                            .Where(e => e.DESCRIPCION == "Resuelto")
+                            .Select(e => e.ID_ESTADO)
+                            .FirstOrDefault();
+
+                        if (estadoResueltoId == 0)
+                        {
+                            TempData["SwalError"] = "No se encontró el estado 'Resuelto' en la tabla ESTADOS_TB.";
+                            return RedirectToAction("GestionDudas");
+                        }
+
+                        consulta.ID_ESTADO = estadoResueltoId;
+                        consulta.FECHA_RESUELTA = DateTime.Now;
+
+                        db.SaveChanges();
                     }
-
-                    consulta.ID_ESTADO = estadoResueltoId;
-                    consulta.FECHA_RESUELTA = DateTime.Now;
-
-                    db.SaveChanges();
                 }
+
+                TempData["SwalSuccess"] = "La consulta fue marcada como resuelta correctamente.";
+            }
+            catch (Exception ex)
+            {
+                
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+
+                TempData["SwalError"] = "Ocurrió un error al intentar marcar la consulta como resuelta.";
             }
 
             return RedirectToAction("GestionDudas");

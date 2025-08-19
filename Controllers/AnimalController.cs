@@ -29,13 +29,15 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error al cargar los animales: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error al cargar los animales: " + ex.Message;
                 return View(new List<ObtenerAnimalesActivosSP_Result>());
             }
         }
 
 
         [HttpGet]
+        [FiltroSesion]
         public ActionResult DetalleAnimal(int id)
         {
             try
@@ -56,7 +58,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error: " + ex.Message;
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Error: " + ex.Message;
                 return RedirectToAction("Index");
             }
         }
@@ -99,7 +102,8 @@ namespace ProyectoFinal.Controllers
 
                 catch (Exception ex)
                 {
-                    ViewBag.Error = "Ocurrió un error al cargar los animales: " + ex.Message;
+                    Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                    TempData["SwalError"] = "Ocurrió un error al cargar los animales: " + ex.Message;
 
                     return View(new GestionAnimalesModel
                     {
@@ -114,6 +118,7 @@ namespace ProyectoFinal.Controllers
 
 
         [HttpPost]
+       
         public ActionResult GestionAnimales(GestionAnimalesModel animal, HttpPostedFileBase ImagenAnimal)
         {
             using (var dbContext = new CASA_NATURAEntities())
@@ -146,18 +151,19 @@ namespace ProyectoFinal.Controllers
                         animales.IMAGEN = "/Imagenes/Animales/" + animales.ID_ANIMAL + extension;
                         dbContext.SaveChanges();
 
-                        TempData["SwalSuccess"] = "Animal registrado con éxito";
+                        TempData["Mensaje"] = "Animal registrado con éxito";
                         return RedirectToAction("GestionAnimales", "Animal");
                     }
                     else
                     {
-                        TempData["SwalError"] = "No se pudo registrar el animal";
+                        TempData["Error"] = "No se pudo registrar el animal";
                         return RedirectToAction("GestionAnimales", "Animal");
                     }
                 }
                 catch (Exception ex)
                 {
-                    TempData["SwalError"] = ex.InnerException?.Message ?? ex.Message;
+                    Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                    TempData["Error"] = ex.InnerException?.Message ?? ex.Message;
                     return RedirectToAction("GestionAnimales", "Animal");
                 }
             }
@@ -172,12 +178,12 @@ namespace ProyectoFinal.Controllers
                 {
                     if (string.IsNullOrEmpty(animal.NuevoAnimal.Nombre))
                     {
-                        TempData["SwalError"] = "El nombre del animal es requerido";
+                        TempData["Error"] = "El nombre del animal es requerido";
                         return RedirectToAction("GestionAnimales", "Animal");
                     }
                     if (animal.NuevoAnimal.IdRaza == 0)
                     {
-                        TempData["SwalError"] = "La raza del animal es requerida";
+                        TempData["Error"] = "La raza del animal es requerida";
                         return RedirectToAction("GestionAnimales", "Animal");
                     }
 
@@ -225,36 +231,51 @@ namespace ProyectoFinal.Controllers
 
                     if (result > 0)
                     {
-                        TempData["SwalSuccess"] = "Animal actualizado con éxito";
+                        TempData["Mensaje"] = "Animal actualizado con éxito";
                         return RedirectToAction("GestionAnimales", "Animal");
                     }
                     else
                     {
-                        TempData["SwalError"] = "No se pudo actualizar el animal";
+                        TempData["Error"] = "No se pudo actualizar el animal";
                         return RedirectToAction("GestionAnimales", "Animal");
                     }
                 }
                 catch (Exception ex)
                 {
-                    TempData["SwalError"] = "Error: " + (ex.InnerException?.Message ?? ex.Message);
+                    Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                    TempData["Error"] = "Error: " + (ex.InnerException?.Message ?? ex.Message);
                     return RedirectToAction("GestionAnimales", "Animal");
                 }
             }
         }
 
-
         [HttpPost]
         public ActionResult CambiarEstadoAnimal(int IdAnimal, int IdEstado)
         {
-            using (var dbContext = new CASA_NATURAEntities())
+            try
             {
-                var result = dbContext.CambiarEstadoAnimalSP(IdAnimal, IdEstado);
-                if (result > 0)
+                using (var dbContext = new CASA_NATURAEntities())
                 {
-                    return RedirectToAction("GestionAnimales", "Animal");
+                    var result = dbContext.CambiarEstadoAnimalSP(IdAnimal, IdEstado);
+
+                    if (result > 0)
+                    {
+                        TempData["Mensaje"] = "Estado cambiado exitosamente";
+                    }
+                    else
+                    {
+                        TempData["Error"] = "No se pudo cambiar el estado";
+                    }
                 }
-                return View();
             }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["Error"] = "Error: " + ex.Message;
+
+            }
+
+            return RedirectToAction("GestionAnimales", "Animal");
         }
     }
 }

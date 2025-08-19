@@ -571,7 +571,7 @@ CREATE OR ALTER PROCEDURE InsertarApadrinamientoSP
     @MontoMensual DECIMAL(10,2),
     @IdUsuario INT,
     @IdMetodo INT,
-    @Referencia NVARCHAR(50) = NULL,
+    @Referencia NVARCHAR(100),
     @IdAnimal INT
 AS
 BEGIN
@@ -593,7 +593,7 @@ BEGIN
         )
         VALUES 
         (
-            @MontoMensual, GETDATE(), NULL, @IdUsuario, 1, @IdAnimal, @IdMetodo, @Referencia
+            @MontoMensual, GETDATE(), NULL, @IdUsuario, 1, @IdAnimal, @IdMetodo, ISNULL(@Referencia, 'N/A')
         );
 
 		UPDATE ANIMAL_TB 
@@ -819,6 +819,9 @@ INSERT INTO ESTADOS_TB (DESCRIPCION) VALUES
 ('Activo'),
 ('Inactivo'),
 ('Apadrinado');
+('Resuelto');
+('Pendiente');
+('Confirmada');
 
 -- =============================================
 -- INSERTS PARA ESTADOS_SALUD_TB

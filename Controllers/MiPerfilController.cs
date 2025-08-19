@@ -1,5 +1,6 @@
 ﻿using ProyectoFinal.EF;
 using ProyectoFinal.Models;
+using ProyectoFinal.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -14,13 +15,15 @@ namespace ProyectoFinal.Controllers
         {
             return Session["idUsuario"] != null;
         }
-
+        [HttpGet]
+        [FiltroSesion]
         public ActionResult MiPerfil()
         {
             try
             {
                 if (!EsUsuarioAutenticado())
                 {
+                    TempData["SwalError"] = "Debe iniciar sesión para acceder a su perfil.";
                     return RedirectToAction("IniciarSesion", "Home");
                 }
 
@@ -76,9 +79,9 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error en MiPerfil: {ex.Message}");
-                TempData["Error"] = "Ocurrió un error al cargar tu perfil.";
-                return RedirectToAction("Error");
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Ocurrió un error al cargar su perfil. Intente nuevamente.";
+                return RedirectToAction("Home", "Index");
             }
         }
 
@@ -136,8 +139,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error en ActualizarPerfil: {ex.Message}");
-                TempData["Error"] = "No se pudo actualizar el perfil.";
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Ocurrió un error al actualizar el perfil. Intente nuevamente.";
                 return RedirectToAction("MiPerfil");
             }
         }
@@ -157,10 +160,11 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error en ObtenerCantones: {ex.Message}");
-                return Json(new { error = true, mensaje = "Error al obtener cantones." }, JsonRequestBehavior.AllowGet);
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                return Json(new { error = "Ocurrió un error al obtener los cantones." }, JsonRequestBehavior.AllowGet);
             }
         }
+
 
         public JsonResult ObtenerDistritos(int cantonId)
         {
@@ -177,12 +181,14 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error en ObtenerDistritos: {ex.Message}");
-                return Json(new { error = true, mensaje = "Error al obtener distritos." }, JsonRequestBehavior.AllowGet);
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                return Json(new { error = "Ocurrió un error al obtener los distritos." }, JsonRequestBehavior.AllowGet);
             }
         }
 
+
         [HttpGet]
+        [FiltroSesion]
         public ActionResult MisDonaciones()
         {
             try
@@ -214,12 +220,15 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error en MisDonaciones: {ex.Message}");
-                TempData["Error"] = "No se pudieron cargar las donaciones.";
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Ocurrió un error al cargar sus donaciones.";
                 return RedirectToAction("MiPerfil");
             }
         }
 
+
+        [HttpGet]
+        [FiltroSesion]
         public ActionResult MisTours()
         {
             try
@@ -241,8 +250,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error en MisTours: {ex.Message}");
-                TempData["Error"] = "No se pudieron cargar los tours.";
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Ocurrió un error al cargar sus tours.";
                 return RedirectToAction("MiPerfil");
             }
         }
@@ -271,8 +280,8 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error en MisAnimales: {ex.Message}");
-                TempData["Error"] = "No se pudieron cargar los animales apadrinados.";
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Ocurrió un error al cargar sus animales.";
                 return RedirectToAction("MiPerfil");
             }
         }
