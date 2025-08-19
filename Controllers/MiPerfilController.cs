@@ -85,6 +85,76 @@ namespace ProyectoFinal.Controllers
             }
         }
 
+        [HttpGet]
+        [FiltroSesion]
+        public ActionResult Ajustes()
+        {
+            try
+            {
+                if (!EsUsuarioAutenticado())
+                {
+                    TempData["SwalError"] = "Debe iniciar sesión para acceder a su perfil.";
+                    return RedirectToAction("IniciarSesion", "Home");
+                }
+
+                int idUsuario = Convert.ToInt32(Session["idUsuario"]);
+
+                using (var db = new CASA_NATURAEntities())
+                {
+                    var direccion = db.DIRECCIONES_TB
+                        .Where(d => d.ID_USUARIO == idUsuario)
+                        .Select(d => new
+                        {
+                            DireccionExacta = d.DIRECCION_EXACTA,
+                            Distrito = d.DISTRITOS_TB.NOMBRE,
+                            Canton = d.DISTRITOS_TB.CANTONES_TB.NOMBRE,
+                            Provincia = d.DISTRITOS_TB.CANTONES_TB.PROVINCIAS_TB.NOMBRE,
+                            DistritoId = d.ID_DISTRITO,
+                            CantonId = d.DISTRITOS_TB.CANTON,
+                            ProvinciaId = d.DISTRITOS_TB.CANTONES_TB.PROVINCIA
+                        })
+                        .FirstOrDefault();
+
+                    var provincias = db.PROVINCIAS_TB.ToList();
+                    List<CANTONES_TB> cantones = new List<CANTONES_TB>();
+                    List<DISTRITOS_TB> distritos = new List<DISTRITOS_TB>();
+
+                    if (direccion != null)
+                    {
+                        cantones = db.CANTONES_TB.Where(c => c.PROVINCIA == direccion.ProvinciaId).ToList();
+                        distritos = db.DISTRITOS_TB.Where(d => d.CANTON == direccion.CantonId).ToList();
+
+                        ViewBag.Direccion = direccion.DireccionExacta;
+                        ViewBag.Distrito = direccion.Distrito;
+                        ViewBag.Canton = direccion.Canton;
+                        ViewBag.Provincia = direccion.Provincia;
+                        ViewBag.DistritoId = direccion.DistritoId;
+                        ViewBag.CantonId = direccion.CantonId;
+                        ViewBag.ProvinciaId = direccion.ProvinciaId;
+                    }
+                    else
+                    {
+                        ViewBag.Direccion = "No registrada";
+                        ViewBag.Distrito = "-";
+                        ViewBag.Canton = "-";
+                        ViewBag.Provincia = "-";
+                    }
+
+                    ViewBag.Provincias = provincias;
+                    ViewBag.Cantones = cantones;
+                    ViewBag.Distritos = distritos;
+
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                Utilitarios.RegistrarError(ex, (int?)Session["idUsuario"]);
+                TempData["SwalError"] = "Ocurrió un error al cargar su perfil. Intente nuevamente.";
+                return RedirectToAction("Home", "Index");
+            }
+        }
+
         [HttpPost]
         public ActionResult ActualizarPerfil(string nombre, string apellido1, string apellido2, string identificacion,
                                              string email, int provincia, int canton, int distrito, string exacta)
@@ -135,7 +205,16 @@ namespace ProyectoFinal.Controllers
                     Session["email"] = email;
                 }
 
-                return RedirectToAction("MiPerfil");
+                if (Session["IdRol"] != null && Convert.ToInt32(Session["IdRol"]) == 1)
+                {
+                    return RedirectToAction("MiPerfil");
+                }
+                else if (Session["IdRol"] != null && Convert.ToInt32(Session["IdRol"]) == 2)
+                {
+                    return RedirectToAction("Ajustes"); 
+                }
+
+                return RedirectToAction("MiPerfil", "MiPerfil");
             }
             catch (Exception ex)
             {

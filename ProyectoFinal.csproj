@@ -502,6 +502,7 @@
     <Content Include="Views\Contacto\GestionDudas.cshtml" />
     <Content Include="Views\Home\Nosotros.cshtml" />
     <Content Include="Views\Usuarios\GestionUsuarios.cshtml" />
+    <Content Include="Views\MiPerfil\Ajustes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
