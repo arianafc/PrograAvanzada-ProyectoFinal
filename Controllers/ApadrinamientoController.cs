@@ -4,6 +4,7 @@ using ProyectoFinal.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
@@ -26,7 +27,6 @@ namespace ProyectoFinal.Controllers
 
                     if (result == null)
                     {
-                        // CAMBIO: Usar ViewBag para errores que no requieren redirección
                         ViewBag.Error = "Animal no encontrado";
                         return RedirectToAction("ConsultarAnimales", "Animal");
                     }
@@ -36,7 +36,6 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                // CAMBIO: Usar ViewBag para errores que no requieren redirección
                 ViewBag.Error = "Error: " + ex.Message;
                 return RedirectToAction("Index");
             }
@@ -57,10 +56,8 @@ namespace ProyectoFinal.Controllers
 
                 if (montoMensual <= 50)
                 {
-                    // CAMBIO: Usar ViewBag para errores en la misma vista
                     ViewBag.Error = "El monto debe ser mayor a 50 dólares.";
 
-                    // Recargar el animal para mostrar la vista
                     using (var dbcontext = new CASA_NATURAEntities())
                     {
                         var result = dbcontext.ObtenerAnimalPorIdSP(idAnimal).FirstOrDefault();
@@ -68,17 +65,24 @@ namespace ProyectoFinal.Controllers
                     }
                 }
 
-                string referenciaFinal = (idMetodo == 2) ? referencia : null;
+                string referenciaFinal;
+
+                if (idMetodo == 2)
+                {
+                    referenciaFinal = string.IsNullOrWhiteSpace(referencia) ? "N/A" : referencia;
+                }
+                else
+                {
+                    referenciaFinal = "N/A";
+                }
 
                 using (var dbcontext = new CASA_NATURAEntities())
                 {
                     dbcontext.InsertarApadrinamientoSP(montoMensual, idUsuario, idMetodo, referenciaFinal, idAnimal);
                 }
 
-                // CAMBIO: Mostrar mensaje de éxito y recargar la misma vista
                 ViewBag.Mensaje = "¡Apadrinamiento registrado exitosamente! Gracias por tu generosidad.";
 
-                // Recargar el animal para mostrar la vista con el mensaje
                 using (var dbcontext = new CASA_NATURAEntities())
                 {
                     var result = dbcontext.ObtenerAnimalPorIdSP(idAnimal).FirstOrDefault();
@@ -87,11 +91,9 @@ namespace ProyectoFinal.Controllers
             }
             catch (Exception ex)
             {
-                // CAMBIO: Usar ViewBag para errores en la misma vista
                 ViewBag.Error = "Error al guardar el apadrinamiento: " +
                     (ex.InnerException?.InnerException?.Message ?? ex.Message);
 
-                // Recargar el animal para mostrar la vista
                 using (var dbcontext = new CASA_NATURAEntities())
                 {
                     var result = dbcontext.ObtenerAnimalPorIdSP(idAnimal).FirstOrDefault();
@@ -144,7 +146,6 @@ namespace ProyectoFinal.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // CAMBIO: Usar ViewBag para errores en la misma vista
                     ViewBag.Error = "Ocurrió un error al cargar los apadrinamientos: " + ex.Message;
 
                     return View(new GestionApadrinamientosModel
@@ -162,7 +163,6 @@ namespace ProyectoFinal.Controllers
         [HttpPost]
         public ActionResult GestionApadrinamientos(GestionApadrinamientosModel apadrinamiento)
         {
-            // Verificar si es una edición o creación
             if (apadrinamiento.NuevoApadrinamiento.IdApadrinamiento > 0)
             {
                 return EditarApadrinamiento(apadrinamiento);
@@ -196,7 +196,6 @@ namespace ProyectoFinal.Controllers
 
                     if (result > 0)
                     {
-                        // CAMBIO: Usar TempData para mensajes después de redirección
                         TempData["Mensaje"] = "Apadrinamiento registrado con éxito";
                     }
                     else
@@ -252,7 +251,6 @@ namespace ProyectoFinal.Controllers
                     }
                     else
                     {
-
                         apadrinamiento.ID_ESTADO = 1;
 
                         if (animalAnterior != model.NuevoApadrinamiento.IdAnimal)
@@ -303,7 +301,6 @@ namespace ProyectoFinal.Controllers
 
                     if (result > 0)
                     {
-                        // CAMBIO: Usar TempData para mensajes después de redirección
                         TempData["Mensaje"] = "Estado cambiado exitosamente";
                     }
                     else
